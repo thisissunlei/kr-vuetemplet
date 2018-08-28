@@ -35,11 +35,11 @@ const jsFiles = [
     'https://web.krspace.cn/plugins/watermark.js'
 ]
 const cssFiles = [
-    // pluginsDomain+'/iview/2.8.0/styles/iview.css' ,
     'https://web.krspace.cn/kr-op/iview/2.8.0/styles/iview.css',
     pluginsDomain+'/nav/1.0.0/nav.css',
     pluginsDomain+'/public/css/main.css',
-    pluginsDomain+'/public/images/favicon.ico' 
+    pluginsDomain+'/public/images/favicon.ico',
+    pluginsDomain+'/public/icomoon/1.0.0/style.css'
 ]
 
 module.exports = {
