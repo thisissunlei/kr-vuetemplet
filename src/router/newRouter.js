@@ -6,4 +6,8 @@ export default {routes:[{
     path:'/list',
     name:'list',
     component:()=>import('pages/list') 
+},{
+    path:'/new',
+    name:'new',
+    component:()=>import('pages/new') 
 }]}
