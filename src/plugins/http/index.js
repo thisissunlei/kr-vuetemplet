@@ -2,9 +2,6 @@ import axios from 'axios'
 import APIS from '@/assets/apis';
 import httpEnvs from './envs';
 import Qs from 'qs';
-// 超时时间
-
-// return ;
 
 axios.defaults.timeout = 10000
 // http请求拦截器
@@ -13,11 +10,7 @@ const env = process.env.NODE_ENV;
 
 
 axios.defaults.withCredentials = true;
-// axios.defaults.headers={
-//   'Accept': '*',
-//   'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-//   "Cookie": document.cookie
-// };
+
 axios.defaults.mode = 'cors';
 
 
@@ -201,7 +194,6 @@ export default {
    });
  }),
  post: (url, params, success, failure) => new Promise((resolve, reject) => {
-   console.log(params,"oooooooo")
    if (params) {
      params = filterNull(params)
    }
