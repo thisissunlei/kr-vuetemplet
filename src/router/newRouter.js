@@ -18,4 +18,8 @@ export default {routes:[{
     path:'/mini-program/metting-active',
     name:'mini-program-metting-active',
     component:()=>import('pages/mini-program/metting-active') 
+},{
+    path:'/mini-program/metting-active/join-user',
+    name:'mini-program-metting-active-join-user',
+    component:()=>import('pages/mini-program/metting-active/join-user') 
 }]}
