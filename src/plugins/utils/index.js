@@ -16,7 +16,6 @@ import down from './down';
 import getScrollBarSize from './getScrollBarSize';
 import getDaysInOneMonth from './getDaysInOneMonth';
 import dateDiff from './dateDiff';
-import timeRange from './timeRange';
 import createElement from './createElement';
 import dateRange from './dateRange';
 
@@ -30,7 +29,6 @@ export default {
     getRequest,
     addParams,
     arrayNoRepeat,
-    arrayCompare,
     thousand,
     addEvent,
     dataType,
@@ -45,7 +43,6 @@ export default {
     smalltoBIG,
     deepCopy,
     createElement,
-    getStrWidth,
     ...down,
 }
 
