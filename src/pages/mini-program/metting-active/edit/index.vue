@@ -1,6 +1,6 @@
 <template>
     <div class="kr-meeting-detail">
-        <SectionTitle title="散座订单详情"></SectionTitle>
+        <SectionTitle title="新建小程序活动"></SectionTitle>
         <div class="content-box">
             <Form ref="formItemDaily"  :model="formItem" :rules="ruleDaily" label-position="top">
             <div class="basic-info">
@@ -9,7 +9,7 @@
                     <Row>
                         <Col span="12">
                             <Form-item
-                                label="所在社区" 
+                                label="活动封面图" 
                                 prop="startDate"
                                 :inline="false"
                             >
@@ -18,7 +18,7 @@
                                     :file="files"
                                     height="100"
                                     width="200"
-                                    placeholder=""
+                                    placeholder="图片小于300KB，格式为JPG，PNG，GIF，建议图片比例为2:1"
                                 />
                             
                             </Form-item>
@@ -35,20 +35,26 @@
                                     :file="files"
                                     width="200"
                                     height="160"
+                                    placeholder="图片小于300KB，格式为JPG，PNG，GIF，建议图片比例为5:4"
                                 />
                             
                             </Form-item>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row >
                         <Col span="12">
                             <Form-item
-                                label="小程序分享封面图" 
+                                label="活动名称" 
                                 prop="startDate"
                                 :inline="false"
-                                style="width:253px;"
+                                style="width:300px;"
+                               
                             >
-                                <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."/>
+                                <Input 
+                                    v-model="formItem.textarea" 
+                                    type="textarea" 
+                                    :autosize="{minRows: 2,maxRows: 5}" 
+                                    placeholder="40个字以内"/>
                             
                             </Form-item>
                         </Col>
@@ -58,8 +64,13 @@
                                 label="小程序分享封面图" 
                                 prop="startDate"
                                 :inline="false"
+                                 placeholder="40个字以内"
                             >
-                                <InputNumber :max="10" :min="1" v-model="formItem.number"></InputNumber>
+                                <InputNumber  
+                                    :min="1" 
+                                    v-model="formItem.number"
+                                    placeholder="正整数"
+                                />
                             
                             </Form-item>
                         </Col>
@@ -67,7 +78,7 @@
                     
                     <Row>
                         <Col span="12">
-                            <div style="padding-bottom:10px;"> 活动时间</div>
+                            <div style="padding-bottom:10px;"> 活动日期</div>
                             <Form-item 
                             
                                 style="display:inline-block;" 
@@ -76,7 +87,7 @@
                             >
                                 <DatePicker 
                                     v-model="formItem.startDate" 
-                                    placeholder="请输入开始日期"
+                                    placeholder="开始日期"
                                     style="width:130px;"
                                     
                                 />
@@ -88,36 +99,49 @@
                             >
                                 <DatePicker 
                                     v-model="formItem.endDate" 
-                                    placeholder="请输入结束日期"
+                                    placeholder="结束日期"
                                     style="width:130px;"
                                 />
                             </Form-item>
                         </Col>
                         <Col span="12">
-                            <div style="padding-bottom:10px;"> 活动时间</div>
+                            <div style="padding-bottom:10px;">活动时间</div>
                             <Form-item 
-                            
                                 style="display:inline-block;" 
                                 prop="startDate"
                                 
                             >
-                                <DatePicker 
-                                    v-model="formItem.startDate" 
-                                    placeholder="请输入开始日期"
-                                    style="width:130px;"
-                                    
-                                />
+                                <TimePicker  v-model="formItem.endDate"  format="HH:mm" placeholder="开始时间" style="width:130px;" />
                             </Form-item>
                             <span style="display:inline-block;padding:0 10px;line-height:30px;">至</span>
                             <Form-item 
                                 prop="endDate" 
-                            
                                 style="display:inline-block;"
                             >
-                                <DatePicker 
-                                    v-model="formItem.endDate" 
-                                    placeholder="请输入结束日期"
-                                    style="width:130px;"
+                                 <TimePicker  v-model="formItem.endDate"  format="HH:mm" placeholder="结束时间" style="width:130px;" />
+                            </Form-item>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span="12">
+                            <Form-item 
+                                label="活动价格" 
+                                prop="endDate" 
+                                style="display:inline-block;width:300px;"
+                            >
+                                <Radio v-model="single">免费</Radio>
+                            </Form-item>
+                        </Col>
+                         <Col span="12">
+                            <Form-item 
+                                label="排序号" 
+                                prop="endDate" 
+                                style="display:inline-block;width:300px;"
+                            >
+                                <InputNumber  
+                                    :min="1" 
+                                    v-model="formItem.number"
+                                    placeholder="数字越大越靠前"
                                 />
                             </Form-item>
                         </Col>
@@ -125,22 +149,28 @@
                     <Row>
                         <Col span="12">
                             <Form-item 
-                                label="小程序分享封面图" 
+                                label="活动所在社区" 
                                 prop="endDate" 
-                                style="display:inline-block;width:253px;"
+                                style="display:inline-block;width:300px;"
                             >
                                 <KrSelect 
                                     v-model="formItem.startDate" 
+                                    placeholder="请选择"
                                 />
                             </Form-item>
                         </Col>
                          <Col span="12">
                             <Form-item 
-                                label="小程序分享封面图" 
+                                label="活动地点" 
                                 prop="endDate" 
-                                style="display:inline-block;width:253px;"
+                                style="display:inline-block;width:300px;"
                             >
-                                <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."/>
+                                <Input 
+                                    v-model="formItem.textarea" 
+                                    type="textarea" 
+                                    :autosize="{minRows: 2,maxRows: 5}" 
+                                    placeholder="简述活动所在地点(40个字以内)"
+                                />
                             </Form-item>
                         </Col>
                     </Row>
@@ -148,11 +178,16 @@
                     <Row>
                        <Col span="12">
                             <Form-item 
-                                label="小程序分享封面图" 
+                                label="活动详细地址" 
                                 prop="endDate" 
-                                style="display:inline-block;width:253px;"
+                                style="display:inline-block;width:300px;"
                             >
-                                <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."/>
+                                <Input 
+                                    v-model="formItem.textarea" 
+                                    type="textarea" 
+                                    :autosize="{minRows: 2,maxRows: 5}" 
+                                    placeholder="活动详细地址(40个字以内)"
+                                />
                             </Form-item>
                         </Col>
                          <Col span="12">
@@ -162,13 +197,14 @@
                    
                 </div>
             </div>
-            <div class="basic-info order-info">
-                <SectionTitle title="预订信息"></SectionTitle>
+
+             <div class="basic-info order-info">
+                <SectionTitle title="主办方信息"></SectionTitle>
                 <div class="basic-info-box">
                    <Row>
                         <Col span="12">
                             <Form-item
-                                label="所在社区" 
+                                label="主办方LOGO" 
                                 prop="startDate"
                                 :inline="false"
                             >
@@ -177,7 +213,41 @@
                                     :file="files"
                                     height="100"
                                     width="100"
-                                    placeholder=""
+                                    placeholder="图片小于300KB，格式为JPG，PNG，GIF，建议图片比例为1:1"
+                                />
+                            
+                            </Form-item>
+                        </Col>
+                        <Col span="12">
+                            <Form-item
+                                label="主办方LOGO" 
+                                prop="startDate"
+                                :inline="false"
+                            >
+                                <Input 
+                                    v-model="formItem.textarea" 
+                                    type="text" 
+                                    :autosize="{minRows: 2,maxRows: 5}" 
+                                    style="width:300px;"
+                                    placeholder="20个字符以内"
+                                />
+                            </Form-item>
+                        </Col>
+
+                        
+                    </Row>
+                    <Row>
+                        <Col span="19">
+                            <Form-item
+                                label="主办方简介" 
+                                prop="startDate"
+                                :inline="false"
+                            >
+                                <Input 
+                                    v-model="formItem.textarea" 
+                                    type="textarea" 
+                                  
+                                    placeholder="主办方简介,80个字符以内"
                                 />
                             
                             </Form-item>
@@ -188,20 +258,43 @@
             </div>
 
             <div class="basic-info order-info">
-                <SectionTitle title="预订信息"></SectionTitle>
+                <SectionTitle title="品牌合作方信息"></SectionTitle>
                 <div class="basic-info-box">
                    <Row>
                         <Col span="19">
                             <Form-item
-                                label="所在社区" 
+                                label="品牌合作方LOGO" 
+                                prop="startDate"
+                                :inline="false"
+                            >
+                                <KrUpload 
+                                    type="only" 
+                                    :file="files"
+                                    height="100"
+                                    width="100"
+                                    placeholder="图片小于300KB，格式为JPG，PNG，GIF，建议图片比例为1:1"
+                                />
+                            
+                            </Form-item>
+                        </Col>
+                        
+                    </Row>
+                </div>
+            </div>
+
+            <div class="basic-info order-info">
+                <SectionTitle title="活动详细信息"></SectionTitle>
+                <div class="basic-info-box">
+                   <Row>
+                        <Col span="19">
+                            <Form-item
+                                label="活动详情" 
                                 prop="startDate"
                                 :inline="false"
                             >
                                 <KrEditor
                                     type="only" 
                                     :file="files"
-                                
-                                    placeholder=""
                                 />
                             
                             </Form-item>
@@ -211,11 +304,11 @@
                     <Row>
                         <Col span="19">
                             <Form-item
-                                label="所在社区" 
+                                label="活动须知" 
                                 prop="startDate"
                                 :inline="false"
                             >
-                               <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."/>
+                               <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="活动须知，400个字符以内"/>
                             
                             </Form-item>
                         </Col>
@@ -223,33 +316,17 @@
                     </Row>
                 </div>
             </div>
-            <div class="basic-info order-money-info" v-if="!!info.details && info.details.length > 0">
-                <SectionTitle title="订单金额明细"></SectionTitle>
-                <div class="basic-info-box">
-                    <Table border :columns="tilteAndStyle" :data="info.details"></Table>
-                    <ul>
-                        <li>商品总价：</li>
-                        <!--<li>{{totalPrice}}</li>-->
-                        <li>{{info.orderPromotionTotalDecimal || '-'}}</li>
-                    </ul>
-                    <!--<ul>-->
-                        <!--<li>使用的优惠策略：</li>-->
-                        <!--<li>300</li>-->
-                    <!--</ul>-->
-                    <ul>
-                        <li>订单金额：</li>
-                        <!--<li>{{totalAmountDecimal}}</li>-->
-                        <li>{{info.realCost}}</li>
-                    </ul>
-                </div>
-            </div>
+          
 
-            <div class="basic-info order-money-info" v-if="refund.length > 0">
-                <SectionTitle title="退款信息"></SectionTitle>
-                <div class="basic-info-box">
-                    <Table border :columns="tilteRefund" :data="refund"></Table>
-                </div>
-            </div>
+            <Row>
+                <Col span="19" style="text-align: center;margin:30px 0px 0px 0px;">
+                    <FormItem>
+                        <Button type="primary">Submit</Button>
+                        <Button type="ghost" style="margin-left: 8px">Cancel</Button>
+                    </FormItem>
+                </Col>      
+            </Row>
+            
         </Form>
         </div>
     </div>
@@ -463,56 +540,5 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
-.list-li .head-img {
-  display: inline-block;
-  width: 110px;
-  height: 110px;
-  border-radius: 70px;
-}
-.list-li .person-name {
-  display: inline-block;
-  text-align: center;
-  width: 110px;
-  height: 20px;
-  line-height: 20px;
-  margin-top: 10px;
-}
-.meeting-person-info {
-  background: #f6f6f6;
-  margin-top: 20px;
-  border-radius: 6px;
-  padding-bottom: 20px;
-}
-.arrival-list-box h1 {
-  font-size: 20px;
-  font-weight: 500;
-  color: #5f5959;
-  padding: 10px 0 10px 25px;
-}
-.first-ul {
-  border-bottom: 1px dashed #e9e9e9;
-}
-.kr-meeting-detail {
-  padding-bottom: 20px;
-}
-.final-cost {
-  color: red;
-}
-.content-box dl.seat-order-wech {
-  height: 60px;
-  line-height: 60px;
-  img,
-  span {
-    display: inline-block;
-    vertical-align: middle;
-  }
-  img {
-    border-radius: 30px;
-    height: 60px;
-    width: 60px;
-  }
-  span {
-    padding-left: 20px;
-  }
-}
+
 </style>

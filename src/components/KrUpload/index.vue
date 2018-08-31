@@ -7,7 +7,7 @@
 			@change="onChange"	
 		>
 		<div class="only-up" v-if="type=='only'">
-			<div class="content-box">
+			<div style="display:inline-block;">
 				<div class="up-show-box" v-for="(item,index) in defaultList" :key="index">
 					<KrImg :src="item.url" :width="width" :height="height" type="cover"/>
 					<div  class="img-mask">
@@ -27,6 +27,7 @@
 			<slot  name="up-btn" ></slot>
 		
 		</div>
+		<div>{{placeholder}}</div>
 		<PhotoAlbum :downLabel="downLabel" @downFile="downImg" :data="imagesArr" v-if="openPhotoAlbum" :eyeIndex="eyeIndex" @close="close"/>
 	</div>
 </template>
@@ -90,6 +91,10 @@ export default{
 		height:{
 			type:[String,Number],
 			default:60
+		},
+		placeholder:{
+			type:String,
+			default:'',
 		}
 	},
 	data(){
@@ -308,9 +313,7 @@ export default{
 		border-radius:4px;
 		margin: 0px 10px;
 	}
-	.content-box{
-		display: inline-block;
-	}
+
 	.up-icon:hover{
 		color: #2d8cf0;
 		border: 1px dashed #57a3f3;
