@@ -12,6 +12,7 @@
 import SectionTitle from '~/components/SectionTitle';
 import SearchFrom from './searchFrom';
 import Buttons from '~/components/Buttons';
+
 export default{
 	components:{
 		SectionTitle,

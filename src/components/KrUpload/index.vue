@@ -9,9 +9,11 @@
 		<div class="only-up" v-if="type=='only'">
 			<div class="content-box">
 				<div class="up-show-box" v-for="(item,index) in defaultList" :key="index">
-					<KrImg :src="item.url" width="60" height="60" type="cover"/>
+					<KrImg :src="item.url" :width="width" :height="height" type="cover"/>
 					<div  class="img-mask">
-						<div style="line-height:60px;text-align:center;">
+						<div 
+							:style="{width:width+'px',height:height+'px',lineHeight:height+'px',textAlign:'center'}"
+						>
 							<div class="delete-icon ivu-icon ivu-icon-ios-eye" @click="eyePhotoAlbum(index)"></div>
 							<div v-if="!disabled" class="delete-icon ivu-icon ivu-icon-trash-a" @click="delClick(index)"></div>
 						</div>
@@ -19,42 +21,11 @@
 					</div>
 				</div>
 			</div>
-			<div v-if="upIconShow && !disabled" class="up-icon" @click="upBtnClick">
+			<div v-if="upIconShow && !disabled" class="up-icon" @click="upBtnClick" :style="{width:width+'px',height:height+'px',lineHeight:height+'px'}">
 				<Icon type="plus-round"></Icon>
 			</div>
 			<slot  name="up-btn" ></slot>
 		
-		</div>
-		<div v-if="type=='select-up'">
-		
-			<div 
-				style="color: rgb(43, 133, 228);padding: 2px 7px;cursor: pointer;display:inlie-block;" 
-				@click = "switchList" 
-			
-			>上传附件</div>
-			
-			<div class = "list-box" v-show = "isOpenList">
-				<div class="mask" @click = "switchList" ></div>
-				<div class="list" :style ="listStyle" >
-					<div>
-						
-						
-						<Button type="ghost" icon="ios-plus-outline" @click="upBtnClick" >上传附件</Button>
-						<!-- <Icon type="ios-plus-outline"></Icon> -->
-						<div v-bind:style="{display:isShowProgress}">
-							<Progress  :percent="progress" :stroke-width="5"></Progress>	
-						</div>
-							
-					
-						<div class="item-box">
-							<div class="file-list" :key="item.id" v-for="item in defaultList" @click="downFille(item)" >
-								{{item.fileName}}
-							</div>
-						</div>
-					</div>
-				</div>
-				
-			</div>
 		</div>
 		<PhotoAlbum :downLabel="downLabel" @downFile="downImg" :data="imagesArr" v-if="openPhotoAlbum" :eyeIndex="eyeIndex" @close="close"/>
 	</div>
@@ -63,8 +34,8 @@
 
 <script>
 import utils from '~/plugins/utils';
-import KrImg from './KrImg';
-import PhotoAlbum from './PhotoAlbum';
+import KrImg from '../KrImg';
+import PhotoAlbum from '../PhotoAlbum';
 export default{
 	name:'krUpload',
 	components: {
@@ -78,8 +49,16 @@ export default{
 	 *  @param {Function} onUpUrl 文件上传成功的回调方法 
 	*/
 	props:{
-		columnDetail:Object,
-		file:Array,
+		columnDetail:{
+			type:Object,
+			default:()=>{
+				return {}
+			}
+		},
+		file:{
+			type:Array,
+			default:()=>[]
+		},
 		publicUse:{
 			default:false,
 			type:Boolean
@@ -103,7 +82,15 @@ export default{
 		},
 		downLabel:{
             type:String,
-        }
+		},
+		width:{
+			type:[String,Number],
+			default:60,
+		},
+		height:{
+			type:[String,Number],
+			default:60
+		}
 	},
 	data(){
 	
@@ -130,21 +117,6 @@ export default{
 		
 	},
 
-	watch:{
-		// file(){
-		// 	if(this.type=='only' && this.file && this.file.length){
-		// 		// console.log('file',this.file)
-		// 		this.defaultList=[].concat(!this.file.length?[]:this.file)
-		// 	}
-			
-		// }
-	},
-	// updated(){
-	// 	if(this.type == 'only'){
-	// 		let arr = [].concat(!this.file.length?[]:this.file);
-	// 		this.defaultList = [].concat(arr);
-	// 	}
-	// },
 	mounted(){
 		console.log(this.disabled,"pppppppp")
 	},
@@ -286,10 +258,8 @@ export default{
 				this.defaultList = [detail];
 				this.upIconShow = false;
 			}
-			
-			// this.onUpUrl && this.onUpUrl();
-			this.$emit('onChange',[detail],this.columnDetail,[].concat(this.defaultList));
-			this.$emit('upSuccess',[detail],this.columnDetail,[].concat(this.defaultList));
+			this.$emit('onChange',[detail],[].concat(this.defaultList));
+			this.$emit('upSuccess',[detail],[].concat(this.defaultList));
 			
 		},
 		onTokenSuccess(){
@@ -321,48 +291,6 @@ export default{
 </script>
 
 <style lang="less" scoped>
-.list-box{
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	left: 0px;
-	top: 0px;
-	z-index: 999;
-
-	.list{
-		position: fixed;
-		// width: 100%;
-		transform: translateX(-50%);
-		/* left: 0px; */
-		display: inline-block;
-		background: #fff;
-		padding: 10px;
-		box-shadow: 0 0 5px #999;
-		border-radius: 4px;
-	}
-	.mask{
-		position: absolute;
-		left: 0px;
-		top: 0px;
-		bottom: 0px;
-		right: 0px;
-		// background: red;
-
-	}
-	.item-box{
-		max-height: 200px;
-		overflow: auto;
-	}
-	.file-list{
-		padding: 5px;
-		color: #333;
-
-	}
-	.file-list:hover{
-		color: rgb(43, 133, 228);
-		cursor: pointer;
-	}
-}
 .only-up{
 	.up-icon{
 		height: 58px;
@@ -390,8 +318,7 @@ export default{
 	.up-show-box{
 		display: inline-block;
 		position: relative;
-		width: 60px;
-		height: 60px;
+		
 		border-radius: 4px;
 		overflow: hidden;
 		margin: 0 10px;

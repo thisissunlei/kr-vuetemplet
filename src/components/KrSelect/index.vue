@@ -28,7 +28,7 @@ export default {
         },
         value: {
             type: [String, Number],
-            default: []
+            default: ''
         },
         clearable:{
             type: Boolean,
