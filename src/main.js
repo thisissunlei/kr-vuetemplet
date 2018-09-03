@@ -9,6 +9,7 @@ import filters from '@/filters';
 import store from './store';
 Vue.config.productionTip = false;
 Vue.prototype.$http = http;
+Vue.prototype.$kr_global = {};
 
 /* eslint-disable no-new */
 Object.keys(filters).forEach(key => {

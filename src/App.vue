@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 export default {
   name: "App",
   data() {
@@ -35,10 +36,12 @@ export default {
     };
   },
   mounted() {
+    Vue.prototype.$kr_global.contentDom = document.getElementById("layout-content-main");
     vueNavRender(
       document.getElementById("_layout_box_hander"),
       document.getElementById("layout-content_id")
     );
+
     this.bodyStyle.height = document.documentElement.clientHeight - 130 + "px";
     var that = this;
     window.onresize = function() {

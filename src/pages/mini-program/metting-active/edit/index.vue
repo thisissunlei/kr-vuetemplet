@@ -61,12 +61,13 @@
 
                         <Col span="12">
                             <Form-item
-                                label="小程序分享封面图" 
+                                label="最大人数限制" 
                                 prop="startDate"
                                 :inline="false"
                                  placeholder="40个字以内"
                             >
                                 <InputNumber  
+                                    style="width:300px;"
                                     :min="1" 
                                     v-model="formItem.number"
                                     placeholder="正整数"
@@ -129,7 +130,7 @@
                                 prop="endDate" 
                                 style="display:inline-block;width:300px;"
                             >
-                                <Radio v-model="single">免费</Radio>
+                                <Radio v-model="formItem.single">免费</Radio>
                             </Form-item>
                         </Col>
                          <Col span="12">
@@ -139,6 +140,7 @@
                                 style="display:inline-block;width:300px;"
                             >
                                 <InputNumber  
+                                    style="width:300px;"
                                     :min="1" 
                                     v-model="formItem.number"
                                     placeholder="数字越大越靠前"

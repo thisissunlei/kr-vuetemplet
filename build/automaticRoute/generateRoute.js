@@ -9,7 +9,7 @@ const template = nodePath.resolve(__dirname+'/auto.router.js')
  */
 
 function geFileList(path) {
-    var filesList = [];
+    let filesList = [];
     readFile(path, filesList);
     return filesList;
 }
@@ -39,40 +39,57 @@ function writeFile(fileName, data) {
     }
 }
 
-
-function render(){
-    var filesList = geFileList(nodePath.join(__dirname,"../../src/pages"));
-    var result = fs.readFileSync(template, {
+function formatOptimize(param){
+    let result = fs.readFileSync(template, {
         encoding: 'utf-8'
     });
-    // return ;
-    var allObj = {};
-    var newRou = [];
-    var portStr = '';
-    var pathReg = new RegExp('\\$\\{path\\}', 'ig');
-    var nameReg = new RegExp('\\$\\{name\\}', 'ig');
-    var componentReg = new RegExp('\\$\\{component\\}', 'ig');
-    for (var i = 0; i < filesList.length; i++) {
-        if (filesList[i].indexOf('index.vue') != -1) {
-            var item = filesList[i].split('pages')[1];
-            var switchItem = item.split('/index.vue')[0].split('/');
-            var switchStr = '';
+    
+    let newRou = [];
+    let pathReg = new RegExp('\\$\\{path\\}', 'ig');
+    let nameReg = new RegExp('\\$\\{name\\}', 'ig');
+    let componentReg = new RegExp('\\$\\{component\\}', 'ig');
+    let itemParam = param.split('pages')[1];
+    let switchItem = itemParam.split('.vue')[0].split('/');
+    let nameStr = '';
+    let pathStr='';
+    let componentStr='';
+      
+    switchItem.map((item, index) => {
+        if (item&&item!='index') {
+            let middleName=item.replace('_','');
+            let middlePath=item.replace('_',':');
+            let renderPath=item;
+            if(middlePath.indexOf(':')!=-1){
+                renderPath=middlePath;
+            }
+            nameStr = nameStr ? nameStr + '-' + middleName : middleName;
+            pathStr=pathStr?pathStr+'/'+renderPath:renderPath;
+            componentStr=componentStr?componentStr+'/'+item:item;
+        }
+    })
+    let obj = result;
+    obj= obj.replace(pathReg,'/'+pathStr)
+    obj= obj.replace(nameReg,nameStr)
+    obj= obj.replace(componentReg,'pages/'+componentStr)  
+    newRou.push(obj);
+    
+    return newRou
+}
 
-            switchItem.map((item, index) => {
-                if (item) {
-                    switchStr = switchStr ? switchStr + '-' + item : item;
-                }
-            })
-            var routeItem = item.split('/index.vue')[0];
-            let obj = result;
-            obj= obj.replace(pathReg,routeItem)
-            obj= obj.replace(nameReg,switchStr)
-            obj= obj.replace(componentReg,'pages'+routeItem)  
-            newRou.push(obj);
+function render(){
+    let filesList = geFileList(nodePath.join(__dirname,"../../src/pages"));
+    let renderRoute=[];
+    for (var i = 0; i < filesList.length; i++) {
+        if(filesList[i].indexOf('/_') != -1){
+            renderRoute=renderRoute.concat(formatOptimize(filesList[i]));
+        }else{
+            if(filesList[i].indexOf('index.vue') != -1){
+                renderRoute=renderRoute.concat(formatOptimize(filesList[i]));
+            }
         }
     }
 
-    strs='export default {routes:['+newRou+']}';
+    strs='export default {routes:['+renderRoute+']}';
     writeFile(nodePath.join(__dirname,"../../src/router/newRouter.js"),strs);
 }
 

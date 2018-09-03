@@ -1,7 +1,7 @@
 const render = require('./generateRoute');
 const chokidar = require('chokidar');
 const path = require('path');
-const templateFile = chokidar.watch(path.join(__dirname, '../../pages'));
+const templateFile = chokidar.watch(path.join(__dirname, '../../src/pages'));
 const env = process.env.NODE_ENV 
 function auto() {
     render()
