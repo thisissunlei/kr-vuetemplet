@@ -480,13 +480,13 @@ export default {
     };
     
     const validateImg = (rule, value, callback)=>{
-      console.log(value,"pppppp")
+      
       if (!value||!value.length) {
         callback(new Error("该图片必须上传"));
       }else{
          callback();
       }
-
+       callback();
      
     }
     return {

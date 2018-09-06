@@ -199,11 +199,11 @@ export default {
 						];
 						if(params.row.published){
 							console.log("11111")
-								btns.splice(3,1);
+								btns.splice(2,1);
 							
 						}else{
 							console.log("2222")
-							btns.splice(2,1);
+							btns.splice(3,1);
 						
 						}
 
@@ -268,7 +268,7 @@ export default {
       this.$http
         .get("metting-active-publish", {
           activityId: this.activityId,
-          publishL: this.publish
+          publish: this.publish
         })
         .then(res => {
 					this.getTableData();
