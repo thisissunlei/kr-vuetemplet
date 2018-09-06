@@ -150,13 +150,12 @@ export default {
   },
   mounted(){
     this.formItem = Object.assign({},this.$route.query);
-    console.log("=======",this.formItem)
+   
   },
   methods: {
     onKeyEnter() {},
     clearClick() {
       this.formItem = utils.clearForm(this.formItem)
-     
       this.$emit("clear", Object.assign({}, this.formItem));
     },
     searchClick() {
