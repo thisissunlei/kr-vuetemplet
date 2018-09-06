@@ -220,7 +220,6 @@ export default {
     //  var dom=document.getElementById('layout-content-main');
     // dom.addEventListener("scroll",this.onScrollListener);
 		// window.addEventListener('resize',this.onResize);
-		console.log("============")
 		this.tabelParams = Object.assign(this.tabelParams,this.$route.query)
 		this.getTableData();
   },
