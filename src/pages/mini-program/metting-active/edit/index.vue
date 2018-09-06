@@ -356,14 +356,12 @@ import SectionTitle from "~/components/SectionTitle";
 import dateUtils from "vue-dateutils";
 import KrUpload from "~/components/KrUpload";
 import KrSelect from "~/components/KrSelect";
-import KrEditor from "~/components/KrEditor";
 
 export default {
   components: {
     SectionTitle,
     KrUpload,
     KrSelect,
-    KrEditor
   },
   data() {
     const validateTitle = (rule, value, callback) => {
@@ -465,7 +463,9 @@ export default {
       callback();
     };
     const validatorNotice = (rule, value, callback) => {
-      if (value.length > 400) {
+      console.log(value,"ppppp")
+      if ( value && value.length > 400) {
+
         callback(new Error("活动须知最多400个字符"));
       }
 
@@ -479,13 +479,15 @@ export default {
       callback();
     };
     return {
-      loadding:false,
+      loadding: true,
       formItem: {
         price: 0
       },
       ruleDaily: {
-        coverPic: [{ required: true, trigger: "change" ,message:'该图片必须上传'}],
-        sharePic: [{ required: true, trigger: "blue" }],
+        coverPic: [
+          { required: true, trigger: "change", message: "该图片必须上传" }
+        ],
+        sharePic: [{ required: true, trigger: "blue",message: "该图片必须上传" }],
         title: [
           { required: true, trigger: "change", validator: validateTitle }
         ],
@@ -521,7 +523,7 @@ export default {
         ],
         notice: [
           {
-            required: true,
+            required: false,
             trigger: "change",
             validator: validatorNotice
           }
@@ -532,8 +534,7 @@ export default {
             trigger: "change",
             validator: validatorContent
           }
-        ],
-        
+        ]
 
         // coverPic: [{ required:true, trigger: "change" }]
       }
@@ -541,36 +542,47 @@ export default {
   },
   mounted() {
     GLOBALSIDESWITCH("false");
-    this.getDetail()
+    this.getDetail();
   },
   methods: {
     getDetail() {
-      this.loadding = false;
-      let params = Object.assign({}, {activityId:this.$route.query.activityId});
-      if(this.$route.type == 'add'){
-        return ;
+      let params = Object.assign(
+        {},
+        { activityId: this.$route.query.activityId }
+      );
+      if (this.$route.query.type == "add") {
+        return;
       }
+      this.loadding = false;
       this.$http
         .get("metting-active-detail", params)
         .then(res => {
-          let data = Object.assign({},res.data);
-          data.coverPic = [{id:1,url:data.coverPic}];
-          data.sharePic = [{id:1,url:data.sharePic}];
-          data.sponsorLogo = [{id:1,url:data.sponsorLogo}]
+          let data = Object.assign({}, res.data);
+          data.coverPic = [{ id: 1, url: data.coverPic }];
+          data.sharePic = [{ id: 1, url: data.sharePic }];
+          data.sponsorLogo = [{ id: 1, url: data.sponsorLogo }];
           data.content = JSON.parse(data.content);
-          data.partnerLogos = data.partnerLogos.map((item,index)=>{
+          data.partnerLogos = data.partnerLogos.map((item, index) => {
             return {
-              id:index,
-              url:item
-            }
-          })  
-          data.startMoment = data.beginTime?dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.beginTime)).split(" ")[1]:'';
-          data.endMoment = data.endTime?dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.endTime)).split(" ")[1]:'';
-          console.log(data,"ppppp")
+              id: index,
+              url: item
+            };
+          });
+          data.startMoment = data.beginTime
+            ? dateUtils
+                .dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.beginTime))
+                .split(" ")[1]
+            : "";
+          data.endMoment = data.endTime
+            ? dateUtils
+                .dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.endTime))
+                .split(" ")[1]
+            : "";
+          console.log(data, "ppppp");
           // data.startMoment = data.beginTime;
           // data.endMoment = data.endTime;
 
-          this.formItem = Object.assign({},data)
+          this.formItem = Object.assign({}, data);
           this.loadding = true;
         })
         .catch(error => {
@@ -583,48 +595,67 @@ export default {
     cancel() {},
     //提交按钮
     submit() {
+      
       let url =
         this.$route.query.type == "add"
           ? "metting-active-add"
           : "metting-active-edit";
-      let params = this.paramsChange(Object.assign({}, this.formItem));
-      console.log("=========",params);
-      // return;
-      this.$http
-        .post(url, params)
-        .then(res => {
-          console.log(res, "lllll");
-        })
-        .catch(error => {
-          this.$Notice.error({
-            title: error.message
-          });
-        });
+
+      this.$refs["formItemDaily"].validate(valid => {
+        console.log(valid,"ppp")
+        return ;
+        if (valid) {
+          let params = this.paramsChange(Object.assign({}, this.formItem));
+
+          this.$http
+            .post(url, params)
+            .then(res => {
+              console.log(res, "lllll");
+            })
+            .catch(error => {
+              this.$Notice.error({
+                title: error.message
+              });
+            });
+        }
+      });
     },
-    paramsChange(params){
-      let obj = Object.assign({},params);
+    paramsChange(params) {
+      let obj = Object.assign({}, params);
       obj.coverPic = obj.coverPic[0].url;
       obj.sharePic = obj.sharePic[0].url;
-      obj.content = obj.content.map((item,index)=>{
-          return {
-            id:item.fileId,
-            url:item.url
-          };
-      })
-      obj.content = JSON.stringify(obj.content)
+      obj.content = obj.content.map((item, index) => {
+        return {
+          id: item.fileId,
+          url: item.url
+        };
+      });
+      obj.content = JSON.stringify(obj.content);
       obj.sponsorLogo = obj.sponsorLogo[0].url;
-      obj.partnerLogos = obj.partnerLogos.map((item,index)=>{
+      obj.partnerLogos = obj.partnerLogos.map((item, index) => {
         return item.url;
-      })
-      obj.partnerLogos = obj.partnerLogos.join(',')
-      obj.startMoment  = obj.startMoment?dateUtils.dateToStr("HH:mm:ss", new Date( obj.startMoment)):'00:00:00';
-      obj.endMoment  = obj.endMoment?dateUtils.dateToStr("HH:mm:ss", new Date( obj.endMoment)):'00:00:00';
+      });
+      obj.partnerLogos = obj.partnerLogos.join(",");
+      obj.startMoment = obj.startMoment
+        ? dateUtils.dateToStr("HH:mm:ss", new Date(obj.startMoment))
+        : "00:00:00";
+      obj.endMoment = obj.endMoment
+        ? dateUtils.dateToStr("HH:mm:ss", new Date(obj.endMoment))
+        : "00:00:00";
 
-      obj.beginTime =  obj.beginTime?dateUtils.dateToStr("YYYY-MM-DD", new Date( obj.beginTime))+" "+obj.startMoment:'';
-      obj.endTime =  obj.endTime?dateUtils.dateToStr("YYYY-MM-DD", new Date( obj.endTime))+" "+obj.endMoment:'';
+      obj.beginTime = obj.beginTime
+        ? dateUtils.dateToStr("YYYY-MM-DD", new Date(obj.beginTime)) +
+          " " +
+          obj.startMoment
+        : "";
+      obj.endTime = obj.endTime
+        ? dateUtils.dateToStr("YYYY-MM-DD", new Date(obj.endTime)) +
+          " " +
+          obj.endMoment
+        : "";
       // delete obj.price;
 
-      return Object.assign({},obj);
+      return Object.assign({}, obj);
     }
   }
 };

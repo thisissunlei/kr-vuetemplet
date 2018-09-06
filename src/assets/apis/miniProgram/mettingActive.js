@@ -34,7 +34,13 @@ export default {
     url:'/api/op/kmactivity/join/tab-data',
     method: 'get'
   },
-  
+  //删除活动
+  'metting-active-delete':{
+    url:'/api/op/kmactivity/delete',
+    method: 'delete'
+  },
+  // 
+  // 
 
 
 }

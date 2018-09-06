@@ -249,9 +249,8 @@ export default {
     //删除
     deleteSubmit() {
        this.$http
-        .post("metting-active-publish", {
+        .delete("metting-active-delete", {
           activityId: this.activityId,
-          publishL: this.publish
         })
         .then(res => {
 					this.getTableData();
@@ -280,13 +279,13 @@ export default {
     },
 
     goDetail(id) {
-      window.open(`/mini-program/metting-active/detail?activityId=${id}`, "_blank");
+      window.open(`admin-applet/#/mini-program/metting-active/detail?activityId=${id}`, "_blank");
     },
     goEdit(id) {
-      window.open(`/mini-program/metting-active/edit?activityId=${id}`, "_blank");
+      window.open(`admin-applet/#/mini-program/metting-active/edit?activityId=${id}`, "_blank");
     },
     goJoinUser(id) {
-      window.open(`/mini-program/metting-active/join-user?activityId=${id}`, "_blank");
+      window.open(`admin-applet/#/mini-program/metting-active/join-user?activityId=${id}`, "_blank");
     },
     switchRelease() {
       this.openRelease = !this.openRelease;

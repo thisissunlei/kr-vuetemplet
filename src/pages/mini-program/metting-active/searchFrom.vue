@@ -162,7 +162,7 @@ export default {
       this.$emit("search", Object.assign({}, this.formItem));
     },
     goNewActive() {
-      window.open("/mini-program/metting-active/edit?type=add", "_blank");
+      window.open("/admin-applet/#/mini-program/metting-active/edit?type=add", "_blank");
     },
     datePickerChange() {}
   }
