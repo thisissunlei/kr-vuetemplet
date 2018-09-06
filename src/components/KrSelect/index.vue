@@ -78,7 +78,6 @@ export default {
         }
     },
     mounted(){
-        console.log(!this.options,"ppp")
         if(!this.options){
              this.getCusomerList()
         }else{

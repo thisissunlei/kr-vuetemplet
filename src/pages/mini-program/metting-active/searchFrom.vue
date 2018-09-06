@@ -12,10 +12,10 @@
                         label="所在社区" 
                         :label-width="60" 
                         style="display:inline-block;width:240px; margin:15px 15px;" 
-                        prop="startDate"
+                        prop="cmtId"
                     >
                         <KrSelect 
-                            v-model="formItem.startDate" 
+                            v-model="formItem.cmtId" 
                         />
                     
                     </Form-item>
@@ -24,12 +24,14 @@
                         label="活动日期" 
                         :label-width="60" 
                         style="display:inline-block; margin:15px 0px 15px 0px;" 
-                        prop="startDate"
+                        prop="beginTime"
+                       
                     >
                         <DatePicker 
-                            v-model="formItem.startDate" 
+                            v-model="formItem.beginTime" 
                             placeholder="请输入开始日期"
                             style="width:150px;"
+                            @on-change="datePickerChange"
                             
                         />
                     </Form-item>
@@ -37,24 +39,22 @@
                     <Form-item 
                         label="至" 
                         :label-width="18" 
-                        prop="endDate" 
-                    
                         style="display:inline-block;margin:15px 20px 15px 0px;"
+                        prop="endTime"
                     >
                         <DatePicker 
-                            v-model="formItem.endDate" 
+                            v-model="formItem.endTime" 
                             placeholder="请输入结束日期"
                             style="width:150px;"
+                            
                         />
                     </Form-item>
-                     <Button type="ghost" @click="searchClick" style="margin:15px 12px;">清除</Button>
+                     <Button type="ghost" @click="clearClick" style="margin:15px 12px;">清除</Button>
                 </div>    
                 <div>
                     <Form-item 
                         label="活动状态" 
                         :label-width="60" 
-                        prop="endDate" 
-                    
                         style="display:inline-block;width:235px;margin:15px;"
                     >
                         <KrSelect 
@@ -65,25 +65,23 @@
                     <Form-item 
                         label="活动名称"
                         :label-width="60" 
-                        prop="name"
                         style="display:inline-block;width:235px; margin:15px 15px;" 
                     >
                         <i-input 
-                            v-model="formItem.name" 
-                            placeholder="房间号/工位编号"
-                            @keyup.enter.native="onKeyEnter($event)"
+                            v-model="formItem.title" 
+                            placeholder="请输入活动名称"
+                           
                         />
                     </Form-item> 
                     <Form-item 
-                        label="活动名称"
-                        :label-width="60" 
-                        prop="name"
+                        label="创建人"
+                        :label-width="45" 
                         style="display:inline-block;width:235px; margin:15px 15px 15px 0px;" 
                     >
                         <i-input 
-                            v-model="formItem.name" 
-                            placeholder="房间号/工位编号"
-                            @keyup.enter.native="onKeyEnter($event)"
+                            v-model="formItem.creatorName" 
+                            placeholder="请输入创建人"
+                          
                         />
                     </Form-item> 
 
@@ -92,31 +90,52 @@
                     <!-- <Button type="primary" @click="searchClick">搜索</Button> -->
                     
                 </div>
-                        
-                   
-              
             </div>
-          
-
-
-             
-                
         </Form>
     </div>
 </template>
 <script>
 import KrSelect from "~/components/KrSelect";
+import utils from "utils";
 export default {
   components: {
     KrSelect
   },
   props: {},
   data() {
+    const validateTime = (rule, value, callback) => {
+      
+      if (this.formItem.beginTime && this.formItem.endTime) {
+        if (this.formItem.beginTime > this.formItem.endTime) {
+          callback(new Error("开始时间不得大于结束时间"));
+        }
+      } else {
+        callback();
+      }
+    };
+
     return {
-      formItem: {
-        startDate: ""
+      formItem: Object.assign({
+        beginTime: "",
+        endTime: "",
+        cmtId: "",
+        creatorName: "",
+        title: ""
+      },this.$route.query) ,
+      ruleDaily: {
+        beginTime: [
+          {
+            validator: validateTime,
+            trigger: "change"
+          }
+        ],
+        endTime: [
+          {
+            validator: validateTime,
+            trigger: "change"
+          }
+        ]
       },
-      ruleDaily: {},
       activityStateList: [
         {
           label: "已发布",
@@ -129,15 +148,25 @@ export default {
       ]
     };
   },
+  mounted(){
+    this.formItem = Object.assign({},this.$route.query);
+    console.log("=======",this.formItem)
+  },
   methods: {
     onKeyEnter() {},
-    clearClick() {},
-    searchClick(){},
-    goNewActive(){
-		window.open('/mini-program/metting-active/edit','_blank')
-	}
-  },
-  
+    clearClick() {
+      this.formItem = utils.clearForm(this.formItem)
+     
+      this.$emit("clear", Object.assign({}, this.formItem));
+    },
+    searchClick() {
+      this.$emit("search", Object.assign({}, this.formItem));
+    },
+    goNewActive() {
+      window.open("/mini-program/metting-active/edit?type=add", "_blank");
+    },
+    datePickerChange() {}
+  }
 };
 </script>
 <style lang="less" scoped>

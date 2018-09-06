@@ -1,200 +1,211 @@
 <template>
     <div class="kr-meeting-detail">
         <SectionTitle title="新建小程序活动"></SectionTitle>
-        <div class="content-box">
-            <Form ref="formItemDaily"  :model="formItem" :rules="ruleDaily" label-position="top">
+        <div v-if="loadding" class="content-box">
+            <Form ref="formItemDaily" :model="formItem" :rules="ruleDaily" label-position="top">
             <div class="basic-info">
                 <SectionTitle title="基本信息"></SectionTitle>
                 <div class="basic-info-box">
-                    <Row>
-                        <Col span="12">
-                            <Form-item
-                                label="活动封面图" 
-                                prop="startDate"
-                                :inline="false"
-                            >
-                                <KrUpload 
-                                    type="only" 
-                                    :file="files"
-                                    height="100"
-                                    width="200"
-                                    placeholder="图片小于300KB，格式为JPG，PNG，GIF，建议图片比例为2:1"
-                                />
-                            
-                            </Form-item>
-                        </Col>
-                        <Col span="12">
-                            <Form-item
-                                
-                                label="小程序分享封面图" 
-                                prop="startDate"
-                                :inline="false"
-                            >
-                                <KrUpload 
-                                    type="only" 
-                                    :file="files"
-                                    width="200"
-                                    height="160"
-                                    placeholder="图片小于300KB，格式为JPG，PNG，GIF，建议图片比例为5:4"
-                                />
-                            
-                            </Form-item>
-                        </Col>
-                    </Row>
-                    <Row >
-                        <Col span="12">
-                            <Form-item
-                                label="活动名称" 
-                                prop="startDate"
-                                :inline="false"
-                                style="width:300px;"
-                               
-                            >
-                                <Input 
-                                    v-model="formItem.textarea" 
-                                    type="textarea" 
-                                    :autosize="{minRows: 2,maxRows: 5}" 
-                                    placeholder="40个字以内"/>
-                            
-                            </Form-item>
-                        </Col>
+                  <Row>
+                      <Col span="12">
+                          <Form-item
+                              label="活动封面图" 
+                              prop="coverPic"
+                              :inline="false"
+                          >
+                              <KrUpload 
+                                  v-model="formItem.coverPic"
+                                  height="100"
+                                  width="200"
+                                  category="kmactivity"
+                                  :publicUse="true"
+                                  :multiple="false"
+                                  placeholder="图片小于300KB，格式为JPG，PNG，GIF，建议图片比例为2:1"
+                              />
+                          
+                          </Form-item>
+                      </Col>
+                      <Col span="12">
+                          <Form-item
+                              
+                              label="小程序分享封面图" 
+                              prop="sharePic"
+                              :inline="false"
+                          >
+                              <KrUpload 
+                                  v-model="formItem.sharePic"
+                                  width="200"
+                                  height="160"
+                                  category="kmactivity"
+                                  :publicUse="true"
+                                  :multiple="false"
+                                  placeholder="图片小于300KB，格式为JPG，PNG，GIF，建议图片比例为5:4"
+                              />
+                          
+                          </Form-item>
+                      </Col>
+                  </Row>
+                  <Row >
+                      <Col span="12">
+                          <Form-item
+                              label="活动名称" 
+                              prop="title"
+                              :inline="false"
+                              style="width:300px;"
+                              
+                          >
+                              <Input 
+                                  v-model="formItem.title" 
+                                  type="textarea" 
+                                  :autosize="{minRows: 2,maxRows: 5}" 
+                                  placeholder="40个字以内"/>
+                          
+                          </Form-item>
+                      </Col>
 
+                      <Col span="12">
+                          <Form-item
+                              label="最大人数限制" 
+                              prop="startDate"
+                              :inline="false"
+                          >
+                              <InputNumber  
+                                  style="width:300px;"
+                                  :min="1" 
+                                  v-model="formItem.limitCount"
+                                  placeholder="正整数"
+                              />
+                          
+                          </Form-item>
+                      </Col>
+                  </Row>
+                  
+                  <Row>
+                      <Col span="12">
+                          <!-- <div style="padding-bottom:10px;">活动日期</div> -->
+                          <Form-item 
+                              label="活动日期" 
+                              style="display:inline-block;" 
+                              prop="beginTime"
+                              
+                          >
+                              <DatePicker 
+                                  v-model="formItem.beginTime" 
+                                  placeholder="开始日期"
+                                  style="width:130px;"
+                                  
+                              />
+                          </Form-item>
+                          <span style="display:inline-block;padding:0 10px;line-height:30px;margin-top:20px;">至</span>
+                          <Form-item 
+                              prop="endTime" 
+                              label=" " 
+                              style="display:inline-block;margin-top:4px;"
+                              
+                          >
+                              <DatePicker 
+                                  v-model="formItem.endTime" 
+                                  placeholder="结束日期"
+                                  style="width:130px;"
+                              />
+                          </Form-item>
+                      </Col>
+                      <Col span="12">
+                          <div style="padding-bottom:10px;">活动时间</div>
+                          <Form-item 
+                              style="display:inline-block;" 
+                              prop="startMoment"
+                              
+                          >
+                              <TimePicker  v-model="formItem.startMoment" confirm  format="HH:mm" placeholder="开始时间" style="width:130px;" />
+                          </Form-item>
+                          <span style="display:inline-block;padding:0 10px;line-height:30px;">至</span>
+                          <Form-item 
+                              prop="endMoment" 
+                              style="display:inline-block;"
+                          >
+                                <TimePicker  v-model="formItem.endMoment" confirm format="HH:mm" placeholder="结束时间" style="width:130px;" />
+                          </Form-item>
+                      </Col>
+                  </Row>
+                  <Row>
+                      <Col span="12">
+                          <Form-item 
+                              label="活动价格" 
+                              prop="price" 
+                              style="display:inline-block;width:300px;"
+                          >
+                              <!-- <Radio v-model="formItem.price" >免费</Radio> -->
+                              <RadioGroup v-model="formItem.price">
+                                    <Radio label="0">
+                                        <Icon type="logo-apple"></Icon>
+                                        <span>免费</span>
+                                    </Radio>
+                                </RadioGroup>
+                          </Form-item>
+                      </Col>
                         <Col span="12">
-                            <Form-item
-                                label="最大人数限制" 
-                                prop="startDate"
-                                :inline="false"
-                                 placeholder="40个字以内"
-                            >
-                                <InputNumber  
-                                    style="width:300px;"
-                                    :min="1" 
-                                    v-model="formItem.number"
-                                    placeholder="正整数"
-                                />
-                            
-                            </Form-item>
-                        </Col>
-                    </Row>
-                    
-                    <Row>
+                          <Form-item 
+                              label="排序号" 
+                              prop="sortNum" 
+                              style="display:inline-block;width:300px;"
+                          >
+                              <InputNumber  
+                                  style="width:300px;"
+                                  :min="1" 
+                                  v-model="formItem.sortNum"
+                                  placeholder="数字越大越靠前"
+                              />
+                          </Form-item>
+                      </Col>
+                  </Row>
+                  <Row>
+                      <Col span="12">
+                          <Form-item 
+                              label="活动所在社区" 
+                              prop="cmtId" 
+                              style="display:inline-block;width:300px;"
+                          >
+                              <KrSelect 
+                                  v-model="formItem.cmtId" 
+                                  placeholder="请选择"
+                              />
+                          </Form-item>
+                      </Col>
                         <Col span="12">
-                            <div style="padding-bottom:10px;"> 活动日期</div>
-                            <Form-item 
-                            
-                                style="display:inline-block;" 
-                                prop="startDate"
-                                
-                            >
-                                <DatePicker 
-                                    v-model="formItem.startDate" 
-                                    placeholder="开始日期"
-                                    style="width:130px;"
-                                    
-                                />
-                            </Form-item>
-                            <span style="display:inline-block;padding:0 10px;line-height:30px;">至</span>
-                            <Form-item 
-                                prop="endDate" 
-                                style="display:inline-block;"
-                            >
-                                <DatePicker 
-                                    v-model="formItem.endDate" 
-                                    placeholder="结束日期"
-                                    style="width:130px;"
-                                />
-                            </Form-item>
-                        </Col>
-                        <Col span="12">
-                            <div style="padding-bottom:10px;">活动时间</div>
-                            <Form-item 
-                                style="display:inline-block;" 
-                                prop="startDate"
-                                
-                            >
-                                <TimePicker  v-model="formItem.endDate"  format="HH:mm" placeholder="开始时间" style="width:130px;" />
-                            </Form-item>
-                            <span style="display:inline-block;padding:0 10px;line-height:30px;">至</span>
-                            <Form-item 
-                                prop="endDate" 
-                                style="display:inline-block;"
-                            >
-                                 <TimePicker  v-model="formItem.endDate"  format="HH:mm" placeholder="结束时间" style="width:130px;" />
-                            </Form-item>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="12">
-                            <Form-item 
-                                label="活动价格" 
-                                prop="endDate" 
-                                style="display:inline-block;width:300px;"
-                            >
-                                <Radio v-model="formItem.single">免费</Radio>
-                            </Form-item>
-                        </Col>
-                         <Col span="12">
-                            <Form-item 
-                                label="排序号" 
-                                prop="endDate" 
-                                style="display:inline-block;width:300px;"
-                            >
-                                <InputNumber  
-                                    style="width:300px;"
-                                    :min="1" 
-                                    v-model="formItem.number"
-                                    placeholder="数字越大越靠前"
-                                />
-                            </Form-item>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="12">
-                            <Form-item 
-                                label="活动所在社区" 
-                                prop="endDate" 
-                                style="display:inline-block;width:300px;"
-                            >
-                                <KrSelect 
-                                    v-model="formItem.startDate" 
-                                    placeholder="请选择"
-                                />
-                            </Form-item>
-                        </Col>
-                         <Col span="12">
-                            <Form-item 
-                                label="活动地点" 
-                                prop="endDate" 
-                                style="display:inline-block;width:300px;"
-                            >
-                                <Input 
-                                    v-model="formItem.textarea" 
-                                    type="textarea" 
-                                    :autosize="{minRows: 2,maxRows: 5}" 
-                                    placeholder="简述活动所在地点(40个字以内)"
-                                />
-                            </Form-item>
-                        </Col>
-                    </Row>
+                          <Form-item 
+                              label="活动地点" 
+                              prop="site" 
+                              style="display:inline-block;width:300px;"
+                          >
+                              <Input 
+                                  v-model="formItem.site" 
+                                  type="textarea" 
+                                  :autosize="{minRows: 2,maxRows: 5}" 
+                                  placeholder="简述活动所在地点(40个字以内)"
+                              />
+                          </Form-item>
+                      </Col>
+                  </Row>
 
-                    <Row>
-                       <Col span="12">
-                            <Form-item 
-                                label="活动详细地址" 
-                                prop="endDate" 
-                                style="display:inline-block;width:300px;"
-                            >
-                                <Input 
-                                    v-model="formItem.textarea" 
-                                    type="textarea" 
-                                    :autosize="{minRows: 2,maxRows: 5}" 
-                                    placeholder="活动详细地址(40个字以内)"
-                                />
-                            </Form-item>
-                        </Col>
-                         <Col span="12">
-                        </Col>
-                    </Row>
+                  <Row>
+                      <Col span="12">
+                          <Form-item 
+                              label="活动详细地址" 
+                              prop="address" 
+                              style="display:inline-block;width:300px;"
+                          >
+                              <Input 
+                                  v-model="formItem.address" 
+                                  type="textarea" 
+                                  :autosize="{minRows: 2,maxRows: 5}" 
+                                  placeholder="活动详细地址(40个字以内)"
+                              />
+                          </Form-item>
+                      </Col>
+                        <Col span="12">
+                      </Col>
+                  </Row>
                   
                    
                 </div>
@@ -207,14 +218,17 @@
                         <Col span="12">
                             <Form-item
                                 label="主办方LOGO" 
-                                prop="startDate"
+                                prop="sponsorLogo"
                                 :inline="false"
                             >
                                 <KrUpload 
-                                    type="only" 
-                                    :file="files"
+                                    v-model="formItem.sponsorLogo"
                                     height="100"
                                     width="100"
+                                    category="kmactivity"
+                                    imgDisplay="center"
+                                    :publicUse="true"
+                                    :multiple="false"
                                     placeholder="图片小于300KB，格式为JPG，PNG，GIF，建议图片比例为1:1"
                                 />
                             
@@ -222,12 +236,12 @@
                         </Col>
                         <Col span="12">
                             <Form-item
-                                label="主办方LOGO" 
-                                prop="startDate"
+                                label="主办方名称" 
+                                prop="sponsorName"
                                 :inline="false"
                             >
                                 <Input 
-                                    v-model="formItem.textarea" 
+                                    v-model="formItem.sponsorName" 
                                     type="text" 
                                     :autosize="{minRows: 2,maxRows: 5}" 
                                     style="width:300px;"
@@ -242,11 +256,11 @@
                         <Col span="19">
                             <Form-item
                                 label="主办方简介" 
-                                prop="startDate"
+                                prop="sponsorIntro"
                                 :inline="false"
                             >
                                 <Input 
-                                    v-model="formItem.textarea" 
+                                    v-model="formItem.sponsorIntro" 
                                     type="textarea" 
                                   
                                     placeholder="主办方简介,80个字符以内"
@@ -270,10 +284,12 @@
                                 :inline="false"
                             >
                                 <KrUpload 
-                                    type="only" 
-                                    :file="files"
+                                    v-model="formItem.partnerLogos"
                                     height="100"
                                     width="100"
+                                    imgDisplay="center"
+                                    category="kmactivity"
+                                    :publicUse="true"
                                     placeholder="图片小于300KB，格式为JPG，PNG，GIF，建议图片比例为1:1"
                                 />
                             
@@ -291,13 +307,16 @@
                         <Col span="19">
                             <Form-item
                                 label="活动详情" 
-                                prop="startDate"
+                                prop="content"
                                 :inline="false"
                             >
-                                <KrEditor
-                                    type="only" 
-                                    :file="files"
-                                />
+                              <KrUpload 
+                                category="kmactivity"
+                                :publicUse="true"
+                                v-model="formItem.content"
+                                height="200"
+                                width="200"
+                              />
                             
                             </Form-item>
                         </Col>
@@ -307,10 +326,10 @@
                         <Col span="19">
                             <Form-item
                                 label="活动须知" 
-                                prop="startDate"
+                                prop="notice"
                                 :inline="false"
                             >
-                               <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="活动须知，400个字符以内"/>
+                               <Input v-model="formItem.notice" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="活动须知，400个字符以内"/>
                             
                             </Form-item>
                         </Col>
@@ -318,13 +337,11 @@
                     </Row>
                 </div>
             </div>
-          
-
             <Row>
                 <Col span="19" style="text-align: center;margin:30px 0px 0px 0px;">
                     <FormItem>
-                        <Button type="primary">Submit</Button>
-                        <Button type="ghost" style="margin-left: 8px">Cancel</Button>
+                        <Button type="primary" @click="submit">提交</Button>
+                        <Button type="ghost" style="margin-left: 8px" @click="cancel">取消</Button>
                     </FormItem>
                 </Col>      
             </Row>
@@ -338,8 +355,8 @@
 import SectionTitle from "~/components/SectionTitle";
 import dateUtils from "vue-dateutils";
 import KrUpload from "~/components/KrUpload";
-import KrSelect from "~/components/KrSelect"
-import KrEditor from '~/components/KrEditor'
+import KrSelect from "~/components/KrSelect";
+import KrEditor from "~/components/KrEditor";
 
 export default {
   components: {
@@ -349,162 +366,212 @@ export default {
     KrEditor
   },
   data() {
-    return {
-        files:[
-            {id:1,url:'https://krspace-upload-test-public.oss-cn-beijing.aliyuncs.com/invoice/upload/22335/2018/08/30/110921859m31Q3lk/活动-报名列表-日期显示不全.png'}
-        ],
-        formItem:{},
-        ruleDaily:{},
-        info: {},
-        meetingStatusOptions: [],
-        tilteAndStyle: [
-        {
-          title: "预订日期",
-          key: "enableDate",
-          align: "center",
-          render(tag, params) {
-            let time = dateUtils.dateToStr(
-              "YYYY-MM-DD",
-              new Date(params.row.enableDate)
-            );
-            return time;
-          }
-        },
-        {
-          title: "游客价（￥/个·天）",
-          key: "priceDecimal",
-          align: "center"
-        },
-        {
-          title: "优惠价（￥/个·天）",
-          key: "promotionPriceDecimal",
-          align: "center"
-        },
-        {
-          title: "预订数量（个）",
-          key: "quantity",
-          align: "center"
-        },
-        {
-          title: "金额（￥）",
-          key: "totalAmountDecimal",
-          align: "center",
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "span",
-                {
-                  //                   style: {
-                  //                     color: 'red',
-                  //                     fontSize : "20px",
-                  //                   },
-                },
-                this.setPrice(params.row)
-              )
-            ]);
-          }
+    const validateTitle = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("活动名称为必填项"));
+      } else {
+        if (value && value.length > 40) {
+          callback(new Error("活动名称最多40字符"));
         }
-      ],
-      refund: [],
-      tilteRefund: [
-        {
-          title: "退款操作人",
-          key: "id",
-          align: "center"
-        },
-        {
-          title: "操作时间",
-          key: "id",
-          align: "center"
-        },
-        {
-          title: "退款说明",
-          key: "id",
-          align: "center"
-        },
-        {
-          title: "退款金额（￥）",
-          key: "id",
-          align: "center"
-        }
-      ],
-
-      alertTimeOptions: [
-        {
-          label: "不提醒",
-          value: "NOALERT"
-        },
-        {
-          label: "会议开始前5分钟",
-          value: "FIVE"
-        },
-        {
-          label: "会议开始前15分钟",
-          value: "FIFTEEN"
-        }
-      ],
-      totalPrice: 0,
-      totalAmountDecimal: 0
+        callback();
+      }
     };
-  },
+    const validateBeginTime = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("活动开始时间必填"));
+      } else {
+        if (
+          this.formItem.beginTime &&
+          this.formItem.endTime &&
+          this.formItem.beginTime > this.formItem.endTime
+        ) {
+          callback(new Error("开始时间不得大于结束时间"));
+        }
+        callback();
+      }
+    };
+    const validateEndTime = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("活动结束时间必填"));
+      } else {
+        if (
+          this.formItem.beginTime &&
+          this.formItem.endTime &&
+          this.formItem.beginTime > this.formItem.endTime
+        ) {
+          callback(new Error("开始时间不得大于结束时间"));
+        }
+        callback();
+      }
+    };
+    const validateMoment = (rule, value, callback) => {
+      if (
+        this.formItem.startMoment &&
+        this.formItem.endMoment &&
+        this.formItem.startMoment > this.formItem.endMoment
+      ) {
+        callback(new Error("开始时间不得大于结束时间"));
+      }
+      callback();
+    };
 
-  mounted() {
-    GLOBALSIDESWITCH("false");
-    //    this.getkrmeetingStatus();
-    //    this.getDetailInfo();
-  },
-  methods: {
-    goToMember(id) {
-      return;
-      window.open(`/new/#/member/memberManage/list/${id}`, "_blank");
-    },
-    getDetailInfo() {
-      return;
-      let _this = this;
-      var params = { id: this.$route.query.orderId };
-      this.$http
-        .get("get-kr-o-view", params)
-        .then(res => {
-          this.info = res.data;
-          let totalPrice = 0;
-          let totalAmountDecimal = 0;
-          if (!!this.info.details && this.info.details.length > 0) {
-            this.info.details.forEach((val, i) => {
-              totalPrice += Number(val.priceDecimal) * Number(val.quantity);
-              totalAmountDecimal +=
-                Number(val.promotionPriceDecimal) * Number(val.quantity);
-            });
-            this.totalPrice = totalPrice;
-            this.totalAmountDecimal = totalAmountDecimal;
-          }
-        })
-        .catch(err => {
-          this.$Notice.error({
-            title: err.message
-          });
-        });
-    },
-    returnMeetingStatus(param) {
-      let _this = this;
-      for (var i = 0; i < _this.meetingStatusOptions.length; i++) {
-        if (param == _this.meetingStatusOptions[i].name) {
-          return _this.meetingStatusOptions[i].desc;
+    const validatorCmtId = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("活动所在社区必选"));
+      }
+      callback();
+    };
+    const validatorSite = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("活动地点必选"));
+      } else {
+        if (value.length > 40) {
+          callback(new Error("活动地点最多40个字符"));
         }
       }
-    },
-    returnCtime(param) {
-      var ctimeParse =
-        (param &&
-          dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(param))) ||
-        "-";
-      return ctimeParse;
-    },
-    getkrmeetingStatus() {
+      callback();
+    };
+
+    const validatorAddress = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("活动详细地址必选"));
+      } else {
+        if (value.length > 40) {
+          callback(new Error("活动详细地址最多40个字符"));
+        }
+      }
+      callback();
+    };
+
+    const validatorSponsorName = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("主办方名称必选"));
+      } else {
+        if (value.length > 20) {
+          callback(new Error("主办方名称最多20个字符"));
+        }
+      }
+      callback();
+    };
+
+    const validatorSponsorIntro = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("主办方简介必选"));
+      } else {
+        if (value.length > 80) {
+          callback(new Error("主办方简介最多80个字符"));
+        }
+      }
+      callback();
+    };
+    const validatorNotice = (rule, value, callback) => {
+      if (value.length > 400) {
+        callback(new Error("活动须知最多400个字符"));
+      }
+
+      callback();
+    };
+    const validatorContent = (rule, value, callback) => {
+      if (value) {
+        callback(new Error("活动详情必填"));
+      }
+
+      callback();
+    };
+    return {
+      loadding:false,
+      formItem: {
+        price: 0
+      },
+      ruleDaily: {
+        coverPic: [{ required: true, trigger: "change" ,message:'该图片必须上传'}],
+        sharePic: [{ required: true, trigger: "blue" }],
+        title: [
+          { required: true, trigger: "change", validator: validateTitle }
+        ],
+        beginTime: [
+          { required: true, trigger: "change", validator: validateBeginTime }
+        ],
+        endTime: [
+          { required: false, trigger: "change", validator: validateEndTime }
+        ],
+        startMoment: [
+          { required: false, trigger: "change", validator: validateMoment }
+        ],
+        endMoment: [
+          { required: false, trigger: "change", validator: validateMoment }
+        ],
+        sortNum: [{ required: true, trigger: "change" }],
+        cmtId: [
+          { required: true, trigger: "change", validator: validatorCmtId }
+        ],
+        site: [{ required: true, trigger: "change", validator: validatorSite }],
+        address: [
+          { required: true, trigger: "change", validator: validatorAddress }
+        ],
+        sponsorName: [
+          { required: true, trigger: "change", validator: validatorSponsorName }
+        ],
+        sponsorIntro: [
+          {
+            required: true,
+            trigger: "change",
+            validator: validatorSponsorIntro
+          }
+        ],
+        notice: [
+          {
+            required: true,
+            trigger: "change",
+            validator: validatorNotice
+          }
+        ],
+        content: [
+          {
+            required: true,
+            trigger: "change",
+            validator: validatorContent
+          }
+        ],
+        
+
+        // coverPic: [{ required:true, trigger: "change" }]
+      }
+    };
+  },
+  mounted() {
+    GLOBALSIDESWITCH("false");
+    this.getDetail()
+  },
+  methods: {
+    getDetail() {
+      this.loadding = false;
+      let params = Object.assign({}, {activityId:this.$route.query.activityId});
+      if(this.$route.type == 'add'){
+        return ;
+      }
       this.$http
-        .get("getkrmeetingstatus", "")
+        .get("metting-active-detail", params)
         .then(res => {
-          var resultItems = res.data.status;
-          this.meetingStatusOptions = resultItems;
+          let data = Object.assign({},res.data);
+          data.coverPic = [{id:1,url:data.coverPic}];
+          data.sharePic = [{id:1,url:data.sharePic}];
+          data.sponsorLogo = [{id:1,url:data.sponsorLogo}]
+          data.content = JSON.parse(data.content);
+          data.partnerLogos = data.partnerLogos.map((item,index)=>{
+            return {
+              id:index,
+              url:item
+            }
+          })  
+          data.startMoment = data.beginTime?dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.beginTime)).split(" ")[1]:'';
+          data.endMoment = data.endTime?dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.endTime)).split(" ")[1]:'';
+          console.log(data,"ppppp")
+          // data.startMoment = data.beginTime;
+          // data.endMoment = data.endTime;
+
+          this.formItem = Object.assign({},data)
+          this.loadding = true;
         })
         .catch(error => {
           this.$Notice.error({
@@ -512,14 +579,58 @@ export default {
           });
         });
     },
-    setPrice(row) {
-      let price = Number(row.promotionPriceDecimal) * Number(row.quantity);
-      return price.toString();
+    // 取消按钮提交
+    cancel() {},
+    //提交按钮
+    submit() {
+      let url =
+        this.$route.query.type == "add"
+          ? "metting-active-add"
+          : "metting-active-edit";
+      let params = this.paramsChange(Object.assign({}, this.formItem));
+      console.log("=========",params);
+      // return;
+      this.$http
+        .post(url, params)
+        .then(res => {
+          console.log(res, "lllll");
+        })
+        .catch(error => {
+          this.$Notice.error({
+            title: error.message
+          });
+        });
+    },
+    paramsChange(params){
+      let obj = Object.assign({},params);
+      obj.coverPic = obj.coverPic[0].url;
+      obj.sharePic = obj.sharePic[0].url;
+      obj.content = obj.content.map((item,index)=>{
+          return {
+            id:item.fileId,
+            url:item.url
+          };
+      })
+      obj.content = JSON.stringify(obj.content)
+      obj.sponsorLogo = obj.sponsorLogo[0].url;
+      obj.partnerLogos = obj.partnerLogos.map((item,index)=>{
+        return item.url;
+      })
+      obj.partnerLogos = obj.partnerLogos.join(',')
+      obj.startMoment  = obj.startMoment?dateUtils.dateToStr("HH:mm:ss", new Date( obj.startMoment)):'00:00:00';
+      obj.endMoment  = obj.endMoment?dateUtils.dateToStr("HH:mm:ss", new Date( obj.endMoment)):'00:00:00';
+
+      obj.beginTime =  obj.beginTime?dateUtils.dateToStr("YYYY-MM-DD", new Date( obj.beginTime))+" "+obj.startMoment:'';
+      obj.endTime =  obj.endTime?dateUtils.dateToStr("YYYY-MM-DD", new Date( obj.endTime))+" "+obj.endMoment:'';
+      // delete obj.price;
+
+      return Object.assign({},obj);
     }
   }
 };
 </script>
-<style lang="less">
+
+<style lang="less" scoped>
 .content-box {
   padding: 0 20px;
 }
@@ -542,5 +653,4 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
-
 </style>

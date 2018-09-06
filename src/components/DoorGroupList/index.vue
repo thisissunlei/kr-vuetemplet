@@ -111,7 +111,6 @@ export default {
            this.selectedAddItmes = [];
            this.searchData.page =1;
            this.currentPage = 1;
-           console.log("currentPage",this.currentPage);
            var newObj = Object.assign({},_this.searchData,data);
            this.searchData = newObj;
            this.getListData();
@@ -120,7 +119,6 @@ export default {
        getListData(){
             let _this =this;
             let params = this.searchData;
-            console.log("params",params);
             this.$http.get("get-door-group-list",params).then((res)=>{
                 
                 _this.totalCount = res.data.totalCount;
@@ -143,7 +141,6 @@ export default {
                 this.$Message.warning("请选择要添加的组");
                 return;
             }
-            console.log("this.selectedAddItmes",this.selectedAddItmes);
             this.$emit("addGroupsToGroup",this.selectedAddItmes,param);
 
         },

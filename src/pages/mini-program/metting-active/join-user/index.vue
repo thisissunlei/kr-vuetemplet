@@ -10,17 +10,17 @@
                 :animated="false"
                 @on-click="tabsClick"
             >
-                <TabPane :label="applyLabel" name="apply"> 
+                <TabPane :label="'报名用户('+applyNum+')'" name="apply"> 
                     <List v-if="type == 'apply'" :type="type"/>
                 </TabPane>
-                <TabPane :label="entranceLabel" name="entrance" >
+                <TabPane :label="'已入场用户('+entranceNum+')'" name="entrance" >
                     <List v-if="type == 'entrance'" :type="type"/>
                 </TabPane>
             </Tabs>
 
-            <div style="text-align:center;margin-top:30px;width:100%;">
+            <!-- <div style="text-align:center;margin-top:30px;width:100%;">
               <Button type='primary' @click='submitSure'>确定</Button>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -32,21 +32,34 @@ export default {
       SectionTitle,
       List
     },
-    head () {
-        return {
-            title: "活动-氪空间后台管理系统"
-        }
+    mounted(){
+        GLOBALSIDESWITCH("false");
+        document.title = "活动-氪空间后台管理系统";
+        this.getTabelData();
     },
     data(){
         return {
             type:'apply',
-            applyLabel:'报名用户('+20+')',
-            entranceLabel:'已入场用户('+49+')'
+            applyNum:0,
+            entranceNum:0,
+            title:'',
         }
     },
     methods:{
         tabsClick(val){
             this.type = val;
+        },
+        getTabelData(){
+            this.$http.get("metting-active-user-tab-data",{
+                activityId:this.$route.query.activityId
+            }).then((res)=>{
+                console.log("res",res)
+                this.title = res.data.activityName;
+            }).catch((error)=>{
+                this.$Notice.error({
+                    title: error.message
+                });
+            })
         },
         submitSure(){
 

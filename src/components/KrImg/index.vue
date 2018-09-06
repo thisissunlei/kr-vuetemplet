@@ -69,7 +69,6 @@ export default {
       this.$emit("click", event);
     },
     setimgSize(type, dom) {
-      console.log("ppppp", type);
       let imgDetail = dom.getBoundingClientRect();
       let w = imgDetail.width;
       let h = imgDetail.height;

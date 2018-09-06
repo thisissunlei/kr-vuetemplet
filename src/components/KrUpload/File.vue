@@ -139,12 +139,11 @@ export default{
 	},
 
 	mounted(){
-		console.log(this.disabled,"pppppppp")
+		
 	},
 	methods:{
 		eyePhotoAlbum(index){
 			// let arr = [].concat(this.imagesArr);
-			console.log("000000")
 			this.eyeIndex = index;
 			this.imagesArr = [].concat(this.defaultList);
 			this.close();
@@ -272,7 +271,6 @@ export default{
 			
 			var detail = Object.assign({},params);
 			if(this.multiple){
-				console.log(this.defaultList,"ppppp")
 				this.defaultList.push(detail)
 				this.upIconShow = true;
 			}else{

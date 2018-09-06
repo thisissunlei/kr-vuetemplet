@@ -1,7 +1,7 @@
 <template>
     <div class="kr-meeting-detail">
         <SectionTitle title="小程序活动详情"></SectionTitle>
-        <div class="content-box">
+        <div class="content-box" v-if="loadding">
             <div class="basic-info">
                 <SectionTitle title="基本信息"></SectionTitle>
                 <div class="basic-info-box">
@@ -43,12 +43,12 @@
                    <Row>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">活动封面图</div>
-                            <KrImg :src="'https://krspace-upload-test-public.oss-cn-beijing.aliyuncs.com/invoice/upload/22335/2018/08/30/110921859m31Q3lk/活动-报名列表-日期显示不全.png'" :width="200" :height="100" type="cover"/>
+                            <KrImg :src="formItem.coverPic" :width="200" :height="100" type="center"/>
                             
                         </Col>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">小程序活动分享图</div>
-                            <KrImg :src="'https://krspace-upload-test-public.oss-cn-beijing.aliyuncs.com/invoice/upload/22335/2018/08/30/110921859m31Q3lk/活动-报名列表-日期显示不全.png'" :width="200" :height="160" type="cover"/>
+                            <KrImg :src="formItem.sharePic" :width="200" :height="160" type="cover"/>
                             
                         </Col>
                         
@@ -56,32 +56,32 @@
                     <Row style="padding:10px 0 0 0">
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">活动名称</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{formItem.title||'-'}}</div>
                         </Col>
                          <Col span="12">
                             <div style="padding:0 0 10px 0px;">最大人数限制</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{formItem.limitCount||'-'}}</div>
                         </Col>
                     </Row>
                     
                     <Row>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">活动日期</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{(formItem.beginTime+'至'+formItem.endTime)||'-'}}</div>
                         </Col>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">活动时间</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{(formItem.startMoment+'至'+formItem.startMoment)||'-'}}</div>
                         </Col>
                     </Row>
                     <Row>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">活动价格</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{formItem.price||'-'}}</div>
                         </Col>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">排序号</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{formItem.sortNum||'-'}}</div>
                         </Col>
                     </Row>
 
@@ -92,13 +92,13 @@
                         </Col>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">活动地点</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{formItem.site||'-'}}</div>
                         </Col>
                     </Row>
                     <Row>
                         <Col span="19">
                             <div style="padding:0 0 10px 0px;">活动详细地址</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{formItem.address||'-'}}</div>
                         </Col>
                     </Row>    
                     
@@ -113,15 +113,15 @@
                             <div style="padding:0 0 10px 0px;">主办方LOGO</div>
                             <KrImg 
                                 
-                                :src="'https://krspace-upload-test-public.oss-cn-beijing.aliyuncs.com/invoice/upload/22335/2018/08/30/110921859m31Q3lk/活动-报名列表-日期显示不全.png'" 
+                                :src="formItem.sponsorLogo" 
                                 :width="100" 
                                 :height="100" 
-                                type="cover"
+                                type="center"
                             />
                         </Col>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">主办方名称</div>
-                            <div>{{formItem.startDate}}</div>
+                            <div>{{formItem.sponsorName}}</div>
                         </Col>
                         
                     </Row>
@@ -135,21 +135,16 @@
                 <SectionTitle title="品牌合作方信息"></SectionTitle>
                 <div class="basic-info-box">
                    <Row>
-                        <Col span="12">
-                            <div style="padding:0 0 10px 0px;">主办方LOGO</div>
+                        <Col span="24">
+                            <div style="padding:0 0 10px 0px;">品牌合作方LOGO</div>
                             <KrImg 
+                                v-for="item in formItem.partnerLogos"
+                                :key="item.partnerLogos"
                                 :style="{display:'inline-block',margin:'5px'}"
-                                :src="'https://krspace-upload-test-public.oss-cn-beijing.aliyuncs.com/invoice/upload/22335/2018/08/30/110921859m31Q3lk/活动-报名列表-日期显示不全.png'" 
+                                :src="item" 
                                 :width="100" 
                                 :height="100" 
-                                type="cover"
-                            />
-                            <KrImg 
-                                :style="{display:'inline-block'}"
-                                :src="'https://krspace-upload-test-public.oss-cn-beijing.aliyuncs.com/invoice/upload/22335/2018/08/30/110921859m31Q3lk/活动-报名列表-日期显示不全.png'" 
-                                :width="100" 
-                                :height="100" 
-                                type="cover"
+                                type="center"
                             />
                         </Col>
                         
@@ -163,14 +158,22 @@
                    <Row>
                         <Col span="19">
                             <div style="padding:0 0 10px 0px;">活动详情</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                              <KrImg 
+                                v-for="item in formItem.content"
+                                :key="item.id"
+                                :style="{display:'inline-block',margin:'0px 10px'}"
+                                :src="item.url" 
+                                :width="200" 
+                                :height="200" 
+                                type="center"
+                            />
                         </Col>
                         
                     </Row>
                     <Row>
                         <Col span="19">
                             <div style="padding:0 0 10px 0px;">活动须知</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;" v-html="formItem.notice||'-'"></div>
                         </Col>
                         
                     </Row>
@@ -195,8 +198,8 @@
 import SectionTitle from "~/components/SectionTitle";
 import dateUtils from "vue-dateutils";
 import KrUpload from "~/components/KrUpload";
-import KrSelect from "~/components/KrSelect"
-import KrImg from '~/components/KrImg'
+import KrSelect from "~/components/KrSelect";
+import KrImg from "~/components/KrImg";
 
 export default {
   components: {
@@ -207,101 +210,15 @@ export default {
   },
   data() {
     return {
-        files:[
-            {id:1,url:'https://krspace-upload-test-public.oss-cn-beijing.aliyuncs.com/invoice/upload/22335/2018/08/30/110921859m31Q3lk/活动-报名列表-日期显示不全.png'}
-        ],
-        formItem:{},
-        ruleDaily:{},
-        info: {},
-        meetingStatusOptions: [],
-        tilteAndStyle: [
+      files: [
         {
-          title: "预订日期",
-          key: "enableDate",
-          align: "center",
-          render(tag, params) {
-            let time = dateUtils.dateToStr(
-              "YYYY-MM-DD",
-              new Date(params.row.enableDate)
-            );
-            return time;
-          }
-        },
-        {
-          title: "游客价（￥/个·天）",
-          key: "priceDecimal",
-          align: "center"
-        },
-        {
-          title: "优惠价（￥/个·天）",
-          key: "promotionPriceDecimal",
-          align: "center"
-        },
-        {
-          title: "预订数量（个）",
-          key: "quantity",
-          align: "center"
-        },
-        {
-          title: "金额（￥）",
-          key: "totalAmountDecimal",
-          align: "center",
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "span",
-                {
-                  //                   style: {
-                  //                     color: 'red',
-                  //                     fontSize : "20px",
-                  //                   },
-                },
-                this.setPrice(params.row)
-              )
-            ]);
-          }
+          id: 1,
+          url:
+            "https://krspace-upload-test-public.oss-cn-beijing.aliyuncs.com/invoice/upload/22335/2018/08/30/110921859m31Q3lk/活动-报名列表-日期显示不全.png"
         }
       ],
-      refund: [],
-      tilteRefund: [
-        {
-          title: "退款操作人",
-          key: "id",
-          align: "center"
-        },
-        {
-          title: "操作时间",
-          key: "id",
-          align: "center"
-        },
-        {
-          title: "退款说明",
-          key: "id",
-          align: "center"
-        },
-        {
-          title: "退款金额（￥）",
-          key: "id",
-          align: "center"
-        }
-      ],
-
-      alertTimeOptions: [
-        {
-          label: "不提醒",
-          value: "NOALERT"
-        },
-        {
-          label: "会议开始前5分钟",
-          value: "FIVE"
-        },
-        {
-          label: "会议开始前15分钟",
-          value: "FIFTEEN"
-        }
-      ],
-      totalPrice: 0,
-      totalAmountDecimal: 0
+      formItem: {},
+      loadding:false,
     };
   },
 
@@ -309,69 +226,40 @@ export default {
     GLOBALSIDESWITCH("false");
     //    this.getkrmeetingStatus();
     //    this.getDetailInfo();
+    this.getDetail();
   },
   methods: {
-    goToMember(id) {
-      return;
-      window.open(`/new/#/member/memberManage/list/${id}`, "_blank");
-    },
-    getDetailInfo() {
-      return;
-      let _this = this;
-      var params = { id: this.$route.query.orderId };
+    getDetail() {
+      this.loadding = false;
+      let params = Object.assign(
+        {},
+        { activityId: this.$route.query.activityId }
+      );
       this.$http
-        .get("get-kr-o-view", params)
+        .get("metting-active-detail", params)
         .then(res => {
-          this.info = res.data;
-          let totalPrice = 0;
-          let totalAmountDecimal = 0;
-          if (!!this.info.details && this.info.details.length > 0) {
-            this.info.details.forEach((val, i) => {
-              totalPrice += Number(val.priceDecimal) * Number(val.quantity);
-              totalAmountDecimal +=
-                Number(val.promotionPriceDecimal) * Number(val.quantity);
-            });
-            this.totalPrice = totalPrice;
-            this.totalAmountDecimal = totalAmountDecimal;
-          }
-        })
-        .catch(err => {
-          this.$Notice.error({
-            title: err.message
-          });
-        });
-    },
-    returnMeetingStatus(param) {
-      let _this = this;
-      for (var i = 0; i < _this.meetingStatusOptions.length; i++) {
-        if (param == _this.meetingStatusOptions[i].name) {
-          return _this.meetingStatusOptions[i].desc;
-        }
-      }
-    },
-    returnCtime(param) {
-      var ctimeParse =
-        (param &&
-          dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(param))) ||
-        "-";
-      return ctimeParse;
-    },
-    getkrmeetingStatus() {
-      this.$http
-        .get("getkrmeetingstatus", "")
-        .then(res => {
-          var resultItems = res.data.status;
-          this.meetingStatusOptions = resultItems;
+          let data = Object.assign({}, res.data);
+        
+          
+          data.content = JSON.parse(data.content);
+          data.startMoment = data.beginTime
+            ? dateUtils
+                .dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.beginTime))
+                .split(" ")[1]
+            : "";
+          data.endMoment = data.endTime
+            ? dateUtils
+                .dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.endTime))
+                .split(" ")[1]
+            : "";
+          this.formItem = Object.assign({}, data);
+          this.loadding = true;
         })
         .catch(error => {
           this.$Notice.error({
             title: error.message
           });
         });
-    },
-    setPrice(row) {
-      let price = Number(row.promotionPriceDecimal) * Number(row.quantity);
-      return price.toString();
     }
   }
 };
@@ -399,5 +287,4 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
-
 </style>

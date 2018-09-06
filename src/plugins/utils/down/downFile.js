@@ -5,7 +5,6 @@ function downFile(href, filename) {
     // a.target = '_blank';
     //a.download = filename;
     a.download = filename;
-    console.log('a--', a, href, filename);
     a.click();
 }
 export default downFile;

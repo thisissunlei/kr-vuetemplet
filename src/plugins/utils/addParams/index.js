@@ -4,8 +4,8 @@ function addParams(params) {
     let url = path.split('?')[0];
     var where = [];
     for (var field in params) {
-        if (params.hasOwnProperty(field)) {
-            where.push(`${field}=${params[field]}`);
+        if (params.hasOwnProperty(field) && params[field]) {
+            where.push(`${field}=${params[field]||''}`);
         }
     }
     url = url + "?" + where.join('&');

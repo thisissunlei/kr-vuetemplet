@@ -4,45 +4,31 @@ function initListData(type){
     return [
         {
             title:'用户ID',
-            key: 'recordNo',
+            key: 'uid',
             align:'center',
-            type:'apply,entrance',
-            render:(h,params)=>{
-                let colData = params.row;
-                return h('div',{
-                    style: {
-                        color:'#2b85e4',
-                        cursor:'pointer'
-                    },
-                    on:{
-                        click:()=>{
-                            this.goView(params.row);
-                        }
-                    }
-                }, params.row.recordNo)
-            }
+            type:'apply,entrance'
         },
         {
             title: '微信头像',
-            key: 'cmtName',
+            key: 'avator',
             align:'center',            
             type:'apply,entrance'
         },
         {
             title: '微信昵称',
-            key: 'feeTypeName',
+            key: 'nickName',
             align:'center',
             type:'apply,entrance'
         },
         {
             title: '姓名',
-            key: 'amount',
+            key: 'name',
             align:'center',
             type:'apply,entrance'
         },
         {
             title: '手机号',
-            key: 'remainAmount',
+            key: 'phone',
             align:'center',
             type:'apply,entrance'
         },
@@ -54,11 +40,11 @@ function initListData(type){
         },
         {
             title:'报名时间',
-            key: 'recordNo',
+            key: 'joinTime',
             align:'center',
             type:'apply,entrance',
             render:(h,params)=>{
-                let date=params.row.operateTime?dateUtils.dateToStr("YYYY-MM-DD  HH:mm:SS",new Date(params.row.operateTime)):'';
+                let date=params.row.operateTime?dateUtils.dateToStr("YYYY-MM-DD  HH:mm:SS",new Date(params.row.joinTime)):'';
                 return h('span',{},date);
             }
         },

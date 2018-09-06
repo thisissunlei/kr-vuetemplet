@@ -29,7 +29,7 @@ export default {
         }
     },
     mounted(){
-        
+        this.getListData()
     },
     methods:{
        formattingColumns(data){
@@ -45,26 +45,17 @@ export default {
        goView(params){
            window.open('/bill/payment/detail/'+params.recordId,'_blank');
        },
-       getListData(params){
-            let newParams={};
-            let dateArray=['endTime','startTime'];
-            let newDate=publicFn.dateFormat(dateArray,params);
-            newParams=Object.assign({},params,newDate);
-            newParams.customerId=this.$route.params.customer;
-            let typeUrl='';
-            switch (this.type) {
-                case 'getDetail':
-                    typeUrl='account-payment-detail'
-                    break;
-                case 'refundDetail':
-                    typeUrl='account-refund-detail'
-                    break;
-                default:
-                    break;
+       getListData(){
+           let arriving = false;
+            if(this.type == 'entrance'){
+                arriving = true;
             }
-            this.$http.get(typeUrl,newParams).then((response)=>{    
-                this.listData=response.data.details;
-                this.allMoney=response.data.total;
+            this.$http.get('metting-active-user-list',{
+                activityId:this.$route.query.activityId||1,
+                arriving:arriving
+            }).then((response)=>{    
+                this.listData=response.data.item;
+                this.allMoney=response.data.totalCount;
             }).catch((error)=>{
                 this.$Notice.error({
                     title:error.message

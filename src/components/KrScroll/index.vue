@@ -1,8 +1,5 @@
 <template>
     <div class="ui-kr-scroll">
-
-
-        
         <slot></slot>
 
         <div v-if="loadding" style="text-align:center;">
@@ -48,8 +45,6 @@ export default{
         this.handleScroll = utils.debounce(150,this.onScroll);
     },
     mounted(){
-        console.log(this.$kr_global.contentDom);
-
         this.$kr_global.contentDom.addEventListener("scroll",this.handleScroll);
     },
     methods:{
@@ -58,26 +53,8 @@ export default{
                 return ;
             }
             var dom=this.$kr_global.contentDom;
-        
-            
-          
-            // if(dom.scrollTop>330){
-            //     this.theHead=true;
-            // }else{
-            //     this.theHead=false;
-            // }
-          
-            // layoutScrollHeight=dom.scrollTop;
-            // var totalPage=Math.ceil(this.totalCount/this.tabForms.pageSize);
             if(dom.scrollHeight-dom.scrollTop-dom.clientHeight<10){
-                // if(this.tabForms.page==totalPage){
-                //     return ;
-                // }
-                // if(!this.optionalIndentify.length){
-                //     return ;
-                // }
-                console.log("-----到底了......")
-               
+              
                 var waitFunction = this.onReachBottom();
                 this.loadding=true;
                 if(waitFunction.then){
@@ -85,9 +62,6 @@ export default{
                         this.loadding = false;
                     })
                 }
-
-                
-           
             }
           
             this.$emit('scroll')

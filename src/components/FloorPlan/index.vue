@@ -45,7 +45,6 @@ let initData='';
         img=new Image();
         var port = location.port?':'+ location.port:'';
         img.src= location.protocol +'//'+location.hostname+port+this.data.graphFilePath;
-        console.log(img.src,"ppppppp","===",window.location.host);
         img.setAttribute("crossOrigin",'Anonymous');
         img.addEventListener('load',this.imgLoad);
     },
@@ -179,7 +178,6 @@ let initData='';
         mouseClick(event){
             var every=event.subject.part.data;
             var everyData =every?every:{};
-            console.log('everoo',everyData);
             this.$emit('click',event,everyData,canvasData,this.drawingBoard,this.scroll); 
         }
     }

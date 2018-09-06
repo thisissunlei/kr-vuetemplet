@@ -140,7 +140,6 @@
             },
             handleRemove (file) {
                 this.phote = false
-                console.log('删除图片')
             },
             handleSuccess (res, file) {
                 // 上传成功后执行的内容
@@ -156,7 +155,6 @@
             },
             handleMaxSize (file) {
                 // 校验大小
-                console.log('校验大小')
                 this.$Notice.warning({
                     title: 'Exceeding file size limit',
                     desc: 'File  ' + file.name + ' is too large, no more than 2M.'
@@ -164,7 +162,6 @@
             },
             handleBeforeUpload (file) {
                 // 文件上传前执行
-                console.log('文件上传前',file)
                 var check = true;
                 return check;
             }

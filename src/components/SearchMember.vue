@@ -65,7 +65,7 @@
                     
                     _this.customerOptions = list;
                 }, e => {
-                    console.log('error',e)
+                    
                 })
 
             }
