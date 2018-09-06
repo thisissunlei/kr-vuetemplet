@@ -4,6 +4,6 @@ import newRoute from './newRouter.js';
 Vue.use(Router)
 const myRoute = []
 newRoute.routes = newRoute.routes.concat(myRoute);
-newRoute.mode='history';
+// newRoute.mode='history';
 export default new Router(newRoute)
 
