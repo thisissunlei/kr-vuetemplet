@@ -37,7 +37,7 @@ export default {
   //删除活动
   'metting-active-delete':{
     url:'/api/op/kmactivity/delete',
-    method: 'delete'
+    method: 'get'
   },
   // 
   // 

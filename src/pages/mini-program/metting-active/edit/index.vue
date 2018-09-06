@@ -280,7 +280,7 @@
                         <Col span="19">
                             <Form-item
                                 label="品牌合作方LOGO" 
-                                prop="startDate"
+                                prop="partnerLogos"
                                 :inline="false"
                             >
                                 <KrUpload 
@@ -478,6 +478,17 @@ export default {
 
       callback();
     };
+    
+    const validateImg = (rule, value, callback)=>{
+      console.log(value,"pppppp")
+      if (!value||!value.length) {
+        callback(new Error("该图片必须上传"));
+      }else{
+         callback();
+      }
+
+     
+    }
     return {
       loadding: true,
       formItem: {
@@ -485,9 +496,9 @@ export default {
       },
       ruleDaily: {
         coverPic: [
-          { required: true, trigger: "change", message: "该图片必须上传" }
+          { required: true, trigger: "change",validator:validateImg}
         ],
-        sharePic: [{ required: true, trigger: "blue",message: "该图片必须上传" }],
+        sharePic: [{ required: true, trigger: "blue",validator:validateImg}],
         title: [
           { required: true, trigger: "change", validator: validateTitle }
         ],
@@ -503,7 +514,7 @@ export default {
         endMoment: [
           { required: false, trigger: "change", validator: validateMoment }
         ],
-        sortNum: [{ required: true, trigger: "change" }],
+        // sortNum: [{ required: true, trigger: "change" }],
         cmtId: [
           { required: true, trigger: "change", validator: validatorCmtId }
         ],
@@ -513,6 +524,14 @@ export default {
         ],
         sponsorName: [
           { required: true, trigger: "change", validator: validatorSponsorName }
+        ],
+        partnerLogos:[
+          {
+            required: true, trigger: "change",validator:validateImg
+          }
+        ],
+        sponsorLogo:[
+          {required: true, trigger: "change",validator:validateImg}
         ],
         sponsorIntro: [
           {
@@ -532,7 +551,7 @@ export default {
           {
             required: true,
             trigger: "change",
-            validator: validatorContent
+            validator: validateImg
           }
         ]
 
@@ -603,13 +622,15 @@ export default {
 
       this.$refs["formItemDaily"].validate(valid => {
         console.log(valid,"ppp")
-        return ;
+      
         if (valid) {
           let params = this.paramsChange(Object.assign({}, this.formItem));
 
           this.$http
             .post(url, params)
             .then(res => {
+              window.close();
+              window.opener.location.reload();
               console.log(res, "lllll");
             })
             .catch(error => {

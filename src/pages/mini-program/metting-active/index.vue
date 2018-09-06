@@ -176,6 +176,7 @@ export default {
                   style: style,
                   on: {
                     click: () => {
+											this.activityId = params.row.id || 0;
                       console.log("999999");
                       this.switchDelete();
                     }
@@ -249,8 +250,9 @@ export default {
     //删除
     deleteSubmit() {
        this.$http
-        .delete("metting-active-delete", {
-          activityId: this.activityId,
+        .get("metting-active-delete", {
+					activityId: this.activityId,
+					delete:true
         })
         .then(res => {
 					this.getTableData();
