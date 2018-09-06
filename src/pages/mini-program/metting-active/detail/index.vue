@@ -252,6 +252,8 @@ export default {
                 .dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.endTime))
                 .split(" ")[1]
             : "";
+          data.beginTime = data.beginTime?dateUtils.dateToStr("YYYY-MM-DD", new Date(data.beginTime)):'';
+          data.endTime = data.endTime?dateUtils.dateToStr("YYYY-MM-DD", new Date(data.endTime)):'';
           this.formItem = Object.assign({}, data);
           this.loadding = true;
         })
