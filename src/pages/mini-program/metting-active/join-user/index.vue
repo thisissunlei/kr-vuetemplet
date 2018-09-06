@@ -27,6 +27,7 @@
 <script>
 import SectionTitle from '~/components/SectionTitle';
 import  List from './list';
+import utils from 'utils'
 export default {
     components: {
       SectionTitle,
@@ -66,7 +67,10 @@ export default {
 
         },
         submitExport(){
-
+            utils.commonExport({
+                activityId:this.$route.query.activityId,
+                arriving:this.type=='apply'?false:true
+            },'/api/op/kmactivity/join/export')
         }      
     }
 }
