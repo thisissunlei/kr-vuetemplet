@@ -37,6 +37,7 @@ import SectionTitle from "~/components/SectionTitle";
 import SearchFrom from "./searchFrom";
 import Buttons from "~/components/Buttons";
 import KrScroll from "~/components/KrScroll";
+import dateUtils from "vue-dateutils";
 import utils from "utils";
 export default {
   components: {
@@ -177,7 +178,7 @@ export default {
                   on: {
                     click: () => {
 											this.activityId = params.row.id || 0;
-                      console.log("999999");
+                  
                       this.switchDelete();
                     }
                   }
@@ -198,11 +199,9 @@ export default {
               )
 						];
 						if(params.row.published){
-							console.log("11111")
 								btns.splice(2,1);
 							
 						}else{
-							console.log("2222")
 							btns.splice(3,1);
 						
 						}
@@ -221,19 +220,25 @@ export default {
     //  var dom=document.getElementById('layout-content-main');
     // dom.addEventListener("scroll",this.onScrollListener);
 		// window.addEventListener('resize',this.onResize);
+		console.log("============")
 		this.tabelParams = Object.assign(this.tabelParams,this.$route.query)
 		this.getTableData();
   },
   methods: {
     searchClick(params) {
-      utils.addParams(params);
+			utils.addParams(params);
+			this.tabelParams = Object.assign(this.tabelParams,params)
+			this.getTableData()
     },
     clearClick(params) {
-			 console.log(params,"lllll")
-      utils.addParams(params);
+			utils.addParams(params);
+			this.tabelParams = Object.assign(this.tabelParams,params)
+			this.getTableData()
     },
     getTableData() {
-      let params = Object.assign({}, this.tabelParams);
+			let params = Object.assign({}, this.tabelParams);
+			params.beginTime = params.beginTime?dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.beginTime)):'';
+			params.endTime = params.endTime?dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.endTime)):'';
       this.$http
         .get("get-metting-active-list", params)
         .then(res => {
