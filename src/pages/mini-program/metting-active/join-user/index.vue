@@ -1,6 +1,6 @@
 <template>
     <div class="join-user">
-        <SectionTitle title="【王牌职业】氪空间大都会社区开业派对"/>
+        <SectionTitle :title="this.title"/>
         <div class="join-user-table">
             <div class="join-user-export">
                <Button type='primary' @click='submitExport'>导出</Button>
