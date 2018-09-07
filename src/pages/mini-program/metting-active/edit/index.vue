@@ -502,6 +502,7 @@ export default {
     };
 
     const validateImg = (rule, value, callback) => {
+      console.log("========",value)
       if (!value || !value.length) {
         callback(new Error("该图片必须上传"));
       } else {
@@ -625,10 +626,6 @@ export default {
                 .dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.endTime))
                 .split(" ")[1]
             : "";
-          console.log(data, "ppppp");
-          // data.startMoment = data.beginTime;
-          // data.endMoment = data.endTime;
-
           this.formItem = Object.assign({}, data);
           this.loadding = true;
         })
@@ -639,7 +636,9 @@ export default {
         });
     },
     // 取消按钮提交
-    cancel() {},
+    cancel() {
+       window.close();
+    },
     //提交按钮
     submit() {
       let url =
@@ -676,14 +675,19 @@ export default {
         };
       });
       obj.content = JSON.stringify(obj.content);
+
       obj.sponsorLogo = obj.sponsorLogo[0].url;
+
       obj.partnerLogos = obj.partnerLogos.map((item, index) => {
         return item.url;
       });
+
       obj.partnerLogos = obj.partnerLogos.join(",");
+
       obj.startMoment = obj.startMoment
         ? dateUtils.dateToStr("HH:mm:ss", new Date(obj.startMoment))
         : "00:00:00";
+
       obj.endMoment = obj.endMoment
         ? dateUtils.dateToStr("HH:mm:ss", new Date(obj.endMoment))
         : "00:00:00";
@@ -693,13 +697,12 @@ export default {
           " " +
           obj.startMoment
         : "";
+
       obj.endTime = obj.endTime
         ? dateUtils.dateToStr("YYYY-MM-DD", new Date(obj.endTime)) +
           " " +
           obj.endMoment
         : "";
-      // delete obj.price;
-
       return Object.assign({}, obj);
     }
   }
