@@ -395,7 +395,7 @@ export default {
         if (
           this.formItem.beginTime &&
           this.formItem.endTime &&
-          this.formItem.beginTime > this.formItem.endTime
+          this.formItem.beginTime >= this.formItem.endTime
         ) {
           callback(new Error("开始时间不得大于结束时间"));
         }
@@ -406,7 +406,7 @@ export default {
       if (
         this.formItem.startMoment &&
         this.formItem.endMoment &&
-        this.formItem.startMoment > this.formItem.endMoment
+        this.formItem.startMoment >= this.formItem.endMoment
       ) {
         callback(new Error("开始时间不得大于结束时间"));
       }
@@ -502,7 +502,6 @@ export default {
     };
 
     const validateImg = (rule, value, callback) => {
-      console.log("========",value)
       if (!value || !value.length) {
         callback(new Error("该图片必须上传"));
       } else {
@@ -514,7 +513,9 @@ export default {
       loadding: true,
       title:'新建小程序活动',
       formItem: {
-        price: 0
+        price: 0,
+        startMoment:'00:00:00',
+        endMoment:'00:00:00'
       },
       ruleDaily: {
         coverPic: [
@@ -530,12 +531,12 @@ export default {
         endTime: [
           { required: false, trigger: "change", validator: validateEndTime }
         ],
-        startMoment: [
-          { required: false, trigger: "change", validator: validateMoment }
-        ],
-        endMoment: [
-          { required: false, trigger: "change", validator: validateMoment }
-        ],
+        // startMoment: [
+        //   { required: false, trigger: "change", validator: validateMoment }
+        // ],
+        // endMoment: [
+        //   { required: false, trigger: "change", validator: validateMoment }
+        // ],
         limitCount: [
           { required: false, trigger: "change", validator: validateLimitCount }
         ],
