@@ -66,10 +66,10 @@
                       <Col span="12">
                           <Form-item
                               label="最大人数限制" 
-                              prop="startDate"
+                              prop="limitCount"
                               :inline="false"
                           >
-                              <InputNumber  
+                              <Input
                                   style="width:300px;"
                                   :min="1" 
                                   v-model="formItem.limitCount"
@@ -150,7 +150,7 @@
                               prop="sortNum" 
                               style="display:inline-block;width:300px;"
                           >
-                              <InputNumber  
+                              <Input
                                   style="width:300px;"
                                   :min="1" 
                                   v-model="formItem.sortNum"
@@ -361,7 +361,7 @@ export default {
   components: {
     SectionTitle,
     KrUpload,
-    KrSelect,
+    KrSelect
   },
   data() {
     const validateTitle = (rule, value, callback) => {
@@ -440,7 +440,22 @@ export default {
       }
       callback();
     };
-
+    const validatorSortNum = (rule, value, callback) => {
+      value = value.replace(/^\s+|\s+$/g, "");
+      let regex = /^\d+$/;
+      if ( !regex.test(value)) {
+        callback(new Error("排序号为非负整数"));
+      }
+      callback();
+    };
+    const validateLimitCount = (rule, value, callback) => {
+      value = value.replace(/^\s+|\s+$/g, "");
+      let regex = /^[0-9]*[1-9][0-9]*$/;
+      if (value &&!regex.test(value)) {
+        callback(new Error("最大人数为正整数"));
+      }
+      callback();
+    };
     const validatorSponsorName = (rule, value, callback) => {
       if (!value) {
         callback(new Error("主办方名称必选"));
@@ -463,9 +478,7 @@ export default {
       callback();
     };
     const validatorNotice = (rule, value, callback) => {
-      console.log(value,"ppppp")
-      if ( value && value.length > 400) {
-
+      if (value && value.length > 400) {
         callback(new Error("活动须知最多400个字符"));
       }
 
@@ -478,17 +491,15 @@ export default {
 
       callback();
     };
-    
-    const validateImg = (rule, value, callback)=>{
-      
-      if (!value||!value.length) {
+
+    const validateImg = (rule, value, callback) => {
+      if (!value || !value.length) {
         callback(new Error("该图片必须上传"));
-      }else{
-         callback();
+      } else {
+        callback();
       }
-       callback();
-     
-    }
+      callback();
+    };
     return {
       loadding: true,
       formItem: {
@@ -496,9 +507,9 @@ export default {
       },
       ruleDaily: {
         coverPic: [
-          { required: true, trigger: "change",validator:validateImg}
+          { required: true, trigger: "change", validator: validateImg }
         ],
-        sharePic: [{ required: true, trigger: "blue",validator:validateImg}],
+        sharePic: [{ required: true, trigger: "blue", validator: validateImg }],
         title: [
           { required: true, trigger: "change", validator: validateTitle }
         ],
@@ -514,7 +525,12 @@ export default {
         endMoment: [
           { required: false, trigger: "change", validator: validateMoment }
         ],
-        // sortNum: [{ required: true, trigger: "change" }],
+        limitCount: [
+          { required: false, trigger: "change", validator: validateLimitCount }
+        ],
+        sortNum: [
+          { required: true, trigger: "change", validator: validatorSortNum }
+        ],
         cmtId: [
           { required: true, trigger: "change", validator: validatorCmtId }
         ],
@@ -525,13 +541,15 @@ export default {
         sponsorName: [
           { required: true, trigger: "change", validator: validatorSponsorName }
         ],
-        partnerLogos:[
+        partnerLogos: [
           {
-            required: true, trigger: "change",validator:validateImg
+            required: true,
+            trigger: "change",
+            validator: validateImg
           }
         ],
-        sponsorLogo:[
-          {required: true, trigger: "change",validator:validateImg}
+        sponsorLogo: [
+          { required: true, trigger: "change", validator: validateImg }
         ],
         sponsorIntro: [
           {
@@ -614,15 +632,14 @@ export default {
     cancel() {},
     //提交按钮
     submit() {
-      
       let url =
         this.$route.query.type == "add"
           ? "metting-active-add"
           : "metting-active-edit";
 
       this.$refs["formItemDaily"].validate(valid => {
-        console.log(valid,"ppp")
-      
+        console.log(valid, "ppp");
+
         if (valid) {
           let params = this.paramsChange(Object.assign({}, this.formItem));
 
