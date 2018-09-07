@@ -441,17 +441,25 @@ export default {
       callback();
     };
     const validatorSortNum = (rule, value, callback) => {
-      value = value.replace(/^\s+|\s+$/g, "");
+      console.log(value, "ppppppp");
+      value = "" + value;
+      if (value) {
+        value = value.replace(/^\s+|\s+$/g, "");
+      }
       let regex = /^\d+$/;
-      if ( !regex.test(value)) {
+      if (!regex.test(value)) {
         callback(new Error("排序号为非负整数"));
       }
       callback();
     };
     const validateLimitCount = (rule, value, callback) => {
-      value = value.replace(/^\s+|\s+$/g, "");
+      value = "" + value;
+      if (value) {
+        value = value.replace(/^\s+|\s+$/g, "");
+      }
+
       let regex = /^[0-9]*[1-9][0-9]*$/;
-      if (value &&!regex.test(value)) {
+      if (value && !regex.test(value)) {
         callback(new Error("最大人数为正整数"));
       }
       callback();
@@ -493,6 +501,7 @@ export default {
     };
 
     const validateImg = (rule, value, callback) => {
+      console.log(value, "pppppp--");
       if (!value || !value.length) {
         callback(new Error("该图片必须上传"));
       } else {
