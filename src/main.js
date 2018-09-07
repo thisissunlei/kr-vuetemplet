@@ -9,7 +9,6 @@ import filters from '@/filters';
 import store from './store';
 Vue.config.productionTip = false;
 Vue.prototype.$http = http;
-
 /* eslint-disable no-new */
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
@@ -22,7 +21,6 @@ Object.keys(filters).forEach(key => {
 //   next()
 // })
 Vue.use(iView)
-
 new Vue({
   el: '#app',
   router,

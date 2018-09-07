@@ -10,16 +10,16 @@ function auto() {
     }
     templateFile.on('ready', () => {
         templateFile.on('add', (path) => {
-            autoRoute();
+            render();
         });
         templateFile.on('unlink', (path) => {
-            autoRoute();
+            render();
         });
         templateFile.on('addDir', (path) => {
-            autoRoute();
+            render();
         });
         templateFile.on('unlinkDir', (path) => {
-            autoRoute();
+            render();
         });
     })
 

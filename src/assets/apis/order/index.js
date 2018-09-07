@@ -1,7 +1,5 @@
 
-import bill from './bill';
-
-
+import order from './order';
 export default {
-  ...bill,
+  ...order,
 }

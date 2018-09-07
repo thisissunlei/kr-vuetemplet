@@ -83,7 +83,6 @@ function check401(res) {
 
 
 export default {
-
   getJSON: (url, params, success, failure) => new Promise((resolve, reject) => {
     axios.interceptors.request.eject(aInterceptor);
     axios.get(APIS[url].url, params)

@@ -1,7 +1,8 @@
-import OrderApi from "./order";
-
-
-
+import setting from "./setting";
+import operate from "./operate";
+import order from "./order";
 export default {
-  ...OrderApi,
+  ...setting,
+  ...operate,
+  ...order
 }
