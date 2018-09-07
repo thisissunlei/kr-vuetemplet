@@ -12,7 +12,17 @@ function initListData(type){
             title: '微信头像',
             key: 'avator',
             align:'center',            
-            type:'apply,entrance'
+            type:'apply,entrance',
+            render:(h,params)=>{
+                return h('img',{
+                    style:{
+                        width:'40px'
+                    },
+                    attrs:{
+                        src:params.row.avator
+                    }
+                })
+            }
         },
         {
             title: '微信昵称',
