@@ -1,18 +1,15 @@
 <template>
     <div class="ui-kr-scroll">
         <slot></slot>
-
         <div v-if="loadding" style="text-align:center;">
              <Spin size="large" style="display:inline-block;"/>
              <div style="color:#2d8cf0;">
                   &nbsp;&nbsp;&nbsp;&nbsp;加载中...
              </div>
-            
         </div>
        
     </div>
 </template>
-
 <script>
 import utils from 'utils';
 export default{
@@ -31,14 +28,18 @@ export default{
     },
     data(){
 	    return{
-            loadding:true,
+            loadding:false,
             noData:this.toBottom,
 		}
 
     },
     watch:{
-        toBottom:()=>{
+        toBottom(){
             this.noData = this.toBottom;
+            if(this.toBottom){
+                this.loadding = false;
+            }
+            
         }
     },
     created(){
