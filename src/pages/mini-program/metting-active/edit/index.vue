@@ -169,6 +169,7 @@
                               <KrSelect 
                                   v-model="formItem.communityId" 
                                   placeholder="请选择"
+                                  @on-select-change="selectChange"
                               />
                           </Form-item>
                       </Col>
@@ -597,6 +598,21 @@ export default {
     this.getDetail();
   },
   methods: {
+    selectChange(id){
+      this.getDetailCmt(id);
+    },
+    getDetailCmt(id){
+      this.$http.get('metting-active-detail-cmt',{
+        communityId:id
+      }).then((res)=>{
+       console.log(res,"ppppppp")
+       this.formItem.address = res.data
+      }).catch((error)=>{
+        this.$Notice.error({
+            title: error.message
+          });
+      })
+    },
     getDetail() {
       let params = Object.assign(
         {},
