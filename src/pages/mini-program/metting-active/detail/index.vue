@@ -7,28 +7,28 @@
                 <div class="basic-info-box">
                     <Row>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">创建人</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">创建人</div>
                             <div style="padding:0 0 10px 0px;">{{formItem.creatorName||'-'}}</div>
                         </Col>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">创建时间</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">创建时间</div>
                             <div style="padding:0 0 10px 0px;">{{formItem.ctime | dateFormat}}</div>
                         </Col>
                     </Row>
                     <Row>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">最后编辑人</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">最后编辑人</div>
                             <div style="padding:0 0 10px 0px;">{{formItem.updatorName||'-'}}</div>
                         </Col>
 
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">最后编辑时间</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">最后编辑时间</div>
                             <div style="padding:0 0 10px 0px;">{{formItem.utime | dateFormat }}</div>
                         </Col>
                     </Row>
                     <Row>
                        <Col span="12">
-                             <div style="padding:0 0 10px 0px;">活动状态</div>
+                             <div style="padding:0 0 10px 0px;font-weight: bold;">活动状态</div>
                             <div style="padding:0 0 10px 0px;">{{formItem.published ? '已发布':'已下线'}}</div>
                         </Col>
                     </Row>
@@ -42,12 +42,12 @@
                 <div class="basic-info-box">
                    <Row>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">活动封面图</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">活动封面图</div>
                             <KrImg :src="formItem.coverPic" :width="200" :height="100" type="center"/>
                             
                         </Col>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">小程序活动分享图</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">小程序活动分享图</div>
                             <KrImg :src="formItem.sharePic" :width="200" :height="160" type="cover"/>
                             
                         </Col>
@@ -55,49 +55,49 @@
                     </Row>
                     <Row style="padding:10px 0 0 0">
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">活动名称</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">活动名称</div>
                             <div style="padding:0 0 10px 0px;">{{formItem.title||'-'}}</div>
                         </Col>
                          <Col span="12">
-                            <div style="padding:0 0 10px 0px;">最大人数限制</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">最大人数限制</div>
                             <div style="padding:0 0 10px 0px;">{{formItem.limitCount||'-'}}</div>
                         </Col>
                     </Row>
                     
                     <Row>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">活动日期</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">活动日期</div>
                             <div style="padding:0 0 10px 0px;">{{(formItem.beginTime+'至'+formItem.endTime)||'-'}}</div>
                         </Col>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">活动时间</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">活动时间</div>
                             <div style="padding:0 0 10px 0px;">{{(formItem.startMoment+'至'+formItem.startMoment)||'-'}}</div>
                         </Col>
                     </Row>
                     <Row>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">活动价格</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">活动价格</div>
                             <div style="padding:0 0 10px 0px;">{{formItem.price||'-'}}</div>
                         </Col>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">排序号</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">排序号</div>
                             <div style="padding:0 0 10px 0px;">{{formItem.sortNum||'-'}}</div>
                         </Col>
                     </Row>
 
                     <Row>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">活动所在社区</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">活动所在社区</div>
                             <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
                         </Col>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">活动地点</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">活动地点</div>
                             <div style="padding:0 0 10px 0px;">{{formItem.site||'-'}}</div>
                         </Col>
                     </Row>
                     <Row>
                         <Col span="19">
-                            <div style="padding:0 0 10px 0px;">活动详细地址</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">活动详细地址</div>
                             <div style="padding:0 0 10px 0px;">{{formItem.address||'-'}}</div>
                         </Col>
                     </Row>    
@@ -110,7 +110,7 @@
                 <div class="basic-info-box">
                    <Row>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">主办方LOGO</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">主办方LOGO</div>
                             <KrImg 
                                 
                                 :src="formItem.sponsorLogo" 
@@ -120,7 +120,7 @@
                             />
                         </Col>
                         <Col span="12">
-                            <div style="padding:0 0 10px 0px;">主办方名称</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">主办方名称</div>
                             <div>{{formItem.sponsorName}}</div>
                         </Col>
                         
@@ -136,7 +136,7 @@
                 <div class="basic-info-box">
                    <Row>
                         <Col span="24">
-                            <div style="padding:0 0 10px 0px;">品牌合作方LOGO</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">品牌合作方LOGO</div>
                             <KrImg 
                                 v-for="item in formItem.partnerLogos"
                                 :key="item.partnerLogos"
@@ -157,7 +157,7 @@
                 <div class="basic-info-box">
                    <Row>
                         <Col span="19">
-                            <div style="padding:0 0 10px 0px;">活动详情</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">活动详情</div>
                               <KrImg 
                                 v-for="item in formItem.content"
                                 :key="item.id"
@@ -172,7 +172,7 @@
                     </Row>
                     <Row>
                         <Col span="19">
-                            <div style="padding:0 0 10px 0px;">活动须知</div>
+                            <div style="padding:0 0 10px 0px;font-weight: bold;">活动须知</div>
                             <div style="padding:0 0 10px 0px;" v-html="formItem.notice||'-'"></div>
                         </Col>
                         

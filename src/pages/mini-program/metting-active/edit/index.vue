@@ -441,7 +441,7 @@ export default {
       callback();
     };
     const validatorSortNum = (rule, value, callback) => {
-      console.log(value, "ppppppp");
+     
       value = "" + value;
       if (value) {
         value = value.replace(/^\s+|\s+$/g, "");
@@ -453,11 +453,12 @@ export default {
       callback();
     };
     const validateLimitCount = (rule, value, callback) => {
-      value = "" + value;
+      
       if (value) {
+        value = "" + value;
         value = value.replace(/^\s+|\s+$/g, "");
       }
-
+      console.log("====",value,"pppp")
       let regex = /^[0-9]*[1-9][0-9]*$/;
       if (value && !regex.test(value)) {
         callback(new Error("最大人数为正整数"));
@@ -501,7 +502,6 @@ export default {
     };
 
     const validateImg = (rule, value, callback) => {
-      console.log(value, "pppppp--");
       if (!value || !value.length) {
         callback(new Error("该图片必须上传"));
       } else {
