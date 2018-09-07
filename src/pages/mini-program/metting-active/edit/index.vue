@@ -1,6 +1,6 @@
 <template>
     <div class="kr-meeting-detail">
-        <SectionTitle title="新建小程序活动"></SectionTitle>
+        <SectionTitle :title="title"></SectionTitle>
         <div v-if="loadding" class="content-box">
             <Form ref="formItemDaily" :model="formItem" :rules="ruleDaily" label-position="top">
             <div class="basic-info">
@@ -512,6 +512,7 @@ export default {
     };
     return {
       loadding: true,
+      title:'新建小程序活动',
       formItem: {
         price: 0
       },
@@ -589,6 +590,9 @@ export default {
   },
   mounted() {
     GLOBALSIDESWITCH("false");
+    if(this.$route.query.type !='add'){
+      this.title = '编辑小程序活动'
+    }
     this.getDetail();
   },
   methods: {
