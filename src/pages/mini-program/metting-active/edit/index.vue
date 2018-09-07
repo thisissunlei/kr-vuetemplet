@@ -653,7 +653,7 @@ export default {
       this.$refs["formItemDaily"].validate(valid => {
         if (valid) {
           let params = this.paramsChange(Object.assign({}, this.formItem));
-          params.cmtId = params.communityId;
+
           this.$http
             .post(url, params)
             .then(res => {

@@ -7,7 +7,19 @@ export default {routes:[{
     name:'list',
     component:()=>import('pages/list') 
 },{
+    path:'/mini-program/metting-active/detail',
+    name:'mini-program-metting-active-detail',
+    component:()=>import('pages/mini-program/metting-active/detail') 
+},{
     path:'/mini-program/metting-active/edit',
     name:'mini-program-metting-active-edit',
     component:()=>import('pages/mini-program/metting-active/edit') 
+},{
+    path:'/mini-program/metting-active',
+    name:'mini-program-metting-active',
+    component:()=>import('pages/mini-program/metting-active') 
+},{
+    path:'/mini-program/metting-active/join-user',
+    name:'mini-program-metting-active-join-user',
+    component:()=>import('pages/mini-program/metting-active/join-user') 
 }]}
