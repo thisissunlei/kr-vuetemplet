@@ -35,7 +35,6 @@ export default{
             this.toolTipsDiraction = this.tipsDirection;
         }
         if(this.tipsContent){
-            console.log("this.tipsContent",this.tipsContent);
             this.tipContentsArr =this.tipsContent
         }
         

@@ -70,7 +70,6 @@
 
                     _this.companyOptions = list;
                 }).catch( e => {
-                    console.log('error--->',e)
                 })
                
                

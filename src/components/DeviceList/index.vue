@@ -127,7 +127,7 @@ export default {
        getListData(){
             let _this =this;
             let params = this.searchData;
-            console.log("params",params);
+          
             this.$http.get("getAllEquipmentList",params).then((res)=>{
                 
                 _this.totalCount = res.data.totalCount;

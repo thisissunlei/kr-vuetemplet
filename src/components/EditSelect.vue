@@ -132,12 +132,10 @@
                 this.customer = this.value;
             },
             change(e){
-                console.log('change=====',e)
                 this.customer = e.label;
                 this.onchange(this.name,e)
             },
             okClick(){
-                console.log('onClick',this.canSubmit)
                 if(!this.canSubmit){
                     return;
                 }
