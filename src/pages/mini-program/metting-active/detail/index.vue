@@ -8,28 +8,28 @@
                     <Row>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">创建人</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{formItem.creatorName||'-'}}</div>
                         </Col>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">创建时间</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{formItem.ctime | dateFormat}}</div>
                         </Col>
                     </Row>
                     <Row>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">最后编辑人</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{formItem.updatorName||'-'}}</div>
                         </Col>
 
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;">最后编辑时间</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{formItem.utime | dateFormat }}</div>
                         </Col>
                     </Row>
                     <Row>
                        <Col span="12">
                              <div style="padding:0 0 10px 0px;">活动状态</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{formItem.published ? '已发布':'已下线'}}</div>
                         </Col>
                     </Row>
                   
