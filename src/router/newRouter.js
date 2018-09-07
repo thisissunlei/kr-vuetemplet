@@ -22,4 +22,16 @@ export default {routes:[{
     path:'/mini-program/metting-active/join-user',
     name:'mini-program-metting-active-join-user',
     component:()=>import('pages/mini-program/metting-active/join-user') 
+},{
+    path:'/operate',
+    name:'operate',
+    component:()=>import('pages/operate') 
+},{
+    path:'/order',
+    name:'order',
+    component:()=>import('pages/order') 
+},{
+    path:'/setting',
+    name:'setting',
+    component:()=>import('pages/setting') 
 }]}
