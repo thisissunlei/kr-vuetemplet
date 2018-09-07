@@ -39,7 +39,12 @@ export default {
     url:'/api/op/kmactivity/delete',
     method: 'get'
   },
-  // 
+  // /km/cmt/detail
+  'metting-active-detail-cmt':{
+    url:'/api/op/krmting/mobile/community/km/cmt/detail',
+    method: 'get'
+  },
+
   // 
 
 

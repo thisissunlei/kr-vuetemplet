@@ -1,7 +1,7 @@
 export default {
     //获取社区接口
     "get-all-select-communitys": {
-        url: "/api/krspace-finance-web/cmt/community/select/use/type/list",
+        url: "/api/op/krmting/mobile/community/km/cmt/list",
         method: "get"
     },
     //获取客户信息
