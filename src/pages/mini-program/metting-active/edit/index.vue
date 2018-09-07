@@ -73,7 +73,7 @@
                                   style="width:300px;"
                                   :min="1" 
                                   v-model="formItem.limitCount"
-                                  placeholder="正整数"
+                                  placeholder="若不填，则无人数限制"
                               />
                           
                           </Form-item>
