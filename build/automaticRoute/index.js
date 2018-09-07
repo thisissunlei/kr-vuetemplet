@@ -21,6 +21,9 @@ function auto() {
         templateFile.on('unlinkDir', (path) => {
             render();
         });
+        templateFile.on('change', (path) => {
+            autoRoute();
+        });
     })
 
 }

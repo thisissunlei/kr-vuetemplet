@@ -38,4 +38,16 @@ export default {routes:[{
     path:'/editGoods',
     name:'edutGoods',
     component:()=>import('pages/setting/editGoods.vue')
+},{  
+    path:'/mini-program/metting-active/detail',
+    name:'mini-program-metting-active-detail',
+    component:()=>import('pages/mini-program/metting-active/detail') 
+},{
+    path:'/mini-program/metting-active/edit',
+    name:'mini-program-metting-active-edit',
+    component:()=>import('pages/mini-program/metting-active/edit') 
+},{
+    path:'/mini-program/metting-active',
+    name:'mini-program-metting-active',
+    component:()=>import('pages/mini-program/metting-active') 
 }]}
