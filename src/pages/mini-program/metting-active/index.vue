@@ -72,6 +72,11 @@ export default {
       },
       activeCol: [
         {
+          title: "活动id",
+          key: "id",
+          align: "center"
+        },
+        {
           title: "活动名称",
           key: "title",
           align: "center"
@@ -86,11 +91,7 @@ export default {
           key: "endTime",
           align: "center"
         },
-        {
-          title: "排序号",
-          key: "",
-          align: "center"
-        },
+        
         {
           title: "报名人数",
           key: "joinCount",
