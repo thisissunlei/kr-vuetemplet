@@ -163,11 +163,11 @@
                       <Col span="12">
                           <Form-item 
                               label="活动所在社区" 
-                              prop="cmtId" 
+                              prop="communityId" 
                               style="display:inline-block;width:300px;"
                           >
                               <KrSelect 
-                                  v-model="formItem.cmtId" 
+                                  v-model="formItem.communityId" 
                                   placeholder="请选择"
                               />
                           </Form-item>
@@ -540,7 +540,7 @@ export default {
         sortNum: [
           { required: true, trigger: "change", validator: validatorSortNum }
         ],
-        cmtId: [
+        communityId: [
           { required: true, trigger: "change", validator: validatorCmtId }
         ],
         site: [{ required: true, trigger: "change", validator: validatorSite }],
@@ -604,6 +604,7 @@ export default {
         .get("metting-active-detail", params)
         .then(res => {
           let data = Object.assign({}, res.data);
+          console.log(data,"oooooo")
           data.coverPic = [{ id: 1, url: data.coverPic }];
           data.sharePic = [{ id: 1, url: data.sharePic }];
           data.sponsorLogo = [{ id: 1, url: data.sponsorLogo }];
@@ -647,8 +648,6 @@ export default {
           : "metting-active-edit";
 
       this.$refs["formItemDaily"].validate(valid => {
-        console.log(valid, "ppp");
-
         if (valid) {
           let params = this.paramsChange(Object.assign({}, this.formItem));
 
@@ -657,7 +656,6 @@ export default {
             .then(res => {
               window.close();
               window.opener.location.reload();
-              console.log(res, "lllll");
             })
             .catch(error => {
               this.$Notice.error({
