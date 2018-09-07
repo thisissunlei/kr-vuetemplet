@@ -1,10 +1,10 @@
 export default {
     'getKmTeamCardList':{
-        url:'api/op/km-teamcard/list',
+        url:'/api/op/km-teamcard/list',
         method:'get'
       },
      'getKmTeamCardDetails':{
-        url:'api/op/km-teamcard/details',
+        url:'/api/op/km-teamcard/details',
         method:'get'
       } 
 }
