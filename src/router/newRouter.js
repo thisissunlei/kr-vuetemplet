@@ -1,0 +1,21 @@
+export default {routes:[{
+    path:'/demo',
+    name:'demo',
+    component:()=>import('pages/demo') 
+},{
+    path:'/list',
+    name:'list',
+    component:()=>import('pages/list') 
+},{
+    path:'/operate',
+    name:'operate',
+    component:()=>import('pages/operate') 
+},{
+    path:'/order',
+    name:'order',
+    component:()=>import('pages/order') 
+},{
+    path:'/setting',
+    name:'setting',
+    component:()=>import('pages/setting') 
+}]}
