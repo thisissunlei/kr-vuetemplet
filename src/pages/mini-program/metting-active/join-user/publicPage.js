@@ -54,15 +54,18 @@ function initListData(type){
             align:'center',
             type:'apply,entrance',
             render:(h,params)=>{
-                let date=params.row.operateTime?dateUtils.dateToStr("YYYY-MM-DD  HH:mm:SS",new Date(params.row.joinTime)):'';
+                let date=params.row.joinTime?dateUtils.dateToStr("YYYY-MM-DD  HH:mm:SS",new Date(params.row.joinTime)):'';
                 return h('span',{},date);
             }
         },
         {
             title: type=='apply'?'是否已入场':'入场时间',
-            key: 'operateTypeName',
             align:'center',
-            type:'apply,entrance'
+            type:'apply,entrance',
+            render:(h,params)=>{
+                let str = params.row.arriving ? '是':'否'
+                return  h('span',{},str);
+            }
         }
     ]
 }

@@ -54,7 +54,7 @@ export default {
                 activityId:this.$route.query.activityId||1,
                 arriving:arriving
             }).then((response)=>{    
-                this.listData=response.data.item;
+                this.listData=[].concat(response.data.items);
                 this.allMoney=response.data.totalCount;
             }).catch((error)=>{
                 this.$Notice.error({
