@@ -118,7 +118,7 @@ export default {
       formItem: Object.assign({
         beginTime: "",
         endTime: "",
-        cmtId: "",
+        cmtId:'0',
         creatorName: "",
         title: ""
       },this.$route.query) ,
@@ -139,11 +139,11 @@ export default {
       activityStateList: [
         {
           label: "已发布",
-          value: true
+          value: 0
         },
         {
           label: "未发布",
-          value: false
+          value: 1
         }
       ]
     };

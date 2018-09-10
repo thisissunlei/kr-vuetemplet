@@ -390,13 +390,16 @@ export default {
       }
     };
     const validateEndTime = (rule, value, callback) => {
+      let start =   dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.beginTime));
+      let end =  dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.endTime));
+      console.log(start,end,"kkkk")
       if (value === "") {
         callback(new Error("活动结束时间必填"));
       } else {
         if (
-          this.formItem.beginTime &&
-          this.formItem.endTime &&
-          this.formItem.beginTime > this.formItem.endTime
+          start &&
+          end &&
+          start > end
         ) {
           callback(new Error("开始时间不得大于结束时间"));
         }
