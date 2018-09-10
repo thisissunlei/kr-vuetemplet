@@ -117,14 +117,14 @@
                               prop="startMoment"
                               
                           >
-                              <TimePicker  v-model="formItem.startMoment" confirm  format="HH:mm" placeholder="开始时间" style="width:130px;" />
+                              <TimePicker  v-model="formItem.startMoment" confirm  :clearable="false" format="HH:mm" placeholder="开始时间" style="width:130px;" />
                           </Form-item>
                           <span style="display:inline-block;padding:0 10px;line-height:30px;">至</span>
                           <Form-item 
                               prop="endMoment" 
                               style="display:inline-block;"
                           >
-                                <TimePicker  v-model="formItem.endMoment" confirm format="HH:mm" placeholder="结束时间" style="width:130px;" />
+                                <TimePicker :clearable="false"  v-model="formItem.endMoment" confirm format="HH:mm" placeholder="结束时间" style="width:130px;" />
                           </Form-item>
                       </Col>
                   </Row>
@@ -396,7 +396,7 @@ export default {
         if (
           this.formItem.beginTime &&
           this.formItem.endTime &&
-          this.formItem.beginTime >= this.formItem.endTime
+          this.formItem.beginTime > this.formItem.endTime
         ) {
           callback(new Error("开始时间不得大于结束时间"));
         }
@@ -404,9 +404,10 @@ export default {
       }
     };
     const validateMoment = (rule, value, callback) => {
+      let startDate =  dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.beginTime))
+      let endDate =  dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.endTime))
       if (
-        this.formItem.startMoment &&
-        this.formItem.endMoment &&
+        (startDate == endDate) &&
         this.formItem.startMoment >= this.formItem.endMoment
       ) {
         callback(new Error("开始时间不得大于结束时间"));
@@ -516,7 +517,7 @@ export default {
       formItem: {
         price: 0,
         startMoment:'00:00:00',
-        endMoment:'00:00:00'
+        endMoment:'23:59:59'
       },
       ruleDaily: {
         coverPic: [
@@ -532,12 +533,12 @@ export default {
         endTime: [
           { required: false, trigger: "change", validator: validateEndTime }
         ],
-        // startMoment: [
-        //   { required: false, trigger: "change", validator: validateMoment }
-        // ],
-        // endMoment: [
-        //   { required: false, trigger: "change", validator: validateMoment }
-        // ],
+        startMoment: [
+          { required: false, trigger: "change", validator: validateMoment }
+        ],
+        endMoment: [
+          { required: false, trigger: "change", validator: validateMoment }
+        ],
         limitCount: [
           { required: false, trigger: "change", validator: validateLimitCount }
         ],
