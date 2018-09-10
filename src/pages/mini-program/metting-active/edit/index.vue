@@ -605,7 +605,7 @@ export default {
       this.$http.get('metting-active-detail-cmt',{
         communityId:id
       }).then((res)=>{
-       console.log(res,"ppppppp")
+     
        this.formItem.address = res.data
       }).catch((error)=>{
         this.$Notice.error({
