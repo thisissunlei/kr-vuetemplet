@@ -80,7 +80,7 @@
                       </Col>
                   </Row>
                   
-                  <Row>
+                  <Row style="pading-bottom:10px;">
                       <Col span="12">
                           <!-- <div style="padding-bottom:10px;">活动日期</div> -->
                           <Form-item 
