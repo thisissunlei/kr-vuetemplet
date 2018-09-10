@@ -390,8 +390,8 @@ export default {
       }
     };
     const validateEndTime = (rule, value, callback) => {
-      let start =   dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.beginTime));
-      let end =  dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.endTime));
+      let start =  this.formItem.beginTime? dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.beginTime)):'';
+      let end = this.formItem.endTime ? dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.endTime)):'';
       console.log(start,end,"kkkk")
       if (value === "") {
         callback(new Error("活动结束时间必填"));
@@ -609,8 +609,9 @@ export default {
       this.$http.get('metting-active-detail-cmt',{
         communityId:id
       }).then((res)=>{
-     
-       this.formItem.address = res.data
+        let params = Object.assign({},this.formItem)
+       params.address = res.data
+       this.formItem = Object.assign({},params)
       }).catch((error)=>{
         this.$Notice.error({
             title: error.message
@@ -630,7 +631,6 @@ export default {
         .get("metting-active-detail", params)
         .then(res => {
           let data = Object.assign({}, res.data);
-          console.log(data,"oooooo")
           data.coverPic = [{ id: 1, url: data.coverPic }];
           data.sharePic = [{ id: 1, url: data.sharePic }];
           data.sponsorLogo = [{ id: 1, url: data.sponsorLogo }];
