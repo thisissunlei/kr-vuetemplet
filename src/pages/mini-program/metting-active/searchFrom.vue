@@ -40,10 +40,10 @@
                         label="至" 
                         :label-width="18" 
                         style="display:inline-block;margin:15px 20px 15px 0px;"
-                        prop="endTime"
+                        prop="published"
                     >
                         <DatePicker 
-                            v-model="formItem.endTime" 
+                            v-model="formItem.published" 
                             placeholder="请输入结束日期"
                             style="width:150px;"
                             
@@ -139,11 +139,11 @@ export default {
       activityStateList: [
         {
           label: "已发布",
-          value: "1"
+          value: true
         },
         {
           label: "未发布",
-          value: "2"
+          value: false
         }
       ]
     };
