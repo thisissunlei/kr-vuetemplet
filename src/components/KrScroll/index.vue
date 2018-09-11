@@ -31,6 +31,7 @@ export default{
 	    return{
             loadding:false,
             noData:this.toBottom,
+            scrollTop:0,
 		}
 
     },
@@ -55,14 +56,15 @@ export default{
                 return ;
             }
             var dom=this.$kr_global.contentDom;
+            this.scrollTop = dom.scrollTop;
             if(dom.scrollHeight-dom.scrollTop-dom.clientHeight<10){
-              
+                
                 var waitFunction = this.onReachBottom();
                 this.loadding=true;
                 if(waitFunction.then){
                     waitFunction.then(()=>{
                       
-                       
+                       dom.scrollTop = this.scrollTop;
 
                         this.loadding = false;
                     })
