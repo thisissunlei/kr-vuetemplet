@@ -98,8 +98,8 @@ export default {
         .get("metting-active-user-list", params)
         .then(response => {
           this.listData = this.listData.concat(response.data.items);
-          this.allMoney = response.data.totalCount;
-          if(this.listData.length>=this.allMoney){
+          // this.allMoney = response.data.totalCount;
+          if(this.params.page>=response.data.totalPages){
             this.isBottom = true;
           }
           if(resolve){
