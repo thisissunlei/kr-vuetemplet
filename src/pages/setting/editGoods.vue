@@ -55,6 +55,58 @@
                 </Col>
             </Row>
 
+             <!-- <Row style="margin-top:25px;">
+                <Col span="9">
+                 <FormItem label="卡  面 图  片：" prop="goodsUrl">
+                       <UploadFile      
+                                category="web/upload"
+                                :defaultFileList="imgList"
+                                 withCredentials
+                                :format="['jpg','png','gif']"
+                                :maxLen="1"
+                                :onSuccess="coverSuccess"
+                                :onRemove="coverRemove"
+                                :onFormatError="imgSizeFormat"
+                                :imgWidth="148"
+                                :imgHeight="148"/>
+                    </FormItem>
+                     
+                </Col>
+                <Col span="8">
+                     
+                </Col>
+                <Col span="7" >
+                        
+                </Col>
+            </Row> -->
+
+
+               <Row style="margin-top:25px;">
+                <Col span="9">
+                 
+                    <FormItem label="卡  面 图  片：" prop="goodsUrl">
+                       <input  v-show="false" v-model="formValidate.goodsUrl" type="text" >
+                       <UploadFile  
+                                :defaultFileList="imgList"    
+                                category="web/upload"
+                                withCredentials
+                                :format="['jpg','png','gif']"
+                                :maxLen="1"
+                                :onSuccess="coverSuccess"
+                                :onRemove="coverRemove"
+                                :onFormatError="imgSizeFormat"
+                                :imgWidth="148"
+                                :imgHeight="148"/>
+                    </FormItem>
+                </Col>
+                <Col span="8">
+                    
+                </Col>
+                <Col span="7" >
+                        
+                </Col>
+            </Row>
+
              <div style="border-bottom:1px solid #f2f2f2;font-size:18px;padding:10px 0;margin-left:20px;">销售设置</div>
 
             <Row style="margin-top:25px;">
@@ -90,8 +142,8 @@
             <Row>
                 <Col span="8" offset="7">
                     <FormItem>
-                        <Button type="ghost" @click="handleSubmit('formValidate')">确定</Button>
-                        <Button type="ghost" @click="goBackConfig" style="margin-left: 8px">取消</Button>
+                        <Button type="ghost" @click="goBackConfig">取消</Button>
+                        <Button type="ghost" @click="handleSubmit('formValidate')" style="margin-left: 8px">保存并关闭</Button>
                     </FormItem>
                 </Col>
                 <Col span="7">
@@ -102,13 +154,15 @@
     </div>
 </template>
 <script>
+import UploadFile from '../../components/UploadFile'
     export default {
+        components:{UploadFile},
         data(){
                 const CheckfaceValue = (rule, value, callback) => {
                      if(value===''){
                            callback(new Error('卡的面值不能为空'));      
                         }else{
-                            let reg = /^([1-9]\d*|[0]{1,1})$/;     
+                            let reg = /^([1-9]\d{0,11}|[0]{0,1})$/;     
                             if(reg.test(value)){
                                     callback();
                                }else{
@@ -132,7 +186,7 @@
                      if(value===''){
                            callback(new Error('用卡人上限不能为空'));      
                         }else{
-                            let reg = /^([1-9]\d*|[0]{1,1})$/;     
+                            let reg = /^[1-9][0-9]{0,3}$/;     
                             if(reg.test(value)){
                                     callback();
                                }else{
@@ -144,7 +198,7 @@
                      if(value===''){
                            callback(new Error('销售价格不能为空'));      
                         }else{
-                            let reg = /^[0-9]+([.]{1}[0-9]{1,2})?$/;     
+                            let reg = /(?!^0*(\.0{1,2})?$)^\d{1,12}(\.\d{1,2})?$/;     
                             if(reg.test(value)){
                                     callback();
                                }else{
@@ -166,6 +220,7 @@
                 }; 
 
             return {
+                imgList:[],
                 quantityArray:['INF','LIMIT'],//INF无限库存,LIMIT计算库存
                 cardTypeList:[{key:'普通卡',value:'NORMAL'},{key:'定制卡',value:'CUSTOM'}],
                 quantityFlag:false,
@@ -192,7 +247,7 @@
                     ],
                     cardIntro: [
                         { required: true, message: '使用须知', trigger: 'blur' },
-                        { type: 'string', max: 600, message: '使用须知不能超过600个字符', trigger: 'blur' }
+                        { type: 'string', max: 500, message: '使用须知不能超过500个字符', trigger: 'blur' }
                     ],
                     salePrice: [
                         { required: true, validator: ChecksalePrice,trigger: 'blur'}
@@ -201,6 +256,9 @@
                     quantity: [
                         { required: true, validator: Checkquantity, trigger: 'blur'}
                         // { type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'库存为整数', trigger:'blur'},
+                    ],
+                    goodsUrl:[
+                         {required: true, message: '请上传图片', trigger: 'blur' }
                     ],
                     // verifyCode: [
                     //     { validator: CheckverifyCode, trigger: 'blur' }
@@ -234,11 +292,15 @@
                 this.$http.get("getKmTeamUppLowerDetail",{kmCardId:this.$route.query.id}).then((res)=>{
                     if( res.code === 1 ){
                             this.formValidate = Object.assign({},res.data) 
-                            this.formValidate = res.data
-                    } else {
-                            this.$Notice.error({
-                            title:res.message
-                    });
+                            this.formValidate = res.data 
+                            console.log(JSON.stringify(res.data));
+                            console.log('res.data.goodsUrl');
+                            console.log(res.data.goodsUrl);
+                            this.imgList.push({'url':res.data.goodsUrl})
+                        } else {
+                                this.$Notice.error({
+                                title:res.message
+                        });
                     }
                 }).catch((error)=>{
                     this.$Notice.error({
@@ -247,6 +309,14 @@
                 })
         },
         methods: {
+            coverSuccess(response, file, fileList){
+                if(response.code == 1){
+                    this.formValidate.goodsUrl = response.data.url 
+                    }else{}
+            },
+            coverRemove(){
+
+            },
             handleSubmit(name){
                 this.$refs[name].validate((valid) => {
                     if(valid){
