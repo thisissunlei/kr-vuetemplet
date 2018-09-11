@@ -162,7 +162,7 @@
             detail(index){
                 //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
                 // window.open(window.location.origin+"/#/orderDetail?id="+this.data1[index].id); 
-                 window.open("/#/orderDetail?id="+this.data1[index].id); 
+                 window.open("/admin-applet//#/orderDetail?id="+this.data1[index].id); 
             },
             changeBeginTime(formatVal){
                 this.params.beginTime = formatVal
