@@ -40,10 +40,10 @@
                         label="至" 
                         :label-width="18" 
                         style="display:inline-block;margin:15px 20px 15px 0px;"
-                        prop="published"
+                        prop="endTime"
                     >
                         <DatePicker 
-                            v-model="formItem.published" 
+                            v-model="formItem.endTime" 
                             placeholder="请输入结束日期"
                             style="width:150px;"
                             
@@ -58,7 +58,7 @@
                         style="display:inline-block;width:235px;margin:15px;"
                     >
                         <KrSelect 
-                            v-model="formItem.startDate" 
+                            v-model="formItem.published" 
                             :options="activityStateList"
                         />
                     </Form-item>
@@ -139,11 +139,11 @@ export default {
       activityStateList: [
         {
           label: "已发布",
-          value: 0
+          value: '0'
         },
         {
           label: "未发布",
-          value: 1
+          value:'1'
         }
       ]
     };
