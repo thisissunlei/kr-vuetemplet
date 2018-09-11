@@ -164,6 +164,7 @@ export default {
 .ui-kr-scroll {
   .kr-fixed-table-hander {
     border-top: 1px solid #e9eaec;
+    border-left: 1px solid #e9eaec;
     overflow: hidden;
     height: 40px;
     display: none;
