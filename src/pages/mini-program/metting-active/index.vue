@@ -89,7 +89,11 @@ export default {
         {
           title: "活动日期",
           key: "endTime",
-          align: "center"
+          align: "center",
+          render:(h,params)=>{
+            let date = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.endTime))
+            return h('span',{},date);
+          }
         },
         
         {
