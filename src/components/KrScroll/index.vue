@@ -69,7 +69,9 @@ export default {
      LISTENSIDEBAROPEN(function (params) {
           _this.handerRefresh();
       })
-     window.onresize = this.handerRefresh();
+     window.onresize = ()=>{
+       this.handerRefresh()
+     };
   },
   beforeDestroy() {
     this.$kr_global.contentDom.removeEventListener(
