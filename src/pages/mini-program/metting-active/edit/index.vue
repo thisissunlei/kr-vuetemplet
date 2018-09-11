@@ -80,7 +80,7 @@
                       </Col>
                   </Row>
                   
-                  <Row>
+                  <Row style="pading-bottom:10px;">
                       <Col span="12">
                           <!-- <div style="padding-bottom:10px;">活动日期</div> -->
                           <Form-item 
@@ -117,14 +117,14 @@
                               prop="startMoment"
                               
                           >
-                              <TimePicker  v-model="formItem.startMoment" confirm  format="HH:mm" placeholder="开始时间" style="width:130px;" />
+                              <TimePicker  v-model="formItem.startMoment" confirm  :clearable="false" format="HH:mm" placeholder="开始时间" style="width:130px;" />
                           </Form-item>
                           <span style="display:inline-block;padding:0 10px;line-height:30px;">至</span>
                           <Form-item 
                               prop="endMoment" 
                               style="display:inline-block;"
                           >
-                                <TimePicker  v-model="formItem.endMoment" confirm format="HH:mm" placeholder="结束时间" style="width:130px;" />
+                                <TimePicker :clearable="false"  v-model="formItem.endMoment" confirm format="HH:mm" placeholder="结束时间" style="width:130px;" />
                           </Form-item>
                       </Col>
                   </Row>
@@ -169,6 +169,7 @@
                               <KrSelect 
                                   v-model="formItem.communityId" 
                                   placeholder="请选择"
+                                  @on-select-change="selectChange"
                               />
                           </Form-item>
                       </Col>
@@ -389,13 +390,16 @@ export default {
       }
     };
     const validateEndTime = (rule, value, callback) => {
+      let start =  this.formItem.beginTime? dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.beginTime)):'';
+      let end = this.formItem.endTime ? dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.endTime)):'';
+      console.log(start,end,"kkkk")
       if (value === "") {
         callback(new Error("活动结束时间必填"));
       } else {
         if (
-          this.formItem.beginTime &&
-          this.formItem.endTime &&
-          this.formItem.beginTime > this.formItem.endTime
+          start &&
+          end &&
+          start > end
         ) {
           callback(new Error("开始时间不得大于结束时间"));
         }
@@ -403,10 +407,11 @@ export default {
       }
     };
     const validateMoment = (rule, value, callback) => {
+      let startDate =  dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.beginTime))
+      let endDate =  dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.endTime))
       if (
-        this.formItem.startMoment &&
-        this.formItem.endMoment &&
-        this.formItem.startMoment > this.formItem.endMoment
+        (startDate == endDate) &&
+        this.formItem.startMoment >= this.formItem.endMoment
       ) {
         callback(new Error("开始时间不得大于结束时间"));
       }
@@ -502,7 +507,6 @@ export default {
     };
 
     const validateImg = (rule, value, callback) => {
-      console.log("========",value)
       if (!value || !value.length) {
         callback(new Error("该图片必须上传"));
       } else {
@@ -514,7 +518,9 @@ export default {
       loadding: true,
       title:'新建小程序活动',
       formItem: {
-        price: 0
+        price: 0,
+        startMoment:'00:00:00',
+        endMoment:'23:59:59'
       },
       ruleDaily: {
         coverPic: [
@@ -596,6 +602,22 @@ export default {
     this.getDetail();
   },
   methods: {
+    selectChange(id){
+      this.getDetailCmt(id);
+    },
+    getDetailCmt(id){
+      this.$http.get('metting-active-detail-cmt',{
+        communityId:id
+      }).then((res)=>{
+        let params = Object.assign({},this.formItem)
+       params.address = res.data
+       this.formItem = Object.assign({},params)
+      }).catch((error)=>{
+        this.$Notice.error({
+            title: error.message
+          });
+      })
+    },
     getDetail() {
       let params = Object.assign(
         {},
@@ -609,7 +631,6 @@ export default {
         .get("metting-active-detail", params)
         .then(res => {
           let data = Object.assign({}, res.data);
-          console.log(data,"oooooo")
           data.coverPic = [{ id: 1, url: data.coverPic }];
           data.sharePic = [{ id: 1, url: data.sharePic }];
           data.sponsorLogo = [{ id: 1, url: data.sponsorLogo }];

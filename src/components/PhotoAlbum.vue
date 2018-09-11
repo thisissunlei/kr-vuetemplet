@@ -168,7 +168,6 @@ export default {
         left: 0px;
         right: 0px;
         bottom: 0px;
-        filter: blur(5px);
     }
     .back,.forward{
         font-size:40px;

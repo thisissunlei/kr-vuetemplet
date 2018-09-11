@@ -58,7 +58,7 @@
                         style="display:inline-block;width:235px;margin:15px;"
                     >
                         <KrSelect 
-                            v-model="formItem.startDate" 
+                            v-model="formItem.published" 
                             :options="activityStateList"
                         />
                     </Form-item>
@@ -118,7 +118,7 @@ export default {
       formItem: Object.assign({
         beginTime: "",
         endTime: "",
-        cmtId: "",
+        cmtId:'0',
         creatorName: "",
         title: ""
       },this.$route.query) ,
@@ -139,11 +139,11 @@ export default {
       activityStateList: [
         {
           label: "已发布",
-          value: "1"
+          value: '0'
         },
         {
           label: "未发布",
-          value: "2"
+          value:'1'
         }
       ]
     };

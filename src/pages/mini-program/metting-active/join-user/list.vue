@@ -71,15 +71,16 @@ export default {
       });
     },
     getListData(resolve) {
-      let arriving = false;
-      if (this.type == "entrance") {
-        arriving = true;
+      let params = {
+        arriving:true,
+        activityId:this.$route.query.activityId || 1,
+      }
+    
+      if (this.type == "apply") {
+        delete params.arriving
       }
       this.$http
-        .get("metting-active-user-list", {
-          activityId: this.$route.query.activityId || 1,
-          arriving: arriving
-        })
+        .get("metting-active-user-list", params)
         .then(response => {
           this.listData = this.listData.concat(response.data.items);
           this.allMoney = response.data.totalCount;

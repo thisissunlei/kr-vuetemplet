@@ -52,7 +52,7 @@ export default {
       type: Object,
       default: () => {
         return {
-          communityName: ""
+          kmPublished: 2
         };
       }
     },
@@ -97,11 +97,11 @@ export default {
       this.$http
         .get(this.url, params)
         .then(response => {
-          list = response.data.items;
+          list = response.data;
           list = list.map(item => {
             let obj = {};
-            obj.label = item.name;
-            obj.value = item.id + "";
+            obj.label = item.communityName;
+            obj.value = item.communityId + "";
             return obj;
           });
           this.loading = false;

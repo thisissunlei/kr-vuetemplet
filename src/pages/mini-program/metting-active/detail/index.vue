@@ -88,7 +88,7 @@
                     <Row>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;font-weight: bold;">活动所在社区</div>
-                            <div style="padding:0 0 10px 0px;">{{formItem.startDate||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{formItem.communityName||'-'}}</div>
                         </Col>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;font-weight: bold;">活动地点</div>
