@@ -88,6 +88,15 @@ export default {
         },
         {
           title: "活动日期",
+          key: "endTime",
+          align: "center",
+          render:(h,params)=>{
+            let date = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.endTime))
+            return h('span',{},date);
+          }
+        },
+         {
+          title: "创建时间",
           key: "ctime",
           align: "center",
           render:(h,params)=>{
