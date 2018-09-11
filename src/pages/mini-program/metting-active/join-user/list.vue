@@ -32,8 +32,14 @@ export default {
       listColumns: [].concat(
         this.formattingColumns(publicFn.initListData.call(this, this.type))
       ),
+      params:{
+        page:1,
+        pageSize:15,
+        activityId:this.$route.query.activityId || 1,
+      },
       isBottom:false,
       allMoney: "",
+      
       communityList: []
     };
   },
@@ -65,16 +71,17 @@ export default {
     },
     onReachBottom() {
       return new Promise(resolve => {
+        setTimeout(()=>{
+          this.getListData(resolve)
+        },500)
         
-        this.getListData(resolve)
         // resolve();
       });
     },
     getListData(resolve) {
-      let params = {
+      let params = Object.assign(this.params,{
         arriving:true,
-        activityId:this.$route.query.activityId || 1,
-      }
+      })
     
       if (this.type == "apply") {
         delete params.arriving

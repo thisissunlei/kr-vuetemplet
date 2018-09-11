@@ -7,6 +7,7 @@
                   &nbsp;&nbsp;&nbsp;&nbsp;加载中...
              </div>
         </div>
+        <!-- <div v-if="noData" style="text-align:center;line-height:40px;">我是有底线的</div> -->
        
     </div>
 </template>
@@ -60,6 +61,9 @@ export default{
                 this.loadding=true;
                 if(waitFunction.then){
                     waitFunction.then(()=>{
+                      
+                       
+
                         this.loadding = false;
                     })
                 }
