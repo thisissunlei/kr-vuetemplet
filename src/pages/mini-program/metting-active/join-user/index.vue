@@ -57,7 +57,7 @@ export default {
                 console.log("res",res)
                 this.title = res.data.activityName;
                 this.applyNum = res.data.totalCount;
-                this.entranceNum = res.data.notArrivingCount;
+                this.entranceNum = res.data.arrivingCount;
                
             }).catch((error)=>{
                 this.$Notice.error({
