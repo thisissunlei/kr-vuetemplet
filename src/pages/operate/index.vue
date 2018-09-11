@@ -43,7 +43,7 @@
             </Col>
           </Row>
           <Row style="margin-top:25px;">
-               <Page  :total="totalCount" :current="params.page" show-total :page-size="1" @on-change="pageChange"></Page>
+               <Page  :total="totalCount" :current="params.page" show-total :page-size="15" @on-change="pageChange"></Page>
           </Row>
         </div>
     </template>
@@ -62,7 +62,7 @@
                     endTime:'',    // 结束时间
                     status:'',      // 状态
                     page:1,
-                    pageSize:1
+                    pageSize:15
                 },
                 columns1: [
                     {
@@ -167,8 +167,6 @@
                     this.data1 = res.data.items
                     this.totalCount = res.data.totalCount
                     this.params.page = res.data.page
-                    //this.params.page = res.data.page
-                    //this.params.pageSize = res.data.pageSize
                    }else{
                         this.$Notice.error({
                         title:res.message
@@ -198,9 +196,13 @@
                         });
                     })
             },
-            detail(index){
-                this.$router.push({path:'/operateDetail',query:{id:this.data1[index].id}})
-            }, 
+            // detail(index){
+            //     this.$router.push({path:'/operateDetail',query:{id:this.data1[index].id}})
+            // }, 
+             detail(index){
+                //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
+                window.open(window.location.origin+"/#/operateDetail?id="+this.data1[index].id); 
+            },
             changeBeginTime(formatVal){
                 this.params.startTime = formatVal
             },
@@ -213,8 +215,6 @@
                     this.data1 = res.data.items
                     this.totalCount = res.data.totalCount
                     this.totalPages = res.data.totalPages
-                    // this.page = res.data.page
-                    // this.pageSize = res.data.pageSize
                    } else {
                         this.$Notice.error({
                         title:res.message

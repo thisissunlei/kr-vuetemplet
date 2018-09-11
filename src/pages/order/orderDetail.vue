@@ -8,7 +8,7 @@
                     <span>订单编号：{{info.orderNo}}</span>
                     </Col>
                     <Col span="12">
-                    <span>下单时间：{{info.payTime}}</span>
+                    <span>下单时间：{{info.payTime|fctime}}</span>
                     </Col>
                 </Row>
                 <Row style="margin-top:20px;">
@@ -21,7 +21,7 @@
                 </Row>
                 <Row style="margin-top:20px;">
                     <Col span="12">
-                    <span >微信昵称：</span><span style="color:#00CCFF;">{{info.thirdNick}}</span>
+                    <span >微信昵称：</span><span  @click="memberDetails" style="color:#00CCFF;cursor:pointer;">{{info.thirdNick}}</span>
                     </Col>
                     <Col span="12">
                     <span >手机号码：{{info.phone}}</span>
@@ -35,7 +35,7 @@
                         支付方式：{{info.payWay|fpayWay}}
                     </Col>
                     <Col span="12">
-                       支付时间：{{info.payTime}}
+                       支付时间：{{info.payTime|fctime}}
                     </Col>
                 </Row>  
                 <Row style="margin-top:20px;">
@@ -108,11 +108,29 @@
                 if(val == 'NORMAL'){ cur = '普通卡' }
                 if(val == 'CUSTOM'){ cur = '定制卡' }
                 return cur
+            },
+            fctime(val){
+                let date = new Date(val);
+                let y = date.getFullYear();  
+                let m = date.getMonth() + 1;  
+                m = m < 10 ? ('0' + m) : m;  
+                let d = date.getDate();  
+                d = d < 10 ? ('0' + d) : d;  
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let minute = date.getMinutes();
+                let second = date.getSeconds();
+                minute = minute < 10 ? ('0' + minute) : minute;  
+                second = second < 10 ? ('0' + second) : second; 
+                return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;   
             }
         },
         methods: {
-            
-        },
+             memberDetails(){
+                 // http://optest01.krspace.cn/new/#/member/memberManage/list/23808
+                window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.info.thirdUid); 
+             }
+        }, 
         created(){
           this.$http.get("getOpKmTeamOrderDetails",{id:this.$route.query.id}).then((res)=>{
                 if( res.code === 1 ){

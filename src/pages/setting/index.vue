@@ -52,7 +52,7 @@
                         render: (h, params) => {
                             return h('span', {
                                     style:{color:'red'}
-                                }, this.data1[params.index].salePrice+'￥')
+                                }, '￥'+this.data1[params.index].salePrice)
                         }
                     },
                     {
@@ -61,7 +61,14 @@
                     },
                     {
                         title: '库存(张)',
-                        key: 'quantity'
+                        key: 'quantity',
+                      //  quantityType  
+                        render: (h, params) => {
+                            let curQuantity = ''
+                            if(this.data1[params.index].quantityType==='INF'){ curQuantity = '无上限'}else{curQuantity =this.data1[params.index].quantity}
+                            return h('span', {
+                                }, curQuantity)
+                        }
                     },
                     {
                         title: '商品状态',
@@ -195,7 +202,6 @@
                             setTimeout(()=>{
                                     this.$http.get("getkmTeamList").then((res)=>{
                                     if( res.code === 1 ){
-                                        console.log(JSON.stringify(res))
                                         this.data1 = res.data.items
                                     } else {
                                             this.$Notice.error({
@@ -220,13 +226,19 @@
             })
             },
             detail(index){
-                this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
+                //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
+                window.open(window.location.origin+"/#/settingDetail?id="+this.data1[index].id); 
             },
             edit(index){
-                this.$router.push({path:'/editGoods',query:{id:this.data1[index].id}})
+                //this.$router.push({path:'/editGoods',query:{id:this.data1[index].id}})
+                window.open(window.location.origin+"/#/editGoods?id="+this.data1[index].id); 
             },
             newBuiltGoods(){
-                this.$router.push({path:'/newBuiltGoods'})
+                 //this.$router.push({path:'/newBuiltGoods'})
+                //  console.log('window.location.origin')
+                //  console.log(window.location.origin+"/#/newBuiltGoods")
+                window.open(window.location.origin+"/#/newBuiltGoods"); 
+                 //window.open( window.location.origin+"/newBuiltGoods"); 
             },
         }
     }

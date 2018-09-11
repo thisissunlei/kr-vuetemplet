@@ -47,7 +47,11 @@
                 </Row>
                 <Row style="margin-top:20px;">
                     <Col span="12">
-                       <span>购卡人：</span><Avatar :src="headPhoto" /> <span style="color:#00CCFF;">{{purchaser}}</span> 
+                    <div style="cursor:pointer" @click="memberDetails">
+                        <span>购卡人：</span><Avatar :src="headPhoto" /> 
+                        <span style="color:#00CCFF;">{{purchaser}}</span> 
+                    </div>
+                      
                     </Col>
                     <Col span="12">
                        <span>购卡订单：</span> <span style="color:#00CCFF;">{{info.orderNo}}</span> 
@@ -139,10 +143,8 @@
                         title: '消费金额123',
                         key: 'amount',
                         render: (h, params) => {
-                            
                             let curStr = String(this.info.usedList[params.index].amount);
                             let curStrLength = curStr.length;
-                           
                             let newStr1 = curStr.substr(0,curStrLength-2);
                              let newStr2 = curStr.substr(curStrLength-2,curStrLength);
                             return h('div',
@@ -231,6 +233,10 @@
             }
         },
         methods: {  
+             memberDetails(){
+                 // http://optest01.krspace.cn/new/#/member/memberManage/list/23808
+                window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.purchaser); 
+             },
             formatDateTime(inputTime) {  
                 let date = new Date(inputTime);
                 let y = date.getFullYear();  

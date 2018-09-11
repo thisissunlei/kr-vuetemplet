@@ -15,7 +15,6 @@
                     <Select  v-model="params.cardType" size="large" style="width:200px;" placeholder="请选择商品类型">
                         <Option v-for="item in cardTypeList" :value="item.value" :key="item.value">{{ item.key }}</Option>
                     </Select>
-                <!-- <Input v-model="params.endAmount" placeholder=" 请输选择商品类型" size="large" style="width:200px"></Input> -->
             </Col>
             <Col span="3">
                 <Button @click="clearParams">清除</Button>
@@ -24,10 +23,8 @@
           <Row style="margin-top:25px;">
             <Col span="14">
                <span style="margin-right:10px">支付时间</span>
-               <!-- <Input placeholder="开始日期" v-model="params.beginTime" size="large" style="width:75px"></Input>  -->
                <DatePicker type="date" @on-change="changeBeginTime" show-week-numbers placeholder="开始日期" style="width: 200px"></DatePicker>
                <span style="padding: 0 10px;">至</span>
-               <!-- <Input placeholder="结束日期" v-model="params.endTime" size="large" style="width:75px"></Input> -->
                <DatePicker type="date" @on-change="changeEndTime" show-week-numbers placeholder="结束日期" style="width: 200px"></DatePicker>
             </Col>
             <Col span="7">
@@ -65,7 +62,7 @@
                   endTime:'',    // 支付结束时间
                   orderNo:'',    // 订单编号
                   page:1,       // 
-                  pageSize:1,   //
+                  pageSize:15,   //
                   preAmount:''   //开始订单金额
                 },
                 columns1: [
@@ -159,8 +156,12 @@
                         });
                     })
             },
+            // detail(index){
+            //     this.$router.push({path:'/orderDetail',query:{id:this.data1[index].id}})
+            // },
             detail(index){
-                this.$router.push({path:'/orderDetail',query:{id:this.data1[index].id}})
+                //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
+                window.open(window.location.origin+"/#/orderDetail?id="+this.data1[index].id); 
             },
             changeBeginTime(formatVal){
                 this.params.beginTime = formatVal
