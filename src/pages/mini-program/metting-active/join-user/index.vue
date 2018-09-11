@@ -49,6 +49,7 @@ export default {
     methods:{
         tabsClick(val){
             this.type = val;
+            this.getTabelData();
         },
         getTabelData(){
             this.$http.get("metting-active-user-tab-data",{

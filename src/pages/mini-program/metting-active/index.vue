@@ -6,7 +6,7 @@
 	<!-- <KrScroll :on-reach-bottom="handleReachBottom"> -->
 		<Table border :columns="activeCol" :data="activeDetail" />
 		<div style="float: right;margin:10px;">
-			<Page :total="tabelParams.totalCount" :page-size='15' show-total show-elevator @on-change="onPageChange"/>
+			<Page :total="totalCount" :page-size='15' show-total show-elevator @on-change="onPageChange"/>
 		</div>
 		<Modal
 			v-model="openDelete"
@@ -91,7 +91,21 @@ export default {
           key: "endTime",
           align: "center",
           render:(h,params)=>{
-            let date = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.endTime))
+            let begin = dateUtils.dateToStr("YYYY-MM-DD", new Date(params.row.beginTime))
+            let end = dateUtils.dateToStr("YYYY-MM-DD", new Date(params.row.endTime))
+            let date=begin+'至'+end;
+            if(begin==end){
+              date = begin;
+            }
+            return h('span',{},date);
+          }
+        },
+         {
+          title: "创建时间",
+          key: "ctime",
+          align: "center",
+          render:(h,params)=>{
+            let date = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.ctime))
             return h('span',{},date);
           }
         },
@@ -246,7 +260,7 @@ export default {
       this.$http
         .get("get-metting-active-list", params)
         .then(res => {
-          // // _this.totalCount = res.data.totalCount;
+          this.totalCount = res.data.totalCount;
 					// _this.deviceList = res.data.items;
 					this.activeDetail = [].concat(res.data.items);
         })
