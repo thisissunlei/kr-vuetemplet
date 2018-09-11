@@ -58,7 +58,7 @@ export default {
     }
   },
   created() {
-    this.handleScroll = utils.debounce(150, this.onScroll);
+    this.handleScroll = utils.debounce(50, this.onScroll);
   },
   mounted() {
     let _this = this;
@@ -79,7 +79,7 @@ export default {
   beforeDestroy() {
     this.$kr_global.contentDom.removeEventListener(
       "scroll",
-      this.handleScroll,
+      this.onScroll,
       false
     );
   },
@@ -92,31 +92,16 @@ export default {
         handerDom.className = handerDom.className + " " + this.tableClass;
         handerDom.innerHTML = tabHanderDom.innerHTML;
         this.handerHeight = tabHanderDom.clientHeight;
-         handerDom.style.height = this.handerHeight + "px";
+        handerDom.style.height = this.handerHeight + "px";
       }, 300);
     },
     onScroll() {
-      if (this.noData) {
-        return;
-      }
       var dom = this.$kr_global.contentDom;
       let contentDetail = dom.getBoundingClientRect();
       let handerDom = document.getElementById(this.tableHanderId);
 
       this.scrollTop = dom.scrollTop;
-      if (dom.scrollHeight - dom.scrollTop - dom.clientHeight < 5) {
-        var waitFunction = this.onReachBottom();
-        this.loadding = true;
-        if (waitFunction.then) {
-          waitFunction.then(() => {
-            dom.scrollTop = this.scrollTop;
-
-            this.loadding = false;
-          });
-        }
-      }
-
-      if (this.scrollTopNum < this.$kr_global.contentDom.scrollTop) {
+      if (this.scrollTopNum < dom.scrollTop) {
         // handerDom.innerHTML = this.$slots.default[0].elm.innerHTML
         if (!this.handerContent) {
           let tabHanderDom = this.getHanderHeight(this.$slots.default[0].elm);
@@ -136,8 +121,22 @@ export default {
       } else {
         handerDom.style.display = "none";
       }
+       this.$emit("scroll");
+      if (dom.scrollHeight - dom.scrollTop - dom.clientHeight < 5) {
+        if (this.noData) {
+          return;
+        }
+        var waitFunction = this.onReachBottom();
+        this.loadding = true;
+        if (waitFunction.then) {
+          waitFunction.then(() => {
+            dom.scrollTop = this.scrollTop;
 
-      this.$emit("scroll");
+            this.loadding = false;
+          });
+        }
+      }
+     
     },
     getHanderHeight(dom) {
       if (dom.className.indexOf("ivu-table ") != -1) {
