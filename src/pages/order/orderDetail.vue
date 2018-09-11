@@ -5,7 +5,7 @@
             </div>
                 <Row style="margin-top:20px;">
                     <Col span="12">
-                    <span>订单编号：{{info.cardNo}}</span>
+                    <span>订单编号：{{info.orderNo}}</span>
                     </Col>
                     <Col span="12">
                     <span>下单时间：{{info.payTime}}</span>
@@ -32,7 +32,7 @@
                 </div>
                 <Row style="margin-top:20px;">
                     <Col span="12">
-                        支付方式：{{info.payWay}}
+                        支付方式：{{info.payWay|fpayWay}}
                     </Col>
                     <Col span="12">
                        支付时间：{{info.payTime}}
@@ -92,6 +92,10 @@
             }
         },
          filters:{
+            fpayWay(val){
+                if(val == 1){return  '微信支付'}
+                return    
+             },
             fcStatus(val){
                 let cur = val
                 if(val == 'ACTIVATION'){ cur = '已激活' }

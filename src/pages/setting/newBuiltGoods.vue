@@ -50,8 +50,34 @@
                     </FormItem>
                 </Col>
                 <Col span="8">
+                     
                 </Col>
                 <Col span="7">
+                       
+                </Col>
+            </Row>
+
+             <Row style="margin-top:25px;">
+                <Col span="9">
+                 <FormItem label="卡  面 图  片：" prop="goodsUrl">
+                       <input v-show="false"  v-model="formValidate.goodsUrl" type="text" >
+                       <UploadFile      
+                                category="web/upload"
+                                withCredentials
+                                :format="['jpg','png','gif']"
+                                :maxLen="1"
+                                :onSuccess="coverSuccess"
+                                :onRemove="coverRemove"
+                                :onFormatError="imgSizeFormat"
+                                :imgWidth="148"
+                                :imgHeight="148"/>
+                    </FormItem>
+                </Col>
+                <Col span="8">
+                     
+                </Col>
+                <Col span="7" >
+                        
                 </Col>
             </Row>
 
@@ -102,7 +128,9 @@
     </div>
 </template>
 <script>
+import UploadFile from '../../components/UploadFile'
     export default {
+        components:{UploadFile},
         data(){
             const CheckverifyCode = (rule, value, callback) => {
                 if(this.formValidate.cardType == 'NORMAL'){
@@ -115,6 +143,18 @@
                          }
                    }
             };  
+            const ChecklimitCount = (rule, value, callback) => {
+                     if(value===''){
+                           callback(new Error('用卡人上限不能为空'));      
+                        }else{
+                            let reg = /^([1-9]\d*|[0]{1,1})$/;     
+                            if(reg.test(value)){
+                                    callback();
+                               }else{
+                                    callback(new Error('用卡人上限为整数'));   
+                               }
+                        }
+                }; 
             return {
                 quantityArray:['INF','LIMIT'],//INF无限库存,LIMIT计算库存
                 cardTypeList:[{key:'普通卡',value:'NORMAL'},{key:'定制卡',value:'CUSTOM'}],
@@ -130,6 +170,7 @@
                     quantity:'',          //库存张
                     verifyCode:'',        //购买码
                     quantityType:'LIMIT', //库存计算类型
+                    goodsUrl:'',
                 },
                 ruleValidate: {
                     cardType: [
@@ -141,7 +182,7 @@
                     ],
                     faceValue: [
                         { required: true, message: '卡的面值不能为空',trigger:'blur' },
-                        { type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'卡得面值为非负数字', trigger:'blur'},
+                        { type:'string',pattern:/^([1-9]\d{0,11}|[0]{0,1})$/, message:'卡得面值为12位非负数字', trigger:'blur'},
                     ],
                     activeDuration: [
                         { required: true, message: '有效时长不能为空', trigger: 'blur' },
@@ -149,19 +190,22 @@
                     ],
                     limitCount: [
                         { required: true,  message: '用卡人上限不能为空', trigger: 'blur' },
-                        { type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'用卡人上限为整数', trigger:'blur'},
+                        { type:'string',pattern:/^[1-9][0-9]{0,3}$/, message:'用卡人上限为1-9999人', trigger:'blur'},
                     ],
                     cardIntro: [
                         { required: true, message: '使用须知', trigger: 'blur' },
-                        { type: 'string', max: 600, message: '使用须知不能超过600个字符', trigger: 'blur' }
+                        { type: 'string', max: 500, message: '使用须知不能超过500个字符', trigger: 'blur' }
                     ],
                     salePrice: [
                         { required: true, type: 'string', message: '销售价格不能为空', trigger: 'blur' },
-                        { type:'string',pattern:/^[0-9]+([.]{1}[0-9]{1,2})?$/, message:'销售价不能为负数且最多2位小数', trigger:'blur'},
+                        { type:'string',pattern:/(?!^0*(\.0{1,2})?$)^\d{1,12}(\.\d{1,2})?$/, message:'销售价不能为负数且最多2位小数', trigger:'blur'},
                     ],
                     quantity: [
-                        { required: true, message: '库存不能为空', trigger: 'blur' },
-                        { type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'库存为整数', trigger:'blur'},
+                        { required: true, message: '库存不能为空', trigger: 'change' },
+                        { type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'库存为整数', trigger:'change'},
+                    ],
+                    goodsUrl:[
+                         {required: true, message: '请上传图片', trigger: 'blur' }
                     ],
                     verifyCode: [
                         { validator: CheckverifyCode, trigger: 'blur' }
@@ -173,7 +217,7 @@
                 quantityFlag:function(){
                      if(this.quantityFlag){
                             this.quantityType = 'INF'
-                            this.formValidate.quantity = '999'  
+                            this.formValidate.quantity = '20'  
                         }else{
                             this.quantityType = 'LIMIT'  
                             this.formValidate.quantity = ''  
@@ -189,6 +233,15 @@
                 }  
         },
         methods: {
+            coverSuccess(response, file, fileList){
+                if(response.code == 1){
+                    this.formValidate.goodsUrl = response.data.url 
+                    }else{}
+            },
+            coverRemove(){
+
+            },
+            // new/#/member/memberManage/list/23807  详情跳转
             handleSubmit(name){
                 this.$refs[name].validate((valid) => {
                     if(valid){
