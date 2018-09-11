@@ -72,11 +72,11 @@ export default {
     },
     getListData(resolve) {
       let params = {
-        arriving:false,
+        arriving:true,
         activityId:this.$route.query.activityId || 1,
       }
     
-      if (this.type == "entrance") {
+      if (this.type == "apply") {
         delete params.arriving
       }
       this.$http
