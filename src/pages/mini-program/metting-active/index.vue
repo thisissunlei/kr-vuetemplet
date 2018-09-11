@@ -6,7 +6,7 @@
 	<!-- <KrScroll :on-reach-bottom="handleReachBottom"> -->
 		<Table border :columns="activeCol" :data="activeDetail" />
 		<div style="float: right;margin:10px;">
-			<Page :total="tabelParams.totalCount" :page-size='15' show-total show-elevator @on-change="onPageChange"/>
+			<Page :total="totalCount" :page-size='15' show-total show-elevator @on-change="onPageChange"/>
 		</div>
 		<Modal
 			v-model="openDelete"
