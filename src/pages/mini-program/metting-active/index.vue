@@ -91,7 +91,12 @@ export default {
           key: "endTime",
           align: "center",
           render:(h,params)=>{
-            let date = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.endTime))
+            let begin = dateUtils.dateToStr("YYYY-MM-DD", new Date(params.row.beginTime))
+            let end = dateUtils.dateToStr("YYYY-MM-DD", new Date(params.row.endTime))
+            let date=begin+'至'+end;
+            if(begin==end){
+              date = begin;
+            }
             return h('span',{},date);
           }
         },
