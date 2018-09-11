@@ -79,6 +79,7 @@ export default {
       });
     },
     getListData(resolve) {
+      this.params.page+=1;
       let params = Object.assign(this.params,{
         arriving:true,
       })
