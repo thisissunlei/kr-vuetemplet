@@ -202,7 +202,7 @@
              detail(index){
                 //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
                 //window.open(window.location.origin+"/#/operateDetail?id="+this.data1[index].id); 
-                 window.open("/#/operateDetail?id="+this.data1[index].id); 
+                 window.open("/admin-applet//#/operateDetail?id="+this.data1[index].id); 
             },
             changeBeginTime(formatVal){
                 this.params.startTime = formatVal

@@ -235,8 +235,8 @@
         methods: {  
              memberDetails(){
                  // http://optest01.krspace.cn/new/#/member/memberManage/list/23808
-                 // window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.purchaser); 
-                 window.open("/new/#/member/memberManage/list/"+this.purchaser); 
+                 window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.purchaser); 
+                 // window.open("/new/#/member/memberManage/list/"+this.purchaser); 
              },
             formatDateTime(inputTime) {  
                 let date = new Date(inputTime);
