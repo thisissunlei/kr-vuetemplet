@@ -9,6 +9,12 @@ function initListData(type){
             type:'apply,entrance'
         },
         {
+            title: '公司名称',
+            key: 'companyName',
+            align:'center',
+            type:'apply,entrance'  
+        },
+        {
             title: '微信头像',
             key: 'avator',
             align:'center',            
@@ -44,7 +50,7 @@ function initListData(type){
         },
         {
             title: '用户角色',
-            key: 'operateTime',
+            key: 'role',
             align:'center',
             type:'apply,entrance'  
         },
