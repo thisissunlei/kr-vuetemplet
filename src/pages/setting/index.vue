@@ -227,17 +227,20 @@
             },
             detail(index){
                 //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
-                window.open(window.location.origin+"/#/settingDetail?id="+this.data1[index].id); 
+                //window.open(window.location.origin+"/#/settingDetail?id="+this.data1[index].id); 
+                 window.open("/#/settingDetail?id="+this.data1[index].id); 
             },
             edit(index){
                 //this.$router.push({path:'/editGoods',query:{id:this.data1[index].id}})
-                window.open(window.location.origin+"/#/editGoods?id="+this.data1[index].id); 
+                // window.open(window.location.origin+"/#/editGoods?id="+this.data1[index].id); 
+                 window.open("/#/editGoods?id="+this.data1[index].id); 
             },
             newBuiltGoods(){
                  //this.$router.push({path:'/newBuiltGoods'})
                 //  console.log('window.location.origin')
                 //  console.log(window.location.origin+"/#/newBuiltGoods")
-                window.open(window.location.origin+"/#/newBuiltGoods"); 
+                //window.open(window.location.origin+"/#/newBuiltGoods"); 
+                window.open("/#/newBuiltGoods"); 
                  //window.open( window.location.origin+"/newBuiltGoods"); 
             },
         }
