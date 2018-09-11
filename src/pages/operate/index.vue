@@ -22,9 +22,9 @@
           <Row style="margin-top:25px;">
             <Col span="14">
                <span style="margin-right:10px">购买时间</span>
-                  <DatePicker type="datetime" @on-change="changeBeginTime" show-week-numbers placeholder="开始日期" style="width: 200px"></DatePicker>
+                  <DatePicker type="date" @on-change="changeBeginTime" show-week-numbers placeholder="开始日期" style="width: 200px"></DatePicker>
                <span style="padding: 0 10px;">至</span>    
-                <DatePicker type="datetime" @on-change="changeEndTime" show-week-numbers placeholder="结束日期" style="width: 200px"></DatePicker>
+                  <DatePicker type="date" @on-change="changeEndTime" show-week-numbers placeholder="结束日期" style="width: 200px"></DatePicker>
             </Col>
             <Col span="7">
                 <span style="margin-right:10px">状&#12288;&#12288;态</span>
@@ -42,12 +42,16 @@
                border stripe></Table>
             </Col>
           </Row>
+          <Row style="margin-top:25px;">
+               <Page  :total="totalCount" :current="params.page" show-total :page-size="1" @on-change="pageChange"></Page>
+          </Row>
         </div>
     </template>
 <script>
     export default {
         data(){
             return {
+                totalCount:0,
                 cardTypeList:[{key:'普通卡',value:'1'},{key:'定制卡',value:'2'}],
                 statusTypeList:[{key:'已激活',value:'ACTIVATION'},{key:'用完',value:'USED'},{key:'已过期',value:'EXPIRED'}],
                 params:{
@@ -56,7 +60,9 @@
                     cardType:'',   // 卡类型 1.普通卡2.定制卡
                     startTime:'',  // 开始时间
                     endTime:'',    // 结束时间
-                    status:''      // 状态
+                    status:'',      // 状态
+                    page:1,
+                    pageSize:1
                 },
                 columns1: [
                     {
@@ -156,9 +162,13 @@
             }
         },
         created(){
-           this.$http.get("getKmTeamCardList").then((res)=>{
+           this.$http.get("getKmTeamCardList",this.params).then((res)=>{
                 if(res.code === 1){
                     this.data1 = res.data.items
+                    this.totalCount = res.data.totalCount
+                    this.params.page = res.data.page
+                    //this.params.page = res.data.page
+                    //this.params.pageSize = res.data.pageSize
                    }else{
                         this.$Notice.error({
                         title:res.message
@@ -171,6 +181,23 @@
             })
         },
         methods:{
+            pageChange(pageNo){
+                this.params.page = pageNo
+                this.$http.get("getKmTeamCardList",this.params).then((res)=>{
+                if( res.code === 1 ){
+                    this.data1 = res.data.items
+                    this.totalCount = res.data.totalCount
+                    this.params.page = res.data.page
+                   } else {
+                        this.$Notice.error({
+                        title:res.message
+                   });
+                }}).catch((error)=>{
+                        this.$Notice.error({
+                            title:error.message
+                        });
+                    })
+            },
             detail(index){
                 this.$router.push({path:'/operateDetail',query:{id:this.data1[index].id}})
             }, 
@@ -184,6 +211,10 @@
                 this.$http.get("getKmTeamCardList",this.params).then((res)=>{
                 if( res.code === 1 ){
                     this.data1 = res.data.items
+                    this.totalCount = res.data.totalCount
+                    this.totalPages = res.data.totalPages
+                    // this.page = res.data.page
+                    // this.pageSize = res.data.pageSize
                    } else {
                         this.$Notice.error({
                         title:res.message

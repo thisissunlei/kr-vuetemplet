@@ -115,7 +115,15 @@
                     },
                     {
                         title: '加入时间',
-                        key: 'ctime'
+                        key: 'ctime',
+                        render: (h, params) => {
+                            let curTime = this.formatDateTime(this.info.holderList[params.index].ctime)
+                            return h('div',
+                                [
+                                h('span',{
+                                }, curTime ),
+                            ]);
+                        }
                     }
                 ],
                 columns2: [
@@ -128,12 +136,33 @@
                         key: 'descr'
                     },
                     {
-                        title: '消费金额',
-                        key: 'amount'
+                        title: '消费金额123',
+                        key: 'amount',
+                        render: (h, params) => {
+                            
+                            let curStr = String(this.info.usedList[params.index].amount);
+                            let curStrLength = curStr.length;
+                           
+                            let newStr1 = curStr.substr(0,curStrLength-2);
+                             let newStr2 = curStr.substr(curStrLength-2,curStrLength);
+                            return h('div',
+                                [
+                                h('span',{
+                                }, newStr1+"."+newStr2),
+                            ]);
+                        }
                     },
                     {
                         title: '消费时间',
-                        key: 'ctime'
+                        key: 'ctime',
+                        render: (h, params) => {
+                            let curTime = this.formatDateTime(this.info.usedList[params.index].ctime)
+                            return h('div',
+                                [
+                                h('span',{
+                                }, curTime ),
+                            ]);
+                        }
                     },
                     {
                         title: '使用人',

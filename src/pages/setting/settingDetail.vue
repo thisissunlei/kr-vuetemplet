@@ -8,7 +8,7 @@
                     <span >商品编号：{{info.cardNo}}</span>
                     </Col>
                     <Col span="12">
-                    <span >商品类型：{{info.cardType}}</span>
+                    <span >商品类型：{{info.cardType|fcardType}}</span>
                     </Col>
                 </Row>
                 <Row style="margin-top:20px;">
@@ -21,12 +21,13 @@
                 </Row>
                 <Row style="margin-top:20px;">
                     <Col span="12">
-                    <span >有效时长：{{info.activeDuration}}3天</span>
+                    <span >有效时长：{{info.activeDuration}}天</span>
                     </Col>
                     <Col span="12">
-                    <span >用卡人上限：人{{info.cardNo}}</span>
+                    <span >用卡人上限：{{info.limitCount}}人</span>
                     </Col>
                 </Row>
+                <Row style="margin-top:20px;">
                 <Col span="24" style="display:flex;">
                         <div><span>使用须知：</span></div> 
                         <div>
@@ -35,6 +36,7 @@
                             </ul>
                         </div>
                     </Col>
+                </Row>    
                 <div style="border-bottom:1px solid #f2f2f2;padding: 10px 0;">
                    <h2>销售设置</h2>
                 </div>
@@ -56,10 +58,10 @@
                 </Row>
                 <Row style="margin-top:20px;">
                     <Col span="12">
-                        操作人员：冯西臣{{info.creater}}
+                        操作人员：{{info.creater}}
                     </Col>
                     <Col span="12">
-                        操作时间：2018-08-20 17:48:32{{info.ctime}}
+                        操作时间：{{info.ctime|fctime}}
                     </Col>
                 </Row>  
         </div>
@@ -93,13 +95,33 @@
              fstatus(val){
                  let statusVal = val? '已上架':'已下架';
                  return statusVal
-             }
+             },
+             fcardType(val){
+                let cur = val
+                if(val == 'NORMAL'){ cur = '普通卡' }
+                if(val == 'CUSTOM'){ cur = '定制卡' }
+                return cur
+            },
+            fctime(val){
+                let date = new Date(val);
+                let y = date.getFullYear();  
+                let m = date.getMonth() + 1;  
+                m = m < 10 ? ('0' + m) : m;  
+                let d = date.getDate();  
+                d = d < 10 ? ('0' + d) : d;  
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let minute = date.getMinutes();
+                let second = date.getSeconds();
+                minute = minute < 10 ? ('0' + minute) : minute;  
+                second = second < 10 ? ('0' + second) : second; 
+                return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;   
+            }
         },
         methods: {
             
         },
         created(){
-               // getKmTeamDetail
           this.$http.get("getKmTeamUppLowerDetail",{kmCardId:this.$route.query.id}).then((res)=>{
                 if( res.code === 1 ){
                         this.info = res.data
