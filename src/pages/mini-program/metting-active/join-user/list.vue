@@ -41,7 +41,7 @@ export default {
       ),
       params:{
         page:1,
-        pageSize:15,
+        pageSize:50,
         activityId:this.$route.query.activityId || 1,
       },
       isBottom:false,
