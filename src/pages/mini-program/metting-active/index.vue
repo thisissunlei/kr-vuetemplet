@@ -246,7 +246,7 @@ export default {
       this.$http
         .get("get-metting-active-list", params)
         .then(res => {
-          // // _this.totalCount = res.data.totalCount;
+          this.totalCount = res.data.totalCount;
 					// _this.deviceList = res.data.items;
 					this.activeDetail = [].concat(res.data.items);
         })
