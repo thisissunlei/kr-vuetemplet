@@ -40,10 +40,10 @@
                         label="至" 
                         :label-width="18" 
                         style="display:inline-block;margin:15px 20px 15px 0px;"
-                        prop="published"
+                        prop="endTime"
                     >
                         <DatePicker 
-                            v-model="formItem.published" 
+                            v-model="formItem.endTime" 
                             placeholder="请输入结束日期"
                             style="width:150px;"
                             
