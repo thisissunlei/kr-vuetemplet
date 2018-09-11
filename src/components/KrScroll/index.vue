@@ -59,17 +59,17 @@ export default {
     this.handleScroll = utils.debounce(150, this.onScroll);
   },
   mounted() {
+    let _this = this;
     this.$kr_global.contentDom.addEventListener(
       "scroll",
       this.handleScroll,
       false
     );
-     window.onresize = ()=>{
-         console.log('--------')
-        this.handerContent = false;
-     }
-    
-    console.log(this.$slots)
+
+     LISTENSIDEBAROPEN(function (params) {
+          _this.handerRefresh();
+      })
+     window.onresize = this.handerRefresh();
   },
   beforeDestroy() {
     this.$kr_global.contentDom.removeEventListener(
@@ -79,6 +79,12 @@ export default {
     );
   },
   methods: {
+    handerRefresh(){
+       this.handerContent = false;
+        setTimeout(()=>{
+             document.getElementById(this.tableHanderId).innerHTML = this.$slots.default[0].elm.innerHTML;
+        },300)
+    },
     onScroll() {
       if (this.noData) {
         return;
@@ -126,6 +132,7 @@ export default {
 <style lang="less" scoped>
 .ui-kr-scroll {
   .kr-fixed-table-hander {
+    border-top: 1px solid #e9eaec;
     overflow: hidden;
     height: 40px;
     display: none;
