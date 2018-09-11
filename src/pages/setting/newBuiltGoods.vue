@@ -61,14 +61,14 @@
                 <Col span="9">
                  <FormItem label="卡  面 图  片：" prop="goodsUrl">
                        <input v-show="false"  v-model="formValidate.goodsUrl" type="text" >
+                        <!-- :onRemove="coverRemove"
+                                :onFormatError="imgSizeFormat" -->
                        <UploadFile      
                                 category="web/upload"
                                 withCredentials
                                 :format="['jpg','png','gif']"
                                 :maxLen="1"
                                 :onSuccess="coverSuccess"
-                                :onRemove="coverRemove"
-                                :onFormatError="imgSizeFormat"
                                 :imgWidth="148"
                                 :imgHeight="148"/>
                     </FormItem>
@@ -89,13 +89,13 @@
                         <Input v-model="formValidate.salePrice" size="large"  style="width:300px;" placeholder="请输入销售价格"></Input>
                     </FormItem>
                 </Col>
-                <Col span="9">
-                    <FormItem label="库   存  (张)：" prop="quantity">
+                <Col span="9" >
+                    <FormItem   label="库   存  (张)："  prop="quantity">
                         <Input v-model="formValidate.quantity" 
                         :disabled="quantityFlag"
                         size="large"  style="width:150px;" placeholder="请输入库存数量"></Input>
                         <Checkbox v-model="quantityFlag" >库存无上限</Checkbox>
-                    </FormItem>
+                    </FormItem >
                 </Col>
                 <Col span="6">
                 </Col>
@@ -155,6 +155,25 @@ import UploadFile from '../../components/UploadFile'
                                }
                         }
                 }; 
+                 const ChecksaleQuantity = (rule, value, callback) => {
+                     console.log("库存验证");
+                     console.log(this.quantityFlag);
+                    if(this.quantityFlag){
+                          callback();
+                    }else{
+                          if(value===''){
+                            callback(new Error('库存不能为空'));      
+                            }else{
+                                let reg = /^([1-9]\d*|[0]{1,1})$/;     
+                                if(reg.test(value)){
+                                        callback();
+                                }else{
+                                        callback(new Error('库存数量为正整数'));   
+                                }
+                            }
+                    }
+                    
+                }; 
             return {
                 quantityArray:['INF','LIMIT'],//INF无限库存,LIMIT计算库存
                 cardTypeList:[{key:'普通卡',value:'NORMAL'},{key:'定制卡',value:'CUSTOM'}],
@@ -174,41 +193,41 @@ import UploadFile from '../../components/UploadFile'
                 },
                 ruleValidate: {
                     cardType: [
-                        { required: true, message: '商品类型不能为空', trigger: 'blur' }
+                        { required: true, message: '商品类型不能为空', trigger: 'blur'}
                     ],
                     cardName: [
-                        { required: true, message: '团队卡名称不能为空', trigger: 'blur' },
-                        { type: 'string', max: 10, message: '团队卡名称不能超过10个字符', trigger: 'blur' }
+                        { required: true, message: '团队卡名称不能为空', trigger: 'blur'},
+                        { type: 'string', max: 10, message: '团队卡名称不能超过10个字符', trigger: 'blur'}
                     ],
                     faceValue: [
-                        { required: true, message: '卡的面值不能为空',trigger:'blur' },
-                        { type:'string',pattern:/^([1-9]\d{0,11}|[0]{0,1})$/, message:'卡得面值为12位非负数字', trigger:'blur'},
+                        { required: true, message: '卡的面值不能为空',trigger:'blur'},
+                        { type:'string',pattern:/^([1-9]\d{0,6}|[0]{0,1})$/, message:'卡得面值为七位非负数且最多保留2位小数', trigger:'blur'},
                     ],
                     activeDuration: [
-                        { required: true, message: '有效时长不能为空', trigger: 'blur' },
+                        { required: true, message: '有效时长不能为空', trigger: 'blur'},
                         { type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'有效时长为整数天', trigger:'blur'},
                     ],
                     limitCount: [
-                        { required: true,  message: '用卡人上限不能为空', trigger: 'blur' },
+                        { required: true,  message: '用卡人上限不能为空', trigger: 'blur'},
                         { type:'string',pattern:/^[1-9][0-9]{0,3}$/, message:'用卡人上限为1-9999人', trigger:'blur'},
                     ],
                     cardIntro: [
                         { required: true, message: '使用须知', trigger: 'blur' },
-                        { type: 'string', max: 500, message: '使用须知不能超过500个字符', trigger: 'blur' }
+                        { type: 'string', max: 500, message: '使用须知不能超过500个字符', trigger: 'blur'}
                     ],
                     salePrice: [
-                        { required: true, type: 'string', message: '销售价格不能为空', trigger: 'blur' },
-                        { type:'string',pattern:/(?!^0*(\.0{1,2})?$)^\d{1,12}(\.\d{1,2})?$/, message:'销售价不能为负数且最多2位小数', trigger:'blur'},
+                        { required: true, type: 'string', message: '销售价格不能为空', trigger: 'blur'},
+                        { type:'string',pattern:/(?!^0*(\.0{1,2})?$)^\d{1,7}(\.\d{1,2})?$/, message:'销售价为七位非负数且最多保留2位小数', trigger:'blur'},
                     ],
                     quantity: [
-                        { required: true, message: '库存不能为空', trigger: 'change' },
-                        { type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'库存为整数', trigger:'change'},
+                        { validator: ChecksaleQuantity, trigger: 'change' },
+                        //{ type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'库存为整数', trigger:'blur'},
                     ],
                     goodsUrl:[
-                         {required: true, message: '请上传图片', trigger: 'blur' }
+                         {required: true, message: '请上传图片', trigger: 'change'}
                     ],
                     verifyCode: [
-                        { validator: CheckverifyCode, trigger: 'blur' }
+                        { validator: CheckverifyCode, trigger: 'blur'}
                     ]
                 }
             }
@@ -216,11 +235,11 @@ import UploadFile from '../../components/UploadFile'
         watch:{
                 quantityFlag:function(){
                      if(this.quantityFlag){
-                            this.quantityType = 'INF'
-                            this.formValidate.quantity = '20'  
+                            this.formValidate.quantityType = 'INF'
+                            //this.formValidate.quantity = '9999'  
                         }else{
-                            this.quantityType = 'LIMIT'  
-                            this.formValidate.quantity = ''  
+                            this.formValidate.quantityType = 'LIMIT'  
+                            //this.formValidate.quantity = ''  
                         }
                 },
                 'formValidate.cardType':function(){
@@ -244,6 +263,7 @@ import UploadFile from '../../components/UploadFile'
             // new/#/member/memberManage/list/23807  详情跳转
             handleSubmit(name){
                 this.$refs[name].validate((valid) => {
+
                     if(valid){
                         this.$http.post("postKmTeamSaveUpdate",this.formValidate).then((res)=>{     
                             if(res.code === 1){
@@ -264,7 +284,9 @@ import UploadFile from '../../components/UploadFile'
             },
             goBackConfig(){
                 this.$refs['formValidate'].resetFields(); 
-                this.$router.push({path:'/setting'});
+                //this.$router.push({path:'/setting'});
+                window.close();
+                window.opener.location.reload();
             }
         }
     }

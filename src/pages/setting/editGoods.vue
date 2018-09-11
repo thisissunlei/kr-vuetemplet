@@ -20,8 +20,8 @@
             </Row>
             <Row style="margin-top:25px;">
                 <Col span="9">
-                    <FormItem label="卡的面值(元)：" prop="faceValue">
-                        <Input v-model="formValidate.faceValue" size="large" style="width:300px;" placeholder="请输入卡的面值"></Input>
+                    <FormItem label="卡的面值(元)：" prop="face">
+                        <Input v-model="formValidate.face" size="large" style="width:300px;" placeholder="请输入卡的面值"></Input>
                     </FormItem>
                 </Col>
                 <Col span="8">
@@ -55,32 +55,6 @@
                 </Col>
             </Row>
 
-             <!-- <Row style="margin-top:25px;">
-                <Col span="9">
-                 <FormItem label="卡  面 图  片：" prop="goodsUrl">
-                       <UploadFile      
-                                category="web/upload"
-                                :defaultFileList="imgList"
-                                 withCredentials
-                                :format="['jpg','png','gif']"
-                                :maxLen="1"
-                                :onSuccess="coverSuccess"
-                                :onRemove="coverRemove"
-                                :onFormatError="imgSizeFormat"
-                                :imgWidth="148"
-                                :imgHeight="148"/>
-                    </FormItem>
-                     
-                </Col>
-                <Col span="8">
-                     
-                </Col>
-                <Col span="7" >
-                        
-                </Col>
-            </Row> -->
-
-
                <Row style="margin-top:25px;">
                 <Col span="9">
                  
@@ -111,8 +85,8 @@
 
             <Row style="margin-top:25px;">
                 <Col span="9">
-                    <FormItem label="销    售   价：" prop="salePrice">
-                        <Input v-model="formValidate.salePrice" size="large"  style="width:300px;" placeholder="请输入销售价格"></Input>
+                    <FormItem label="销    售   价：" prop="sale">
+                        <Input v-model="formValidate.sale" size="large"  style="width:300px;" placeholder="请输入销售价格"></Input>
                     </FormItem>
                 </Col>
                 <Col span="9">
@@ -149,7 +123,6 @@
                 <Col span="7">
                 </Col>
             </Row>
-            
         </Form>
     </div>
 </template>
@@ -162,11 +135,12 @@ import UploadFile from '../../components/UploadFile'
                      if(value===''){
                            callback(new Error('卡的面值不能为空'));      
                         }else{
-                            let reg = /^([1-9]\d{0,11}|[0]{0,1})$/;     
+                            let reg = /(?!^0*(\.0{1,2})?$)^\d{1,7}(\.\d{1,2})?$/
+                            // let reg = /^([1-9]\d{0,6}|[0]{0,1})$/;     
                             if(reg.test(value)){
                                     callback();
                                }else{
-                                    callback(new Error('卡的面值为非负数字'));   
+                                    callback(new Error('卡的面值为七位非负数且最多保留2位小数'));   
                                }
                         }
                 };  
@@ -198,11 +172,11 @@ import UploadFile from '../../components/UploadFile'
                      if(value===''){
                            callback(new Error('销售价格不能为空'));      
                         }else{
-                            let reg = /(?!^0*(\.0{1,2})?$)^\d{1,12}(\.\d{1,2})?$/;     
+                            let reg = /(?!^0*(\.0{1,2})?$)^\d{1,7}(\.\d{1,2})?$/;     
                             if(reg.test(value)){
                                     callback();
                                }else{
-                                    callback(new Error('销售价不能为负数且最多2位小数'));   
+                                    callback(new Error('销售价为七位非负数且最多保留2位小数'));   
                                }
                         }
                 }; 
@@ -218,7 +192,22 @@ import UploadFile from '../../components/UploadFile'
                                }
                         }
                 }; 
-
+                const ChecksaleQuantity = (rule, value, callback) => {
+                    if(this.quantityFlag){
+                          callback();
+                    }else{
+                          if(value===''){
+                            callback(new Error('库存不能为空'));      
+                            }else{
+                                let reg = /^([1-9]\d*|[0]{1,1})$/;     
+                                if(reg.test(value)){
+                                        callback();
+                                }else{
+                                        callback(new Error('用卡人上限为整数'));   
+                                }
+                            }
+                    }
+                }; 
             return {
                 imgList:[],
                 quantityArray:['INF','LIMIT'],//INF无限库存,LIMIT计算库存
@@ -233,7 +222,7 @@ import UploadFile from '../../components/UploadFile'
                         { required: true, message: '团队卡名称不能为空', trigger: 'blur' },
                         { type: 'string', max: 10, message: '团队卡名称不能超过10个字符', trigger: 'blur' }
                     ],
-                    faceValue: [
+                    face: [
                         { required: true, validator: CheckfaceValue, trigger: 'blur'}
                         // { pattern:/^([1-9]\d*|[0]{1,1})$/, message:'卡得面值为非负数字', trigger:'change'},
                     ],
@@ -249,16 +238,16 @@ import UploadFile from '../../components/UploadFile'
                         { required: true, message: '使用须知', trigger: 'blur' },
                         { type: 'string', max: 500, message: '使用须知不能超过500个字符', trigger: 'blur' }
                     ],
-                    salePrice: [
+                    sale: [
                         { required: true, validator: ChecksalePrice,trigger: 'blur'}
                         // { type:'string',pattern:/^[0-9]+([.]{1}[0-9]{1,2})?$/, message:'销售价不能为负数且最多2位小数', trigger:'blur'},
                     ],
                     quantity: [
-                        { required: true, validator: Checkquantity, trigger: 'blur'}
-                        // { type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'库存为整数', trigger:'blur'},
+                        { required: true, validator: ChecksaleQuantity, trigger: 'change' },
+                        //{ type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'库存为整数', trigger:'blur'},
                     ],
                     goodsUrl:[
-                         {required: true, message: '请上传图片', trigger: 'blur' }
+                         {required: true, message: '请上传图片', trigger: 'change' }
                     ],
                     // verifyCode: [
                     //     { validator: CheckverifyCode, trigger: 'blur' }
@@ -270,20 +259,12 @@ import UploadFile from '../../components/UploadFile'
                 quantityFlag:function(){
                      if(this.quantityFlag){
                             this.quantityType = 'INF'
-                            this.formValidate.quantity = '999'  
+                            this.formValidate.quantity = '20'  
                         }else{
                             this.quantityType = 'LIMIT'  
                             this.formValidate.quantity = ''  
                         }
-                },
-                // 'formValidate.cardType':function(){
-                //     if(this.formValidate.cardType == 'CUSTOM'){
-                //         this.ruleValidate.verifyCode.push({ required: true, message: '购买码不能为空', trigger: 'blur' })
-                //     }
-                //     if(this.formValidate.cardType == 'NORMAL'){
-                //         this.ruleValidate.verifyCode.splice(0,this.ruleValidate.verifyCode.length); 
-                //     }
-                // }  
+                }
         },
         created(){
                 
@@ -293,9 +274,6 @@ import UploadFile from '../../components/UploadFile'
                     if( res.code === 1 ){
                             this.formValidate = Object.assign({},res.data) 
                             this.formValidate = res.data 
-                            console.log(JSON.stringify(res.data));
-                            console.log('res.data.goodsUrl');
-                            console.log(res.data.goodsUrl);
                             this.imgList.push({'url':res.data.goodsUrl})
                         } else {
                                 this.$Notice.error({
@@ -324,7 +302,9 @@ import UploadFile from '../../components/UploadFile'
                             if(res.code === 1){
                                 this.$Message.success('修改成功!')
                                 setTimeout(()=>{
-                                this.$router.push({path:'/setting'});  
+                                //this.$router.push({path:'/setting'});  
+                                window.close();
+                                window.opener.location.reload();
                                 },1000)
                             }else{
                                 this.$Message.error(res.message)
@@ -339,7 +319,9 @@ import UploadFile from '../../components/UploadFile'
             },
             goBackConfig(){
                 this.$refs['formValidate'].resetFields(); 
-                this.$router.push({path:'/setting'});
+                //this.$router.push({path:'/setting'});
+                window.close();
+                window.opener.location.reload();
             }
         }
     }
