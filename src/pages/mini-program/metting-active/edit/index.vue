@@ -117,14 +117,14 @@
                               prop="startMoment"
                               
                           >
-                              <TimePicker  v-model="formItem.startMoment" confirm  :clearable="false" format="HH:mm" placeholder="开始时间" style="width:130px;" />
+                              <TimePicker  v-model="formItem.startMoment" confirm  :clearable="false" format="HH:mm:ss" placeholder="开始时间" style="width:130px;" />
                           </Form-item>
                           <span style="display:inline-block;padding:0 10px;line-height:30px;">至</span>
                           <Form-item 
                               prop="endMoment" 
                               style="display:inline-block;"
                           >
-                                <TimePicker :clearable="false"  v-model="formItem.endMoment" confirm format="HH:mm" placeholder="结束时间" style="width:130px;" />
+                                <TimePicker :clearable="false"  v-model="formItem.endMoment" confirm format="HH:mm:ss" placeholder="结束时间" style="width:130px;" />
                           </Form-item>
                       </Col>
                   </Row>
@@ -410,7 +410,7 @@ export default {
       let startDate =  dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.beginTime))
       let endDate =  dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.endTime))
       if (
-        (startDate == endDate) &&
+        (startDate == endDate) && ( this.formItem.startMoment && this.formItem.endMoment)&&
         this.formItem.startMoment >= this.formItem.endMoment
       ) {
         callback(new Error("开始时间不得大于结束时间"));
@@ -519,8 +519,6 @@ export default {
       title:'新建小程序活动',
       formItem: {
         price: 0,
-        startMoment:'00:00:00',
-        endMoment:'23:59:59'
       },
       ruleDaily: {
         coverPic: [
@@ -641,6 +639,12 @@ export default {
               url: item
             };
           });
+          let startDateArr = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.beginTime)).split(" ")
+          let endDateArr = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.endTime)).split(" ")
+          console.log(startDateArr,",,,,,,",endDateArr)
+          if(startDateArr[0]!=endDateArr[0] && startDateArr[1]==endDateArr[1]){
+            data.endTime = data.endTime-1;
+          }
           data.startMoment = data.beginTime
             ? dateUtils
                 .dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.beginTime))
@@ -674,10 +678,12 @@ export default {
       this.$refs["formItemDaily"].validate(valid => {
         if (valid) {
           let params = this.paramsChange(Object.assign({}, this.formItem));
+          
           params.cmtId = params.communityId;
           this.$http
             .post(url, params)
             .then(res => {
+              // return;
               window.close();
               window.opener.location.reload();
             })
@@ -712,10 +718,14 @@ export default {
       obj.startMoment = obj.startMoment
         ? dateUtils.dateToStr("HH:mm:ss", new Date(obj.startMoment))
         : "00:00:00";
-
+      
+      if(!obj.endMoment){
+         obj.endMoment = obj.endTime = (new Date(obj.endTime)).getTime()+1*1000;
+      }
+        console.log( obj.endMoment,"kkkkk")
       obj.endMoment = obj.endMoment
         ? dateUtils.dateToStr("HH:mm:ss", new Date(obj.endMoment))
-        : "00:00:00";
+        : "24:00:00";
 
       obj.beginTime = obj.beginTime
         ? dateUtils.dateToStr("YYYY-MM-DD", new Date(obj.beginTime)) +
