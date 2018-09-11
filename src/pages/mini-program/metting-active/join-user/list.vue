@@ -2,7 +2,12 @@
 <template>
   <div class="m-account-management">
       <div class="account-manage-table">
-        <KrScroll :onReachBottom="onReachBottom" :toBottom="isBottom">
+        <!-- <KrfixedTableHander :columns="listColumns"  :data="listData"/> -->
+        <KrScroll 
+          :onReachBottom="onReachBottom" 
+          :toBottom="isBottom"
+          :scrollTopNum="130"
+        >
           <Table 
             :columns="listColumns" 
             :data="listData"
@@ -16,9 +21,11 @@
 <script>
 import publicFn from "./publicPage.js";
 import KrScroll from "~/components/KrScroll";
+import KrfixedTableHander from '~/components/KrfixedTableHander';
 export default {
   components: {
-    KrScroll
+    KrScroll,
+    KrfixedTableHander
   },
   props: {
     type: {
