@@ -15,7 +15,11 @@ module.exports = {
 
     // Various Dev Server settings
     // host: 'adminlocal.krspace.cn', // can be overwritten by process.env.HOST
+<<<<<<< HEAD
     host:'localhost',
+=======
+    host:'127.0.0.1',
+>>>>>>> feature/zsy/团队卡项目
     port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
