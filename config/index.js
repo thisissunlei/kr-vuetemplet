@@ -10,7 +10,7 @@ module.exports = {
 
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/admin-applet/',
+    assetsPublicPath: '/admin-applet',
     proxyTable: proxy,
 
     // Various Dev Server settings
