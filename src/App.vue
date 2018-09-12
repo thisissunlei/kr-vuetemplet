@@ -1,7 +1,5 @@
 <template>
   <div style="padding:15px;">
-
-    
     <div class="layout"  :class="{'layout-hide-text': spanLeft < 5}">
       <div id="_layout_box_hander" ></div>
       <Row type="flex">

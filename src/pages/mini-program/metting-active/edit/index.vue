@@ -117,14 +117,22 @@
                               prop="startMoment"
                               
                           >
+<<<<<<< HEAD
                               <TimePicker  v-model="formItem.startMoment" confirm  :clearable="false" format="HH:mm:ss" placeholder="开始时间" style="width:130px;" />
+=======
+                              <TimePicker  v-model="formItem.startMoment" confirm  :clearable="false" format="HH:mm" placeholder="开始时间" style="width:130px;" />
+>>>>>>> master
                           </Form-item>
                           <span style="display:inline-block;padding:0 10px;line-height:30px;">至</span>
                           <Form-item 
                               prop="endMoment" 
                               style="display:inline-block;"
                           >
+<<<<<<< HEAD
                                 <TimePicker :clearable="false"  v-model="formItem.endMoment" confirm format="HH:mm:ss" placeholder="结束时间" style="width:130px;" />
+=======
+                                <TimePicker :clearable="false"  v-model="formItem.endMoment" confirm format="HH:mm" placeholder="结束时间" style="width:130px;" />
+>>>>>>> master
                           </Form-item>
                       </Col>
                   </Row>
@@ -410,7 +418,11 @@ export default {
       let startDate =  dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.beginTime))
       let endDate =  dateUtils.dateToStr("YYYY-MM-DD", new Date(this.formItem.endTime))
       if (
+<<<<<<< HEAD
         (startDate == endDate) && ( this.formItem.startMoment && this.formItem.endMoment)&&
+=======
+        (startDate == endDate) &&
+>>>>>>> master
         this.formItem.startMoment >= this.formItem.endMoment
       ) {
         callback(new Error("开始时间不得大于结束时间"));
@@ -519,6 +531,11 @@ export default {
       title:'新建小程序活动',
       formItem: {
         price: 0,
+<<<<<<< HEAD
+=======
+        startMoment:'00:00:00',
+        endMoment:'23:59:59'
+>>>>>>> master
       },
       ruleDaily: {
         coverPic: [

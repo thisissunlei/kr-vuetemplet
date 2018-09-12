@@ -86,10 +86,10 @@ export default {
       });
     },
     getListData(resolve) {
-      this.params.page+=1;
-      let params = Object.assign(this.params,{
+      let params = {
         arriving:true,
-      })
+        activityId:this.$route.query.activityId || 1,
+      }
     
       if (this.type == "apply") {
         delete params.arriving

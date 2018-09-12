@@ -23,7 +23,6 @@ Object.keys(filters).forEach(key => {
 //   next()
 // })
 Vue.use(iView)
-
 new Vue({
   el: '#app',
   router,
