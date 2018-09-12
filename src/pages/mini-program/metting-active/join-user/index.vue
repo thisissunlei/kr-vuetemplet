@@ -70,10 +70,15 @@ export default {
 
         },
         submitExport(){
-            utils.commonExport({
+            let params = {
                 activityId:this.$route.query.activityId,
-                arriving:this.type=='apply'?false:true
-            },'/api/op/kmactivity/join/export')
+                arriving:true
+            };
+            if(this.type=='apply'){
+                delete params.arriving;
+            }
+
+            utils.commonExport(params,'/api/op/kmactivity/join/export')
         }      
     }
 }
