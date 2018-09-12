@@ -196,7 +196,7 @@
         methods:{
             memberDetails(index){
                 // window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.data1[index].thirdUid); 
-                window.open("/new/#/member/memberManage/list/"+this.data1[index].thirdUid); 
+                window.open("/new/#/member/memberManage/list/"+this.data1[index].owner); 
              },
             pageChange(pageNo){
                 this.params.page = pageNo
