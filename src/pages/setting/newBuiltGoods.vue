@@ -20,8 +20,8 @@
             </Row>
             <Row style="margin-top:25px;">
                 <Col span="9">
-                    <FormItem label="卡的面值(元)：" prop="faceValue">
-                        <Input v-model="formValidate.faceValue" size="large" style="width:300px;" placeholder="请输入卡的面值"></Input>
+                    <FormItem label="卡的面值(元)：" prop="face">
+                        <Input v-model="formValidate.face" size="large" style="width:300px;" placeholder="请输入卡的面值"></Input>
                     </FormItem>
                 </Col>
                 <Col span="8">
@@ -85,8 +85,8 @@
 
             <Row style="margin-top:25px;">
                 <Col span="9">
-                    <FormItem label="销    售   价：" prop="salePrice">
-                        <Input v-model="formValidate.salePrice" size="large"  style="width:300px;" placeholder="请输入销售价格"></Input>
+                    <FormItem label="销    售   价：" prop="sale">
+                        <Input v-model="formValidate.sale" size="large"  style="width:300px;" placeholder="请输入销售价格"></Input>
                     </FormItem>
                 </Col>
                 <Col span="9" >
@@ -199,7 +199,7 @@ import UploadFile from '../../components/UploadFile'
                         { required: true, message: '团队卡名称不能为空', trigger: 'blur'},
                         { type: 'string', max: 10, message: '团队卡名称不能超过10个字符', trigger: 'blur'}
                     ],
-                    faceValue: [
+                    face: [
                         { required: true, message: '卡的面值不能为空',trigger:'blur'},
                         { type:'string',pattern:/^([1-9]\d{0,6}|[0]{0,1})$/, message:'卡得面值为七位非负数且最多保留2位小数', trigger:'blur'},
                     ],
@@ -215,7 +215,7 @@ import UploadFile from '../../components/UploadFile'
                         { required: true, message: '使用须知', trigger: 'blur' },
                         { type: 'string', max: 500, message: '使用须知不能超过500个字符', trigger: 'blur'}
                     ],
-                    salePrice: [
+                    sale: [
                         { required: true, type: 'string', message: '销售价格不能为空', trigger: 'blur'},
                         { type:'string',pattern:/(?!^0*(\.0{1,2})?$)^\d{1,7}(\.\d{1,2})?$/, message:'销售价为七位非负数且最多保留2位小数', trigger:'blur'},
                     ],
@@ -260,17 +260,16 @@ import UploadFile from '../../components/UploadFile'
             coverRemove(){
 
             },
-            // new/#/member/memberManage/list/23807  详情跳转
             handleSubmit(name){
                 this.$refs[name].validate((valid) => {
-
                     if(valid){
                         this.$http.post("postKmTeamSaveUpdate",this.formValidate).then((res)=>{     
                             if(res.code === 1){
                                 this.$Message.success('添加成功!')
                                 setTimeout(()=>{
-                                this.$router.push({path:'/setting'});  
-                                },1000)
+                                    window.close();
+                                    window.opener.location.reload();
+                                },500)
                             }else{
                                 this.$Message.error(res.message)
                             }
@@ -291,3 +290,8 @@ import UploadFile from '../../components/UploadFile'
         }
     }
 </script>
+<style  lang="less" scoped>
+    .demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+</style>

@@ -43,7 +43,7 @@
             </Col>
           </Row>
           <Row style="margin-top:25px;">
-               <Page  :total="totalCount" :current="params.page" show-total :page-size="15" @on-change="pageChange"></Page>
+               <Page  :total="totalCount" :current="page" show-total :page-size="15" @on-change="pageChange"></Page>
           </Row>
         </div>
     </template>
@@ -52,6 +52,7 @@
         data(){
             return {
                 totalCount:0,
+                page:1,
                 cardTypeList:[{key:'普通卡',value:'1'},{key:'定制卡',value:'2'}],
                 statusTypeList:[{key:'已激活',value:'ACTIVATION'},{key:'用完',value:'USED'},{key:'已过期',value:'EXPIRED'}],
                 params:{
@@ -65,10 +66,6 @@
                     pageSize:15
                 },
                 columns1: [
-                    {
-                        title: 'id',
-                        key: 'id'
-                    },
                     {
                         title: '卡号',
                         key: 'cardNo',
@@ -141,8 +138,13 @@
                         key: 'orderNo',
                         render: (h, params) => {
                             return h('div',
-                                [h('span', {
-                                    style:'color:#00CEFF'
+                                [h('a', {
+                                    style:'color:#00CEFF',
+                                     on:{
+                                       click: () => {
+                                            this.orderDetail(params.index)
+                                        }
+                                   }
                                 }, this.data1[params.index].orderNo)
                             ]);
                         }
@@ -175,7 +177,7 @@
                 if(res.code === 1){
                     this.data1 = res.data.items
                     this.totalCount = res.data.totalCount
-                    this.params.page = res.data.page
+                    this.page = res.data.page
                    }else{
                         this.$Notice.error({
                         title:res.message
@@ -195,7 +197,6 @@
         },
         methods:{
             memberDetails(index){
-                // window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.data1[index].thirdUid); 
                 window.open("/new/#/member/memberManage/list/"+this.data1[index].owner); 
              },
             pageChange(pageNo){
@@ -215,13 +216,11 @@
                         });
                     })
             },
-            // detail(index){
-            //     this.$router.push({path:'/operateDetail',query:{id:this.data1[index].id}})
-            // }, 
-             detail(index){
-                //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
-                //window.open(window.location.origin+"/#/operateDetail?id="+this.data1[index].id); 
-                 window.open("/#/operateDetail?id="+this.data1[index].id); 
+            orderDetail(index){
+                 window.open("/admin-applet/#/orderDetail?id="+this.data1[index].orderId); 
+            },
+            detail(index){
+                 window.open("/admin-applet/#/operateDetail?id="+this.data1[index].id); 
             },
             changeBeginTime(formatVal){
                 this.params.startTime = formatVal

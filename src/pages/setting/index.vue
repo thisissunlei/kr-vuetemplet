@@ -213,7 +213,7 @@
             del(index){
                 this.$http.post("postKmTeamUppLower",{uppAndLower:this.data1[index].id}).then((res)=>{
                  if( res.code === 1 ){
-                    this.$Message.success('修改成功!')
+                            this.$Message.success('修改成功!')
                             setTimeout(()=>{
                                     this.$http.get("getkmTeamList").then((res)=>{
                                     if( res.code === 1 ){
@@ -228,7 +228,7 @@
                                         title:error.message
                                     });
                                 })
-                            },1000)
+                            },500)
                    } else {
                         this.$Notice.error({
                         title:res.message
