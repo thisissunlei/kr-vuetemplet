@@ -213,7 +213,7 @@
             del(index){
                 this.$http.post("postKmTeamUppLower",{uppAndLower:this.data1[index].id}).then((res)=>{
                  if( res.code === 1 ){
-                    this.$Message.success('修改成功!')
+                            this.$Message.success('修改成功!')
                             setTimeout(()=>{
                                     this.$http.get("getkmTeamList").then((res)=>{
                                     if( res.code === 1 ){
@@ -228,7 +228,7 @@
                                         title:error.message
                                     });
                                 })
-                            },1000)
+                            },500)
                    } else {
                         this.$Notice.error({
                         title:res.message
@@ -241,23 +241,14 @@
             })
             },
             detail(index){
-                //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
-                //window.open(window.location.origin+"/#/settingDetail?id="+this.data1[index].id); 
                  window.open("/admin-applet/#/settingDetail?id="+this.data1[index].id); 
             },
             edit(index){
-                //this.$router.push({path:'/editGoods',query:{id:this.data1[index].id}})
-                // window.open(window.location.origin+"/#/editGoods?id="+this.data1[index].id); 
                  window.open("/admin-applet/#/editGoods?id="+this.data1[index].id); 
             },
             newBuiltGoods(){
-                 //this.$router.push({path:'/newBuiltGoods'})
-                //  console.log('window.location.origin')
-                //  console.log(window.location.origin+"/#/newBuiltGoods")
-                //window.open(window.location.origin+"/#/newBuiltGoods"); 
                 window.open("/admin-applet/#/newBuiltGoods"); 
-                 //window.open( window.location.origin+"/newBuiltGoods"); 
-            },
+            }
         }
     }
 </script>
