@@ -22,11 +22,11 @@
     "build:test04": "cross-env NODE_ENV=test04 node build/build.js",
     "build:dev01": "cross-env NODE_ENV=dev01 node build/build.js",
     "build:dev02": "cross-env NODE_ENV=dev02 node build/build.js",
-    "router":"node build/auto-routes/build.js"
+    "router": "node build/automaticRoute/build.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "iview": "2.12.0",
+    "iview": "2.8.0",
     "qs": "^6.5.2",
     "vue": "^2.5.2",
     "vue-dateutils": "^1.0.8",
