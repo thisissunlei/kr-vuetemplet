@@ -139,11 +139,11 @@ export default {
       activityStateList: [
         {
           label: "已发布",
-          value: '0'
+          value: '1'
         },
         {
           label: "未发布",
-          value:'1'
+          value:'0'
         }
       ]
     };
