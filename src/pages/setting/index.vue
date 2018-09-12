@@ -8,7 +8,7 @@
           <Row style="margin-top:25px;">
             <Col span="24">
                <!-- <Table   :rowClassName="rowClassName" :columns="columns1" :data="data1" border stripe></Table> -->
-                  <Table  :columns="columns1" :data="data1" border stripe></Table>
+                  <Table  :columns="columns1" :data="sortData" border stripe></Table>
             </Col>
           </Row>
           <Row style="margin-top:25px;">
@@ -160,6 +160,21 @@
             })
         },
         mounted(){
+        },
+        computed:{
+          sortData:function(){
+              let curData =  this.data1
+            curData = curData.sort(function(a,b){
+                 if (a.ctime > b.ctime ) {
+                           return -1;
+                    }else if(a.ctime < b.ctime){
+                           return 1
+                    }else{
+                           return 0;
+                    }
+              })
+            return curData  
+          }
         },
         methods:{
             changePage(pageNum){
