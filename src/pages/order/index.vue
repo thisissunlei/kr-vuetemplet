@@ -43,7 +43,7 @@
           </Row>
           <Row style="margin-top:25px;">
               <Col span="24">
-                <Page  @on-change="changePage"  :page-size="15" :current="params.page" :total="totalCount" show-total></Page>
+                <Page  @on-change="changePage"  :page-size="15" :current="page" :total="totalCount" show-total></Page>
               </Col>
           </Row>
         </div>
@@ -54,6 +54,7 @@
             return {
                 cardTypeList:[{key:'普通卡',value:'NORMAL'},{key:'定制卡',value:'CUSTOM'}],
                 totalCount:0,
+                page:1,
                 params:{
                   beginTime:'',  // 支付开始时间
                   cardNum:'',    // 卡号
@@ -137,7 +138,7 @@
                 if( res.code === 1 ){
                     this.data1 = res.data.items
                     this.totalCount = res.data.totalCount
-                    this.params.page = res.data.page
+                    this.page = res.data.page
                    } else {
                         this.$Notice.error({
                         title:res.message
@@ -172,9 +173,7 @@
                     })
             },
             detail(index){
-                //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
-                // window.open(window.location.origin+"/#/orderDetail?id="+this.data1[index].id); 
-                 window.open("/admin-applet//#/orderDetail?id="+this.data1[index].id); 
+                 window.open("/admin-applet/#/orderDetail?id="+this.data1[index].id); 
             },
             changeBeginTime(formatVal){
                 this.params.beginTime = formatVal

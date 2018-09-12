@@ -302,10 +302,9 @@ import UploadFile from '../../components/UploadFile'
                             if(res.code === 1){
                                 this.$Message.success('修改成功!')
                                 setTimeout(()=>{
-                                //this.$router.push({path:'/setting'});  
-                                window.close();
-                                window.opener.location.reload();
-                                },1000)
+                                    window.close();
+                                    window.opener.location.reload();
+                                },500)
                             }else{
                                 this.$Message.error(res.message)
                             }
