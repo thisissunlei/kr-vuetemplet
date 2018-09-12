@@ -40,7 +40,7 @@ export default {
         this.formattingColumns(publicFn.initListData.call(this, this.type))
       ),
       params:{
-        page:1,
+        page:0,
         pageSize:50,
         activityId:this.$route.query.activityId || 1,
       },
