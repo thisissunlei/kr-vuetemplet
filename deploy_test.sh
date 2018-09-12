@@ -1,5 +1,5 @@
 #!/bin/bash
-
+npm run router
 npm run build
 
 

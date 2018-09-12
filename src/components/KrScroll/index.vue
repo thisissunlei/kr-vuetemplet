@@ -58,7 +58,7 @@ export default {
     }
   },
   created() {
-    this.handleScroll = utils.debounce(50, this.onScroll);
+    // this.handleScroll = utils.debounce(50, this.onScroll);
   },
   mounted() {
     let _this = this;

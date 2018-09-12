@@ -248,7 +248,7 @@
             },
             newBuiltGoods(){
                 window.open("/admin-applet/#/newBuiltGoods"); 
-            },
+            }
         }
     }
 </script>

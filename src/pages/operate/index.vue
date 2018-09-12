@@ -221,7 +221,6 @@
             },
             detail(index){
                  window.open("/admin-applet/#/operateDetail?id="+this.data1[index].id); 
-
             },
             changeBeginTime(formatVal){
                 this.params.startTime = formatVal
