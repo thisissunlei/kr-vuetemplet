@@ -243,31 +243,19 @@
             detail(index){
                 //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
                 //window.open(window.location.origin+"/#/settingDetail?id="+this.data1[index].id); 
-<<<<<<< HEAD
-                 window.open("/#/settingDetail?id="+this.data1[index].id); 
-=======
                  window.open("/admin-applet/#/settingDetail?id="+this.data1[index].id); 
->>>>>>> feature/zsy/团队卡项目
             },
             edit(index){
                 //this.$router.push({path:'/editGoods',query:{id:this.data1[index].id}})
                 // window.open(window.location.origin+"/#/editGoods?id="+this.data1[index].id); 
-<<<<<<< HEAD
-                 window.open("/#/editGoods?id="+this.data1[index].id); 
-=======
                  window.open("/admin-applet/#/editGoods?id="+this.data1[index].id); 
->>>>>>> feature/zsy/团队卡项目
             },
             newBuiltGoods(){
                  //this.$router.push({path:'/newBuiltGoods'})
                 //  console.log('window.location.origin')
                 //  console.log(window.location.origin+"/#/newBuiltGoods")
                 //window.open(window.location.origin+"/#/newBuiltGoods"); 
-<<<<<<< HEAD
-                window.open("/#/newBuiltGoods"); 
-=======
                 window.open("/admin-applet/#/newBuiltGoods"); 
->>>>>>> feature/zsy/团队卡项目
                  //window.open( window.location.origin+"/newBuiltGoods"); 
             },
         }
