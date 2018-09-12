@@ -1,5 +1,9 @@
 #!/bin/bash
 npm run router
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 npm run build
 
 
