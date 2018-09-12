@@ -55,7 +55,7 @@ export default {
       //下线开关
       openOffline: false,
 
-      totalCount: "",
+      totalCount: 0,
       //活动id
       activityId: 0,
       //是否发布
@@ -94,6 +94,7 @@ export default {
             let begin = dateUtils.dateToStr("YYYY-MM-DD", new Date(params.row.beginTime))
             let end = dateUtils.dateToStr("YYYY-MM-DD", new Date(params.row.endTime))
             let date=begin+'至'+end;
+            console.log(begin,"pppp",end)
             if(begin==end){
               date = begin;
             }
@@ -105,7 +106,7 @@ export default {
           key: "ctime",
           align: "center",
           render:(h,params)=>{
-            let date = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.ctime))
+            let date = params.row.ctime ? dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.ctime)):'-';
             return h('span',{},date);
           }
         },
