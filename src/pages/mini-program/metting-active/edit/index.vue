@@ -534,12 +534,12 @@ export default {
         endTime: [
           { required: false, trigger: "change", validator: validateEndTime }
         ],
-        startMoment: [
-          { required: false, trigger: "change", validator: validateMoment }
-        ],
-        endMoment: [
-          { required: false, trigger: "change", validator: validateMoment }
-        ],
+        // startMoment: [
+        //   { required: false, trigger: "change", validator: validateMoment }
+        // ],
+        // endMoment: [
+        //   { required: false, trigger: "change", validator: validateMoment }
+        // ],
         limitCount: [
           { required: false, trigger: "change", validator: validateLimitCount }
         ],
@@ -641,8 +641,8 @@ export default {
           });
           let startDateArr = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.beginTime)).split(" ")
           let endDateArr = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.endTime)).split(" ")
-          console.log(startDateArr,",,,,,,",endDateArr)
-          if(startDateArr[0]!=endDateArr[0] && startDateArr[1]==endDateArr[1]){
+          console.log(startDateArr,"kkkkk",endDateArr)
+          if(startDateArr[0]!=endDateArr[0] && startDateArr[1]==endDateArr[1] && startDateArr[1] == '00:00:00'){
             data.endTime = data.endTime-1;
           }
           data.startMoment = data.beginTime
@@ -720,12 +720,10 @@ export default {
         : "00:00:00";
       
       if(!obj.endMoment){
-         obj.endMoment = obj.endTime = (new Date(obj.endTime)).getTime()+1*1000;
+         obj.endMoment = obj.endTime = (new Date(obj.endTime)).getTime() + 60*60*24*1000;
       }
-        console.log( obj.endMoment,"kkkkk")
-      obj.endMoment = obj.endMoment
-        ? dateUtils.dateToStr("HH:mm:ss", new Date(obj.endMoment))
-        : "24:00:00";
+      obj.endMoment =  dateUtils.dateToStr("HH:mm:ss", new Date(obj.endMoment))
+        
 
       obj.beginTime = obj.beginTime
         ? dateUtils.dateToStr("YYYY-MM-DD", new Date(obj.beginTime)) +

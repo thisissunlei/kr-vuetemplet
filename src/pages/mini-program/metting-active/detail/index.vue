@@ -71,7 +71,7 @@
                         </Col>
                         <Col span="12">
                             <div style="padding:0 0 10px 0px;font-weight: bold;">活动时间</div>
-                            <div style="padding:0 0 10px 0px;">{{(formItem.startMoment+'至'+formItem.startMoment)||'-'}}</div>
+                            <div style="padding:0 0 10px 0px;">{{(formItem.startMoment+'至'+formItem.endMoment)||'-'}}</div>
                         </Col>
                     </Row>
                     <Row>
@@ -240,7 +240,13 @@ export default {
         .then(res => {
           let data = Object.assign({}, res.data);
         
-          
+          let startDateArr = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.beginTime)).split(" ")
+          let endDateArr = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.endTime)).split(" ")
+          console.log(startDateArr,"llll",endDateArr)
+          if(startDateArr[0]!=endDateArr[0] && startDateArr[1]==endDateArr[1] && startDateArr[1] == '00:00:00'){
+            data.endTime = data.endTime-1;
+          }
+          console.log(dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(data.endTime)),"lllll")
           data.content = JSON.parse(data.content);
           data.startMoment = data.beginTime
             ? dateUtils

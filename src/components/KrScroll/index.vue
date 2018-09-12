@@ -1,5 +1,8 @@
 <template>
     <div class="ui-kr-scroll">
+        <div :id="tableHanderId" class="kr-fixed-table-hander">
+            
+        </div>
         <slot></slot>
         <div v-if="loadding" style="text-align:center;">
              <Spin size="large" style="display:inline-block;"/>
@@ -12,76 +15,161 @@
     </div>
 </template>
 <script>
-import utils from 'utils';
-export default{
-    // components:{
+import utils from "utils";
+export default {
+  // components:{
+
+  // },
+  props: {
+    onReachBottom: {
+      type: Function,
+      default: () => {}
+    },
+    toBottom: {
+      type: Boolean,
+      default: false
+    },
+    topHeight: {
+      type: Number,
+      default: 78
+    },
+    scrollTopNum: {
+      type: Number,
+      default: 130
+    }
+  },
+  data() {
+    return {
+      loadding: false,
+      noData: this.toBottom,
+      scrollTop: 0,
+      handerContent: false,
+      tableHanderId: "tableHanderId" + this._uid,
+      handerHeight: 0,
+      tableClass: "ivu-table "
+    };
+  },
+  watch: {
+    toBottom() {
+      this.noData = this.toBottom;
+      if (this.toBottom) {
+        this.loadding = false;
+      }
+    }
+  },
+  created() {
+    this.handleScroll = utils.debounce(50, this.onScroll);
+  },
+  mounted() {
+    let _this = this;
+    this.$kr_global.contentDom.addEventListener(
+      "scroll",
+      this.handleScroll,
+      false
+    );
+
+    LISTENSIDEBAROPEN(function(params) {
+      _this.handerRefresh();
+    });
+
+    window.onresize = () => {
+      this.handerRefresh();
+    };
+  },
+  beforeDestroy() {
+    this.$kr_global.contentDom.removeEventListener(
+      "scroll",
+      this.onScroll,
+      false
+    );
+  },
+  methods: {
+    handerRefresh() {
+      let handerDom = document.getElementById(this.tableHanderId);
+      this.handerContent = false;
+      setTimeout(() => {
+        let tabHanderDom = this.getHanderHeight(this.$slots.default[0].elm);
+        handerDom.className = handerDom.className + " " + this.tableClass;
+        handerDom.innerHTML = tabHanderDom.innerHTML;
+        this.handerHeight = tabHanderDom.clientHeight;
+        handerDom.style.height = this.handerHeight + "px";
+      }, 300);
+    },
+    onScroll() {
+      var dom = this.$kr_global.contentDom;
+      let contentDetail = dom.getBoundingClientRect();
+      let handerDom = document.getElementById(this.tableHanderId);
+
+      this.scrollTop = dom.scrollTop;
+      if (this.scrollTopNum < dom.scrollTop) {
+        // handerDom.innerHTML = this.$slots.default[0].elm.innerHTML
+        if (!this.handerContent) {
+          let tabHanderDom = this.getHanderHeight(this.$slots.default[0].elm);
+          handerDom.className = handerDom.className + " " + this.tableClass;
+          handerDom.innerHTML = tabHanderDom.innerHTML;
+          this.handerContent = true;
+          this.handerHeight = tabHanderDom.clientHeight;
+        }
+        // console.log(handerDom.style.display,"ppppp")
+        if (handerDom.style.display == "none" || !handerDom.style.display) {
+          handerDom.style.display = "block";
+          handerDom.style.position = "fixed";
+          handerDom.style.zIndex = "999";
+          handerDom.style.height = this.handerHeight + "px";
+          handerDom.style.top = this.topHeight + "px";
+        }
+      } else {
+        handerDom.style.display = "none";
+      }
+       this.$emit("scroll");
+      if (dom.scrollHeight - dom.scrollTop - dom.clientHeight < 5) {
+        if (this.noData) {
+          return;
+        }
+        var waitFunction = this.onReachBottom();
+        this.loadding = true;
+        if (waitFunction.then) {
+          waitFunction.then(() => {
+            dom.scrollTop = this.scrollTop;
+
+            this.loadding = false;
+          });
+        }
+      }
      
-    // },
-    props:{
-        onReachBottom:{
-            type:Function,
-            default:()=>{},
-        },
-        toBottom:{
-            type:Boolean,
-            default:false
-        },
     },
-    data(){
-	    return{
-            loadding:false,
-            noData:this.toBottom,
-            scrollTop:0,
-		}
-
-    },
-    watch:{
-        toBottom(){
-            this.noData = this.toBottom;
-            if(this.toBottom){
-                this.loadding = false;
-            }
-            
+    getHanderHeight(dom) {
+      if (dom.className.indexOf("ivu-table ") != -1) {
+        this.tableClass = dom.className;
+      }
+      if (dom.className.indexOf("ivu-table-header") != -1) {
+        return dom;
+      } else {
+        let handerDom = "";
+        for (let i = 0; i < dom.children.length; i++) {
+          const element = dom.children[i];
+          handerDom = this.getHanderHeight(element);
+          if (handerDom) {
+            return handerDom;
+          }
         }
-    },
-    created(){
-        this.handleScroll = utils.debounce(150,this.onScroll);
-    },
-    mounted(){
-        this.$kr_global.contentDom.addEventListener("scroll",this.handleScroll);
-    },
-    methods:{
-        onScroll(){
-            if(this.noData){
-                return ;
-            }
-            var dom=this.$kr_global.contentDom;
-            this.scrollTop = dom.scrollTop;
-            if(dom.scrollHeight-dom.scrollTop-dom.clientHeight<10){
-                
-                var waitFunction = this.onReachBottom();
-                this.loadding=true;
-                if(waitFunction.then){
-                    waitFunction.then(()=>{
-                      
-                       dom.scrollTop = this.scrollTop;
-
-                        this.loadding = false;
-                    })
-                }
-            }
-          
-            this.$emit('scroll')
-        }
-    },
-
-}
+      }
+    }
+  }
+};
 </script>
 
-<style lang="less" scoped>
-.ui-kr-scroll{
-
+<style lang="less" >
+.ui-kr-scroll {
+  .kr-fixed-table-hander {
+    border-top: 1px solid #e9eaec;
+    border-left: 1px solid #e9eaec;
+    overflow: hidden;
+    height: 40px;
+    display: none;
+    th {
+      background-color: #f8f8f9;
+    }
+  }
 }
-    
-   
 </style>
