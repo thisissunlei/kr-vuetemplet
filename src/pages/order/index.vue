@@ -112,7 +112,18 @@
                         key: 'amount'
                     },{
                         title: '下单人',
-                        key: 'thirdNick'
+                        key: 'thirdNick',
+                        render: (h, params) => {
+                            return h('div',
+                                [h('a', {
+                                    on: {
+                                        click: () => {
+                                            this.memberDetails(params.index)
+                                        }
+                                    }
+                                }, this.data1[params.index].thirdNick)
+                            ]);
+                        }
                     },{
                         title: '支付时间',
                         key: 'payTime'
@@ -138,6 +149,10 @@
                     }) 
         },
         methods:{
+            memberDetails(index){
+                // window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.data1[index].uid); 
+                window.open("/new/#/member/memberManage/list/"+this.data1[index].uid); 
+             },
             changePage(pageNum){
                         this.params.page = pageNum
                         this.$http.get("getKmTeamOrderList",this.params).then((res)=>{
@@ -156,9 +171,6 @@
                         });
                     })
             },
-            // detail(index){
-            //     this.$router.push({path:'/orderDetail',query:{id:this.data1[index].id}})
-            // },
             detail(index){
                 //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
                 // window.open(window.location.origin+"/#/orderDetail?id="+this.data1[index].id); 
@@ -174,6 +186,8 @@
                 this.$http.get("getKmTeamOrderList",this.params).then((res)=>{
                 if( res.code === 1 ){
                     this.data1 = res.data.items
+                    this.totalCount = res.data.totalCount
+                    this.params.page = res.data.page
                    } else {
                         this.$Notice.error({
                         title:res.message

@@ -212,6 +212,7 @@
                     this.info.usedList.map((item)=>{
                         if( item.nickName == leader){
                            this.headPhoto = item.avatarUrl
+                           this.uid = item.uid
                         }
                     }) 
                   return leader
@@ -236,7 +237,7 @@
              memberDetails(){
                  // http://optest01.krspace.cn/new/#/member/memberManage/list/23808
                  // window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.purchaser); 
-                 window.open("/new/#/member/memberManage/list/"+this.purchaser); 
+                 window.open("/new/#/member/memberManage/list/"+this.uid); 
              },
             formatDateTime(inputTime) {  
                 let date = new Date(inputTime);

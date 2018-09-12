@@ -129,7 +129,7 @@
              memberDetails(){
                  // http://optest01.krspace.cn/new/#/member/memberManage/list/23808
                  // window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.info.thirdUid); 
-                  window.open("/new/#/member/memberManage/list/"+this.info.thirdUid); 
+                  window.open("/new/#/member/memberManage/list/"+this.info.uid); 
              }
         }, 
         created(){
