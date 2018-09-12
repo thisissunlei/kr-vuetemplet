@@ -21,7 +21,8 @@
     "build:test03": "cross-env NODE_ENV=test03 node build/build.js",
     "build:test04": "cross-env NODE_ENV=test04 node build/build.js",
     "build:dev01": "cross-env NODE_ENV=dev01 node build/build.js",
-    "build:dev02": "cross-env NODE_ENV=dev02 node build/build.js"
+    "build:dev02": "cross-env NODE_ENV=dev02 node build/build.js",
+    "router": "node build/automaticRoute/build.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
