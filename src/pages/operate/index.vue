@@ -38,7 +38,7 @@
           </Row>
           <Row style="margin-top:25px;">
             <Col span="24">
-               <Table :columns="columns1" :data="data1"
+               <Table :columns="columns1" :data="sortData"
                border stripe></Table>
             </Col>
           </Row>
@@ -65,6 +65,10 @@
                     pageSize:15
                 },
                 columns1: [
+                    {
+                        title: 'id',
+                        key: 'id'
+                    },
                     {
                         title: '卡号',
                         key: 'cardNo',
@@ -122,8 +126,13 @@
                         key: 'thirdNick',
                         render: (h, params) => {
                             return h('div',
-                                [h('span', {
-                                    style:'color:#00CEFF'
+                                [h('a', {
+                                   style:'color:#00CEFF',
+                                   on:{
+                                       click: () => {
+                                            this.memberDetails(params.index)
+                                        }
+                                   }
                                 }, this.data1[params.index].thirdNick)
                             ]);
                         }
@@ -178,7 +187,17 @@
                 });
             })
         },
+        computed:{
+            sortData:function(){
+                   let curData = this.data1;
+                   return curData
+            }
+        },
         methods:{
+            memberDetails(index){
+                // window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.data1[index].thirdUid); 
+                window.open("/new/#/member/memberManage/list/"+this.data1[index].owner); 
+             },
             pageChange(pageNo){
                 this.params.page = pageNo
                 this.$http.get("getKmTeamCardList",this.params).then((res)=>{
@@ -215,7 +234,7 @@
                 if( res.code === 1 ){
                     this.data1 = res.data.items
                     this.totalCount = res.data.totalCount
-                    this.totalPages = res.data.totalPages
+                    this.params.page = res.data.page
                    } else {
                         this.$Notice.error({
                         title:res.message
