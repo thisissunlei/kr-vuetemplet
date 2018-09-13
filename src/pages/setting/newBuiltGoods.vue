@@ -249,6 +249,10 @@ import UploadFile from '../../components/UploadFile'
                     }
                 }  
         },
+         mounted(){
+            document.title = '新建团队卡-氪空间后台管理系统'
+            GLOBALSIDESWITCH("false");
+        },
         methods: {
             coverSuccess(response, file, fileList){
                 if(response.code == 1){

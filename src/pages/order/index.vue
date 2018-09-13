@@ -149,6 +149,9 @@
                         });
                     }) 
         },
+        mounted(){
+            document.title = '团队卡订单-氪空间后台管理系统'
+        },
         methods:{
             memberDetails(index){
                 // window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.data1[index].uid); 
