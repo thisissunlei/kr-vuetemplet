@@ -125,6 +125,7 @@
           this.$http.get("getKmTeamUppLowerDetail",{kmCardId:this.$route.query.id}).then((res)=>{
                 if( res.code === 1 ){
                         this.info = res.data
+                        if(this.info.quantityType == 'INF'){this.info.quantity = '无上限'}
                    } else {
                         this.$Notice.error({
                         title:res.message
