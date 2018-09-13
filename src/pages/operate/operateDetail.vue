@@ -140,7 +140,7 @@
                         key: 'descr'
                     },
                     {
-                        title: '消费金额123',
+                        title: '消费金额',
                         key: 'amount',
                         render: (h, params) => {
                             let curStr = String(this.info.usedList[params.index].amount);

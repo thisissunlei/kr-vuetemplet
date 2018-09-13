@@ -92,8 +92,7 @@
                 <Col span="9">
                     <FormItem label="库   存  (张)：" prop="quantity">
                         <Input v-model="formValidate.quantity" 
-                        :disabled="quantityFlag"
-                        size="large"  style="width:150px;" placeholder="请输入库存数量"></Input>
+                        :disabled="quantityFlag" size="large"  style="width:150px;" placeholder="请输入库存数量"></Input>
                         <Checkbox v-model="quantityFlag" >库存无上限</Checkbox>
                     </FormItem>
                 </Col>
@@ -259,10 +258,8 @@ import UploadFile from '../../components/UploadFile'
                 quantityFlag:function(){
                      if(this.quantityFlag){
                             this.quantityType = 'INF'
-                            this.formValidate.quantity = '20'  
                         }else{
                             this.quantityType = 'LIMIT'  
-                            this.formValidate.quantity = ''  
                         }
                 }
         },
@@ -274,6 +271,9 @@ import UploadFile from '../../components/UploadFile'
                     if( res.code === 1 ){
                             this.formValidate = Object.assign({},res.data) 
                             this.formValidate = res.data 
+                            // "quantityType":"LIMIT"
+                            if( this.formValidate.quantityType == 'LIMIT'){ this.quantityFlag = false }
+                            if( this.formValidate.quantityType == 'INF' ){ this.quantityFlag = true }
                             this.imgList.push({'url':res.data.goodsUrl})
                         } else {
                                 this.$Notice.error({
