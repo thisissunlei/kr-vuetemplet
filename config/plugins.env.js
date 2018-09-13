@@ -1,7 +1,8 @@
 const envs = require('./dev.deomin');
 const pluginsDomain  = envs[process.env.NODE_ENV].plugins+'/plugins';
+const time = (new Date()).getTime();
 const jsFiles = [
-    pluginsDomain+'/nav/1.0.0/nav.js',
+    pluginsDomain+'/nav/1.0.0/nav.js'+'?version='+time,
     'https://web.krspace.cn/kr-op/echarts/4.1.0/echarts.min.js',
     'https://web.krspace.cn/kr-op/umeditor/ueditor.config.js',
     'https://web.krspace.cn/kr-op/umeditor/ueditor.all.js',
