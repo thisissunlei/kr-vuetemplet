@@ -125,13 +125,9 @@
           this.$http.get("getKmTeamUppLowerDetail",{kmCardId:this.$route.query.id}).then((res)=>{
                 if( res.code === 1 ){
                         this.info = res.data
-<<<<<<< HEAD
-                        if(this.info.quantityType == 'INF'){this.info.quantity = '无上限'}
-=======
                         if(this.info.quantityType == 'INF'){
                            this.info.quantity = '无上限'
                         }
->>>>>>> feature/zsy/团队卡项目
                    } else {
                         this.$Notice.error({
                         title:res.message

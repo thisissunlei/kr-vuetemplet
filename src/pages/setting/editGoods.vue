@@ -258,10 +258,7 @@ import UploadFile from '../../components/UploadFile'
                 quantityFlag:function(){
                      if(this.quantityFlag){
                             this.quantityType = 'INF'
-<<<<<<< HEAD
-=======
                             this.formValidate.quantity = ''  
->>>>>>> feature/zsy/团队卡项目
                         }else{
                             this.quantityType = 'LIMIT'  
                         }
@@ -275,14 +272,8 @@ import UploadFile from '../../components/UploadFile'
                     if( res.code === 1 ){
                             this.formValidate = Object.assign({},res.data) 
                             this.formValidate = res.data 
-<<<<<<< HEAD
-                            // "quantityType":"LIMIT"
-                            if( this.formValidate.quantityType == 'LIMIT'){ this.quantityFlag = false }
-                            if( this.formValidate.quantityType == 'INF' ){ this.quantityFlag = true }
-=======
                             if(this.formValidate.quantityType == 'INF'){ this.quantityFlag = true  }
                             if(this.formValidate.quantityType == 'LIMIT'){ this.quantityFlag = false }
->>>>>>> feature/zsy/团队卡项目
                             this.imgList.push({'url':res.data.goodsUrl})
                         } else {
                                 this.$Notice.error({
