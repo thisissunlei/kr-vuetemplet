@@ -74,8 +74,12 @@
                         title: '商品状态',
                         key: 'published',
                         render: (h, params) => {
+<<<<<<< HEAD
                             return h('div',{
                                 },
+=======
+                            return h('div',
+>>>>>>> feature/zsy/团队卡项目
                                 [h('span', {
                                 },  this.data1[params.index].published ?'已上架':'已下架'  ),
                             ]);

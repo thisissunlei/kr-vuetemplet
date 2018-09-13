@@ -35,7 +35,7 @@
                         支付方式：{{info.payWay|fpayWay}}
                     </Col>
                     <Col span="12">
-                       支付时间：{{info.payTime|fctime}}
+                        支付时间：{{info.payTime|fctime}}
                     </Col>
                 </Row>  
                 <Row style="margin-top:20px;">
@@ -51,7 +51,7 @@
                 </div>
                 <Row style="margin-top:20px;">
                     <Col span="12">
-                       <span>商品编号：</span> <span style="color:#00CCFF;">{{info.cardNo}}</span> 
+                       <span >商品编号：</span> <span @click="goodDetail" style="color:#00CCFF;cursor:pointer;">{{info.cardNo}}</span> 
                     </Col>
                     <Col span="12">
                         商品类型：{{info.cardType|fcardType}}
@@ -59,7 +59,7 @@
                 </Row>  
                 <Row style="margin-top:20px;">
                     <Col span="12">
-                       <span>卡号：</span> <span style="color:#00CCFF;">{{info.cardNum}}</span> 
+                       <span >卡号：</span> <span @click="operateDetail" style="color:#00CCFF;cursor:pointer;">{{info.cardNum}}</span> 
                     </Col>
                     <Col span="12">
                         团队卡名称：{{info.teamName}}
@@ -126,6 +126,16 @@
             }
         },
         methods: {
+            goodDetail(){
+                //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
+                //window.open(window.location.origin+"/#/settingDetail?id="+this.data1[index].id); 
+                 window.open("/admin-applet/#/settingDetail?id="+this.info.goodId); 
+            },
+            operateDetail(){
+                //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
+                //window.open(window.location.origin+"/#/settingDetail?id="+this.data1[index].id); 
+                 window.open("/admin-applet/#/operateDetail?id="+this.info.saleId); 
+            },
              memberDetails(){
                  // http://optest01.krspace.cn/new/#/member/memberManage/list/23808
                  // window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.info.thirdUid); 

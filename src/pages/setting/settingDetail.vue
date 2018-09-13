@@ -58,7 +58,7 @@
                 </Row>
                 <Row style="margin-top:20px;">
                     <Col span="12">
-                        操作人员：{{info.creater}}
+                        操作人员：{{info.ssoName}}
                     </Col>
                     <Col span="12">
                         操作时间：{{info.ctime|fctime}}
@@ -125,7 +125,13 @@
           this.$http.get("getKmTeamUppLowerDetail",{kmCardId:this.$route.query.id}).then((res)=>{
                 if( res.code === 1 ){
                         this.info = res.data
+<<<<<<< HEAD
                         if(this.info.quantityType == 'INF'){this.info.quantity = '无上限'}
+=======
+                        if(this.info.quantityType == 'INF'){
+                           this.info.quantity = '无上限'
+                        }
+>>>>>>> feature/zsy/团队卡项目
                    } else {
                         this.$Notice.error({
                         title:res.message
