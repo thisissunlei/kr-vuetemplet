@@ -187,7 +187,7 @@
             }
         },
         mounted(){
-            document.title = '团队卡运营详情-氪空间后台管理系统'
+            document.title = '运营详情查看-氪空间后台管理系统'
             GLOBALSIDESWITCH("false");
         },
         created(){

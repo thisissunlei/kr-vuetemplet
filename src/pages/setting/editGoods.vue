@@ -283,7 +283,7 @@ import UploadFile from '../../components/UploadFile'
                 })
         },
          mounted(){
-            document.title = '团队卡配置编辑-氪空间后台管理系统'
+            document.title = '编辑团队卡-氪空间后台管理系统'
             GLOBALSIDESWITCH("false");
         },
         methods: {

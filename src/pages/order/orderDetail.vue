@@ -126,7 +126,7 @@
             }
         },
         mounted(){
-            document.title = '团队卡订单详情-氪空间后台管理系统'
+            document.title = '订单详情查看-氪空间后台管理系统'
             GLOBALSIDESWITCH("false");
         },
         methods: {
