@@ -99,7 +99,7 @@ export default {
         .then(response => {
           this.listData = this.listData.concat(response.data.items);
           // this.allMoney = response.data.totalCount;
-          if(this.params.page>=response.data.totalPages){
+          if( this.listData.length>=response.data.totalCount){
             this.isBottom = true;
           }
           if(resolve){
