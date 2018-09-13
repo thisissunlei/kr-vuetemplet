@@ -2,7 +2,12 @@
 <template>
   <div class="m-account-management">
       <div class="account-manage-table">
-        <KrScroll :onReachBottom="onReachBottom" :toBottom="isBottom">
+        <!-- <KrfixedTableHander :columns="listColumns"  :data="listData"/> -->
+        <KrScroll 
+          :onReachBottom="onReachBottom" 
+          :toBottom="isBottom"
+          :scrollTopNum="130"
+        >
           <Table 
             :columns="listColumns" 
             :data="listData"
@@ -16,9 +21,11 @@
 <script>
 import publicFn from "./publicPage.js";
 import KrScroll from "~/components/KrScroll";
+import KrfixedTableHander from '~/components/KrfixedTableHander';
 export default {
   components: {
-    KrScroll
+    KrScroll,
+    KrfixedTableHander
   },
   props: {
     type: {
@@ -32,8 +39,14 @@ export default {
       listColumns: [].concat(
         this.formattingColumns(publicFn.initListData.call(this, this.type))
       ),
+      params:{
+        page:0,
+        pageSize:50,
+        activityId:this.$route.query.activityId || 1,
+      },
       isBottom:false,
       allMoney: "",
+      
       communityList: []
     };
   },
@@ -65,8 +78,10 @@ export default {
     },
     onReachBottom() {
       return new Promise(resolve => {
+        setTimeout(()=>{
+          this.getListData(resolve)
+        },500)
         
-        this.getListData(resolve)
         // resolve();
       });
     },
@@ -83,8 +98,8 @@ export default {
         .get("metting-active-user-list", params)
         .then(response => {
           this.listData = this.listData.concat(response.data.items);
-          this.allMoney = response.data.totalCount;
-          if(this.listData.length>=this.allMoney){
+          // this.allMoney = response.data.totalCount;
+          if(this.params.page>=response.data.totalPages){
             this.isBottom = true;
           }
           if(resolve){

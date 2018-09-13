@@ -6,7 +6,7 @@
 	<!-- <KrScroll :on-reach-bottom="handleReachBottom"> -->
 		<Table border :columns="activeCol" :data="activeDetail" />
 		<div style="float: right;margin:10px;">
-			<Page :total="tabelParams.totalCount" :page-size='15' show-total show-elevator @on-change="onPageChange"/>
+			<Page :total="totalCount" :page-size='15' show-total show-elevator @on-change="onPageChange"/>
 		</div>
 		<Modal
 			v-model="openDelete"
@@ -55,7 +55,7 @@ export default {
       //下线开关
       openOffline: false,
 
-      totalCount: "",
+      totalCount: 0,
       //活动id
       activityId: 0,
       //是否发布
@@ -88,14 +88,54 @@ export default {
         },
         {
           title: "活动日期",
-          key: "ctime",
+          key: "endTime",
           align: "center",
-          render:(h,params)=>{
-            let date = dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.ctime))
-            return h('span',{},date);
+          render: (h, params) => {
+            let startDateArr = dateUtils
+              .dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.beginTime))
+              .split(" ");
+            let endDateArr = dateUtils
+              .dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.endTime))
+              .split(" ");
+
+            if (
+              startDateArr[0] != endDateArr[0] &&
+              startDateArr[1] == endDateArr[1] &&
+              startDateArr[1] == "00:00:00"
+            ) {
+              params.row.endTime = params.row.endTime - 1;
+            }
+            let begin = dateUtils.dateToStr(
+              "YYYY-MM-DD",
+              new Date(params.row.beginTime)
+            );
+            let end = dateUtils.dateToStr(
+              "YYYY-MM-DD",
+              new Date(params.row.endTime)
+            );
+            let date = begin + "至" + end;
+            console.log(begin, "pppp", end);
+            if (begin == end) {
+              date = begin;
+            }
+            return h("span", {}, date);
           }
         },
-        
+        {
+          title: "创建时间",
+          key: "ctime",
+          align: "center",
+          render: (h, params) => {
+            let date = params.row.ctime
+              ? dateUtils.dateToStr(
+                  "YYYY-MM-DD HH:mm:ss",
+                  new Date(params.row.ctime)
+                )
+              : "-";
+            return h("span", {}, date);
+          }
+        },
+
         {
           title: "报名人数",
           key: "joinCount",
@@ -140,7 +180,6 @@ export default {
                   style: style,
                   on: {
                     click: () => {
-
                       this.goEdit(params.row.id);
                     }
                   }
@@ -182,8 +221,8 @@ export default {
                   style: style,
                   on: {
                     click: () => {
-											this.activityId = params.row.id || 0;
-                  
+                      this.activityId = params.row.id || 0;
+
                       this.switchDelete();
                     }
                   }
@@ -202,14 +241,12 @@ export default {
                 },
                 "参与用户"
               )
-						];
-						if(params.row.published){
-								btns.splice(2,1);
-							
-						}else{
-							btns.splice(3,1);
-						
-						}
+            ];
+            if (params.row.published) {
+              btns.splice(2, 1);
+            } else {
+              btns.splice(3, 1);
+            }
 
             return h("div", btns);
           }
@@ -224,31 +261,35 @@ export default {
   mounted() {
     //  var dom=document.getElementById('layout-content-main');
     // dom.addEventListener("scroll",this.onScrollListener);
-		// window.addEventListener('resize',this.onResize);
-		this.tabelParams = Object.assign(this.tabelParams,this.$route.query)
-		this.getTableData();
+    // window.addEventListener('resize',this.onResize);
+    this.tabelParams = Object.assign(this.tabelParams, this.$route.query);
+    this.getTableData();
   },
   methods: {
     searchClick(params) {
-			utils.addParams(params);
-			this.tabelParams = Object.assign(this.tabelParams,params)
-			this.getTableData()
+      utils.addParams(params);
+      this.tabelParams = Object.assign(this.tabelParams, params);
+      this.getTableData();
     },
     clearClick(params) {
-			utils.addParams(params);
-			this.tabelParams = Object.assign(this.tabelParams,params)
-			this.getTableData()
+      utils.addParams(params);
+      this.tabelParams = Object.assign(this.tabelParams, params);
+      this.getTableData();
     },
     getTableData() {
-			let params = Object.assign({}, this.tabelParams);
-			params.beginTime = params.beginTime?dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.beginTime)):'';
-			params.endTime = params.endTime?dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.endTime)):'';
+      let params = Object.assign({}, this.tabelParams);
+      params.beginTime = params.beginTime
+        ? dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.beginTime))
+        : "";
+      params.endTime = params.endTime
+        ? dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.endTime))
+        : "";
       this.$http
         .get("get-metting-active-list", params)
         .then(res => {
           this.totalCount = res.data.totalCount;
-					// _this.deviceList = res.data.items;
-					this.activeDetail = [].concat(res.data.items);
+          // _this.deviceList = res.data.items;
+          this.activeDetail = [].concat(res.data.items);
         })
         .catch(error => {
           this.$Notice.error({
@@ -258,14 +299,14 @@ export default {
     },
     //删除
     deleteSubmit() {
-       this.$http
+      this.$http
         .get("metting-active-delete", {
-					activityId: this.activityId,
-					delete:true
+          activityId: this.activityId,
+          delete: true
         })
         .then(res => {
-					this.getTableData();
-				})
+          this.getTableData();
+        })
         .catch(error => {
           this.$Notice.error({
             title: error.message
@@ -280,8 +321,8 @@ export default {
           publish: this.publish
         })
         .then(res => {
-					this.getTableData();
-				})
+          this.getTableData();
+        })
         .catch(error => {
           this.$Notice.error({
             title: error.message
@@ -290,13 +331,22 @@ export default {
     },
 
     goDetail(id) {
-      window.open(`/admin-applet/#/mini-program/metting-active/detail?activityId=${id}`, "_blank");
+      window.open(
+        `/admin-applet/#/mini-program/metting-active/detail?activityId=${id}`,
+        "_blank"
+      );
     },
     goEdit(id) {
-      window.open(`/admin-applet/#/mini-program/metting-active/edit?activityId=${id}`, "_blank");
+      window.open(
+        `/admin-applet/#/mini-program/metting-active/edit?activityId=${id}`,
+        "_blank"
+      );
     },
     goJoinUser(id) {
-      window.open(`/admin-applet/#/mini-program/metting-active/join-user?activityId=${id}`, "_blank");
+      window.open(
+        `/admin-applet/#/mini-program/metting-active/join-user?activityId=${id}`,
+        "_blank"
+      );
     },
     switchRelease() {
       this.openRelease = !this.openRelease;
