@@ -32,7 +32,7 @@
                         <div><span>使用须知：</span></div> 
                         <div>
                             <ul>
-                                <li>{{info.cardIntro}}</li>
+                                <li v-for="(item,index) in cardIntroAry" :key="index">{{item}}</li>
                             </ul>
                         </div>
                     </Col>
@@ -70,6 +70,7 @@
     export default {
         data(){
             return {
+                cardIntroAry:[],
                 info:{
                     quantityType: "",
                     activeDuration: "",
@@ -118,6 +119,10 @@
                 return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;   
             }
         },
+        mounted(){
+            document.title = '配置详情查看-氪空间后台管理系统'
+            GLOBALSIDESWITCH("false");
+        },
         methods: {
             
         },
@@ -128,6 +133,9 @@
                         if(this.info.quantityType == 'INF'){
                            this.info.quantity = '无上限'
                         }
+                        console.log('this.info.cardIntro')
+                        console.log(this.info.cardIntro)
+                        this.cardIntroAry = this.info.cardIntro.split('#')
                    } else {
                         this.$Notice.error({
                         title:res.message

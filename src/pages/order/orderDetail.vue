@@ -125,6 +125,10 @@
                 return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;   
             }
         },
+        mounted(){
+            document.title = '订单详情查看-氪空间后台管理系统'
+            GLOBALSIDESWITCH("false");
+        },
         methods: {
             goodDetail(){
                 //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})

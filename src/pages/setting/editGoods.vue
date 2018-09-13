@@ -60,6 +60,8 @@
                  
                     <FormItem label="卡  面 图  片：" prop="goodsUrl">
                        <input  v-show="false" v-model="formValidate.goodsUrl" type="text" >
+                                <!-- :onRemove="coverRemove"
+                                :onFormatError="imgSizeFormat" -->
                        <UploadFile  
                                 :defaultFileList="imgList"    
                                 category="web/upload"
@@ -67,8 +69,6 @@
                                 :format="['jpg','png','gif']"
                                 :maxLen="1"
                                 :onSuccess="coverSuccess"
-                                :onRemove="coverRemove"
-                                :onFormatError="imgSizeFormat"
                                 :imgWidth="148"
                                 :imgHeight="148"/>
                     </FormItem>
@@ -92,9 +92,8 @@
                 <Col span="9">
                     <FormItem label="库   存  (张)：" prop="quantity">
                         <Input v-model="formValidate.quantity" 
-                        :disabled="quantityFlag"
-                        size="large"  style="width:150px;" placeholder="请输入库存数量"></Input>
-                        <Checkbox v-model="quantityFlag" >库存无上限</Checkbox>
+                        :disabled="quantityFlag" size="large"  style="width:150px;" placeholder="请输入库存数量"></Input>
+                        <Checkbox v-model="quantityFlag" on-change="changeFlag">库存无上限</Checkbox>
                     </FormItem>
                 </Col>
                 <Col span="6">
@@ -256,21 +255,16 @@ import UploadFile from '../../components/UploadFile'
             }
         },
         watch:{
-                quantityFlag:function(){
+                'quantityFlag':function(){
                      if(this.quantityFlag){
-                            this.quantityType = 'INF'
-                            this.formValidate.quantity = ''  
+                            this.formValidate.quantityType = 'INF'
                         }else{
-                            this.quantityType = 'LIMIT'  
-                            this.formValidate.quantity = ''  
+                            this.formValidate.quantityType = 'LIMIT'  
                         }
                 }
         },
         created(){
-                
-        },
-        mounted(){
-                this.$http.get("getKmTeamUppLowerDetail",{kmCardId:this.$route.query.id}).then((res)=>{
+                 this.$http.get("getKmTeamUppLowerDetail",{kmCardId:this.$route.query.id}).then((res)=>{
                     if( res.code === 1 ){
                             this.formValidate = Object.assign({},res.data) 
                             this.formValidate = res.data 
@@ -287,6 +281,10 @@ import UploadFile from '../../components/UploadFile'
                         title:error.message
                     });
                 })
+        },
+         mounted(){
+            document.title = '编辑团队卡-氪空间后台管理系统'
+            GLOBALSIDESWITCH("false");
         },
         methods: {
             coverSuccess(response, file, fileList){
