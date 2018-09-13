@@ -12,7 +12,7 @@ const portfinder = require('portfinder')
 const pluginsDomain = require('../config/plugins.env');
 const HOST = process.env.HOST;
 const PORT = process.env.PORT && Number(process.env.PORT);
-const autoRoute =require('../build/automaticRoute');
+const autoRoute = require('./auto-routes');
 autoRoute();
 
 
