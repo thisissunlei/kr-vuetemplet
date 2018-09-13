@@ -224,6 +224,7 @@ export default {
 
   mounted() {
     GLOBALSIDESWITCH("false");
+      document.title = '小程序活动详情-氪空间后台管理系统'
     //    this.getkrmeetingStatus();
     //    this.getDetailInfo();
     this.getDetail();

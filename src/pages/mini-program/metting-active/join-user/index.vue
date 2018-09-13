@@ -36,6 +36,7 @@ export default {
     mounted(){
         GLOBALSIDESWITCH("false");
         document.title = "活动-氪空间后台管理系统";
+      
         this.getTabelData();
     },
     data(){
