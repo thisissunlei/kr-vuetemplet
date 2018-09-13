@@ -56,7 +56,7 @@
                         }
                     },
                     {
-                        title: '用卡人上限',
+                        title: '用卡人上限（人）',
                         key: 'limitCount' // 用卡人上限
                     },
                     {
@@ -74,15 +74,8 @@
                         title: '商品状态',
                         key: 'published',
                         render: (h, params) => {
-                            return h('div',{
-                                style:{display:'flex',alignItems:'center',justifyContent:'space-around',color:'#009DD6'},
-                                },
+                            return h('div',
                                 [h('span', {
-                                    on: {
-                                        click: () => {
-                                            this.del(params.index)
-                                        }
-                                    }
                                 },  this.data1[params.index].published ?'已上架':'已下架'  ),
                             ]);
                         }

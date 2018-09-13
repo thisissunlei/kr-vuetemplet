@@ -156,8 +156,6 @@ import UploadFile from '../../components/UploadFile'
                         }
                 }; 
                  const ChecksaleQuantity = (rule, value, callback) => {
-                     console.log("库存验证");
-                     console.log(this.quantityFlag);
                     if(this.quantityFlag){
                           callback();
                     }else{
@@ -201,11 +199,11 @@ import UploadFile from '../../components/UploadFile'
                     ],
                     face: [
                         { required: true, message: '卡的面值不能为空',trigger:'blur'},
-                        { type:'string',pattern:/^([1-9]\d{0,6}|[0]{0,1})$/, message:'卡得面值为七位非负数且最多保留2位小数', trigger:'blur'},
+                        { type:'string',pattern:/(?!^0*(\.0{1,2})?$)^\d{1,7}(\.\d{1,2})?$/, message:'卡得面值为七位非负数且最多保留2位小数', trigger:'blur'},
                     ],
                     activeDuration: [
                         { required: true, message: '有效时长不能为空', trigger: 'blur'},
-                        { type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'有效时长为整数天', trigger:'blur'},
+                        { type:'string',pattern:/^[1-9]\d*$/, message:'有效时长为整数天', trigger:'blur'},
                     ],
                     limitCount: [
                         { required: true,  message: '用卡人上限不能为空', trigger: 'blur'},

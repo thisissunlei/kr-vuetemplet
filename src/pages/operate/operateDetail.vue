@@ -48,13 +48,13 @@
                 <Row style="margin-top:20px;">
                     <Col span="12">
                     <div style="cursor:pointer" @click="memberDetails">
-                        <span>购卡人：</span><Avatar :src="headPhoto" /> 
-                        <span style="color:#00CCFF;">{{purchaser}}</span> 
+                        <span>购卡人：</span><Avatar :src="headPhoto" />
+                        <span style="color:#00CCFF;">{{leader}}</span> 
                     </div>
                       
                     </Col>
                     <Col span="12">
-                       <span>购卡订单：</span> <span style="color:#00CCFF;">{{info.orderNo}}</span> 
+                       <span>购卡订单：</span> <span style="color:#00CCFF;cursor:pointer;" @click="orderDetail">{{info.orderNo}}</span> 
                     </Col>
                 </Row>  
                 <Row style="margin-top:20px;">
@@ -104,6 +104,7 @@
                 info: {},
                 headPhoto:'',
                 data1: [],
+                leader:'',
                  columns1: [
                     {
                         title: '微信ID',
@@ -140,7 +141,7 @@
                         key: 'descr'
                     },
                     {
-                        title: '消费金额123',
+                        title: '消费金额',
                         key: 'amount',
                         render: (h, params) => {
                             let curStr = String(this.info.usedList[params.index].amount);
@@ -189,6 +190,23 @@
             this.$http.get("getKmTeamCardDetails",{saleId:this.$route.query.id}).then((res)=>{
                 if(res.code === 1){
                         this.info = res.data
+                        this.info.holderList.map((item)=>{
+                            if(item.leader){
+                                this.leader = item.nickName;
+                                this.headPhoto = item.avatarUrl;
+                                this.uid = item.uid;
+                                }
+
+                        });
+                        // this.info.usedList.map((item)=>{
+                        //     if( item.nickName == this.leader){
+                        //         this.headPhoto = item.avatarUrl;
+                        //          console.log('this.headPhoto');
+                        //         console.log(this.headPhoto);
+                        //         this.uid = item.uid;
+                        //     }
+                        // }) 
+
                    }else{
                         this.$Notice.error({
                         title:res.message
@@ -200,23 +218,6 @@
                 });
             })
 
-        },
-        computed:{
-              purchaser(){
-                let leader = ''
-                    this.info.holderList.map((item)=>{
-                        if(item.leader){
-                           leader = item.nickName  
-                        }
-                    });
-                    this.info.usedList.map((item)=>{
-                        if( item.nickName == leader){
-                           this.headPhoto = item.avatarUrl
-                           this.uid = item.uid
-                        }
-                    }) 
-                  return leader
-              } 
         },
         filters:{
             fcStatus(val){
@@ -234,9 +235,10 @@
             }
         },
         methods: {  
+            orderDetail(){
+                window.open("/admin-applet/#/orderDetail?id="+this.info.orderId); 
+            },
              memberDetails(){
-                 // http://optest01.krspace.cn/new/#/member/memberManage/list/23808
-                 // window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.purchaser); 
                  window.open("/new/#/member/memberManage/list/"+this.uid); 
              },
             formatDateTime(inputTime) {  

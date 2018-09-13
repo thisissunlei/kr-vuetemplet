@@ -148,7 +148,7 @@ import UploadFile from '../../components/UploadFile'
                      if(value===''){
                            callback(new Error('有效时长不能为空'));      
                         }else{
-                            let reg = /^([1-9]\d*|[0]{1,1})$/;     
+                            let reg = /^[1-9]\d*$/;     
                             if(reg.test(value)){
                                     callback();
                                }else{
@@ -259,7 +259,7 @@ import UploadFile from '../../components/UploadFile'
                 quantityFlag:function(){
                      if(this.quantityFlag){
                             this.quantityType = 'INF'
-                            this.formValidate.quantity = '20'  
+                            this.formValidate.quantity = ''  
                         }else{
                             this.quantityType = 'LIMIT'  
                             this.formValidate.quantity = ''  
@@ -274,6 +274,8 @@ import UploadFile from '../../components/UploadFile'
                     if( res.code === 1 ){
                             this.formValidate = Object.assign({},res.data) 
                             this.formValidate = res.data 
+                            if(this.formValidate.quantityType == 'INF'){ this.quantityFlag = true  }
+                            if(this.formValidate.quantityType == 'LIMIT'){ this.quantityFlag = false }
                             this.imgList.push({'url':res.data.goodsUrl})
                         } else {
                                 this.$Notice.error({
