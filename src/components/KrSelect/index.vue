@@ -51,9 +51,7 @@ export default {
     params: {
       type: Object,
       default: () => {
-        return {
-          kmPublished: 2
-        };
+        return {};
       }
     },
     options: {
