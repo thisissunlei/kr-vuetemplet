@@ -64,7 +64,7 @@ export default {
     let _this = this;
     this.$kr_global.contentDom.addEventListener(
       "scroll",
-      this.handleScroll,
+      this.onScroll,
       false
     );
 
