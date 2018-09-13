@@ -100,6 +100,7 @@ export default {
           this.listData = this.listData.concat(response.data.items);
           // this.allMoney = response.data.totalCount;
           if( this.listData.length>=response.data.totalCount){
+            console.log("-----=====")
             this.isBottom = true;
           }
           if(resolve){
