@@ -38,7 +38,7 @@
           </Row>
           <Row style="margin-top:25px;">
             <Col span="24">
-               <Table :columns="columns1" :data="sortData"
+               <Table :columns="columns1" :data="data1"
                border stripe></Table>
             </Col>
           </Row>
@@ -189,11 +189,8 @@
                 });
             })
         },
-        computed:{
-            sortData:function(){
-                   let curData = this.data1;
-                   return curData
-            }
+        mounted(){
+            document.title = '团队卡运营-氪空间后台管理系统'
         },
         methods:{
             memberDetails(index){

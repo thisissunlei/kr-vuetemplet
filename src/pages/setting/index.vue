@@ -153,6 +153,7 @@
             })
         },
         mounted(){
+            document.title = '团队卡配置-氪空间后台管理系统'
         },
         computed:{
           sortData:function(){

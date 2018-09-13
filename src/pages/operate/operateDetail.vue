@@ -186,6 +186,10 @@
                 data2: []
             }
         },
+        mounted(){
+            document.title = '团队卡运营详情-氪空间后台管理系统'
+            GLOBALSIDESWITCH("false");
+        },
         created(){
             this.$http.get("getKmTeamCardDetails",{saleId:this.$route.query.id}).then((res)=>{
                 if(res.code === 1){
@@ -198,15 +202,6 @@
                                 }
 
                         });
-                        // this.info.usedList.map((item)=>{
-                        //     if( item.nickName == this.leader){
-                        //         this.headPhoto = item.avatarUrl;
-                        //          console.log('this.headPhoto');
-                        //         console.log(this.headPhoto);
-                        //         this.uid = item.uid;
-                        //     }
-                        // }) 
-
                    }else{
                         this.$Notice.error({
                         title:res.message

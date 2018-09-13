@@ -125,6 +125,10 @@
                 return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;   
             }
         },
+        mounted(){
+            document.title = '团队卡订单详情-氪空间后台管理系统'
+            GLOBALSIDESWITCH("false");
+        },
         methods: {
             goodDetail(){
                 //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})

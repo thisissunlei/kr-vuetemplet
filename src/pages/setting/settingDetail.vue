@@ -118,6 +118,10 @@
                 return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;   
             }
         },
+         mounted(){
+            document.title = '团队卡配置详情-氪空间后台管理系统'
+            GLOBALSIDESWITCH("false");
+        },
         methods: {
             
         },
