@@ -91,6 +91,7 @@
                info:{}
             }
         },
+        //  文本格式过滤
          filters:{
             fpayWay(val){
                 if(val == 1){return  '微信支付'}
@@ -130,23 +131,21 @@
             GLOBALSIDESWITCH("false");
         },
         methods: {
+            // 商品详情
             goodDetail(){
-                //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
-                //window.open(window.location.origin+"/#/settingDetail?id="+this.data1[index].id); 
                  window.open("/admin-applet/#/settingDetail?id="+this.info.goodId); 
             },
+            //  团队卡详情
             operateDetail(){
-                //this.$router.push({path:'/settingDetail',query:{id:this.data1[index].id}})
-                //window.open(window.location.origin+"/#/settingDetail?id="+this.data1[index].id); 
                  window.open("/admin-applet/#/operateDetail?id="+this.info.saleId); 
             },
+            //  会员详情
              memberDetails(){
-                 // http://optest01.krspace.cn/new/#/member/memberManage/list/23808
-                 // window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.info.thirdUid); 
                   window.open("/new/#/member/memberManage/list/"+this.info.uid); 
              }
         }, 
         created(){
+            // 获取 订单详情
           this.$http.get("getOpKmTeamOrderDetails",{id:this.$route.query.id}).then((res)=>{
                 if( res.code === 1 ){
                         this.info = res.data

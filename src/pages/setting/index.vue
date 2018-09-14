@@ -7,8 +7,7 @@
           </Row>
           <Row style="margin-top:25px;">
             <Col span="24">
-               <!-- <Table   :rowClassName="rowClassName" :columns="columns1" :data="data1" border stripe></Table> -->
-                  <Table  :columns="columns1" :data="sortData" border stripe></Table>
+                  <Table  :columns="columns" :data="sortData" border stripe></Table>
             </Col>
           </Row>
           <Row style="margin-top:25px;">
@@ -27,7 +26,7 @@
                     page:1,	
                     pageSize:15
                 },
-                columns1: [
+                columns: [
                     {
                         title: '商品编号',
                         key: 'cardNo'
@@ -42,7 +41,7 @@
                         render: (h, params) => {
                             return h('span', {
                                     style:'color:red'
-                                }, this.data1[params.index].faceValue);
+                                }, this.data[params.index].faceValue);
                         }
                     },
                     {
@@ -52,7 +51,7 @@
                         render: (h, params) => {
                             return h('span', {
                                     style:{color:'red'}
-                                }, '￥'+this.data1[params.index].salePrice)
+                                }, '￥'+this.data[params.index].salePrice)
                         }
                     },
                     {
@@ -62,10 +61,9 @@
                     {
                         title: '库存(张)',
                         key: 'quantity',
-                      //  quantityType  
                         render: (h, params) => {
                             let curQuantity = ''
-                            if(this.data1[params.index].quantityType==='INF'){ curQuantity = '无上限'}else{curQuantity =this.data1[params.index].quantity}
+                            if(this.data[params.index].quantityType==='INF'){ curQuantity = '无上限'}else{curQuantity =this.data[params.index].quantity}
                             return h('span', {
                                 }, curQuantity)
                         }
@@ -76,7 +74,7 @@
                         render: (h, params) => {
                             return h('div',
                                 [h('span', {
-                                },  this.data1[params.index].published ?'已上架':'已下架'  ),
+                                },  this.data[params.index].published ?'已上架':'已下架'  ),
                             ]);
                         }
                     },
@@ -84,7 +82,7 @@
                         title: '操作时间',
                         key: 'ctime',
                         render: (h, params) => {
-                            let curTime = this.formatDateTime(this.data1[params.index].ctime)
+                            let curTime = this.formatDateTime(this.data[params.index].ctime)
                             return h('div',
                                 [
                                 h('span',{
@@ -116,10 +114,10 @@
                                 h('a', {
                                     on: {
                                         click: () => {
-                                            this.del(params.index)
+                                            this.changeState(params.index)
                                         }
                                     }
-                                },  this.data1[params.index].published ?'下架':'上架'),
+                                },  this.data[params.index].published ?'下架':'上架'),
                                 h('a', {
                                     on: {
                                         click: () => {
@@ -131,14 +129,14 @@
                         }
                     }
                 ],
-                data1:[]
+                data:[]
             }
         },
         created(){
-            //getkmTeamList
+            // 获取 商品列表详情
            this.$http.get("getkmTeamList").then((res)=>{
                 if( res.code === 1 ){
-                    this.data1 = res.data.items
+                    this.data = res.data.items
                     this.totalCount = res.data.totalCount
                     this.params.page = res.data.page
                    } else {
@@ -156,8 +154,9 @@
             document.title = '团队卡配置-氪空间后台管理系统'
         },
         computed:{
+            // 排序
           sortData:function(){
-              let curData =  this.data1
+              let curData =  this.data
             curData = curData.sort(function(a,b){
                  if (a.ctime > b.ctime ) {
                            return -1;
@@ -171,11 +170,12 @@
           }
         },
         methods:{
+            // 页码切换
             changePage(pageNum){
                 this.params.page = pageNum
                         this.$http.get("getkmTeamList",this.params).then((res)=>{
                         if( res.code === 1 ){
-                            this.data1 = res.data.items
+                            this.data = res.data.items
                             this.totalCount = res.data.totalCount
                             this.params.page = res.data.page
                         } else {
@@ -204,14 +204,15 @@
                 second = second < 10 ? ('0' + second) : second; 
                 return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;  
             },
-            del(index){
-                this.$http.post("postKmTeamUppLower",{uppAndLower:this.data1[index].id}).then((res)=>{
+            // 上下架 状态切换
+            changeState(index){
+                this.$http.post("postKmTeamUppLower",{uppAndLower:this.data[index].id}).then((res)=>{
                  if( res.code === 1 ){
                             this.$Message.success('修改成功!')
                             setTimeout(()=>{
                                     this.$http.get("getkmTeamList").then((res)=>{
                                     if( res.code === 1 ){
-                                        this.data1 = res.data.items
+                                        this.data = res.data.items
                                     } else {
                                             this.$Notice.error({
                                             title:res.message
@@ -234,12 +235,15 @@
                 });
             })
             },
+            //  跳转详情
             detail(index){
-                 window.open("/admin-applet/#/settingDetail?id="+this.data1[index].id); 
+                 window.open("/admin-applet/#/settingDetail?id="+this.data[index].id); 
             },
+            //  编辑详情
             edit(index){
-                 window.open("/admin-applet/#/editGoods?id="+this.data1[index].id); 
+                 window.open("/admin-applet/#/editGoods?id="+this.data[index].id); 
             },
+            //  新建
             newBuiltGoods(){
                 window.open("/admin-applet/#/newBuiltGoods"); 
             }
@@ -260,7 +264,6 @@
    .newBuilt{
        background:#00CFFF;
        color:#fff;
-    //   border: 1px black solid;
    }
 </style>
 

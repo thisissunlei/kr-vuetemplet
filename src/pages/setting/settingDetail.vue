@@ -92,6 +92,7 @@
                 }
             }
         },
+        //  问本内容 过滤
         filters:{
              fstatus(val){
                  let statusVal = val? '已上架':'已下架';
@@ -127,14 +128,13 @@
             
         },
         created(){
+            //  获取 配置信息详情
           this.$http.get("getKmTeamUppLowerDetail",{kmCardId:this.$route.query.id}).then((res)=>{
                 if( res.code === 1 ){
                         this.info = res.data
                         if(this.info.quantityType == 'INF'){
                            this.info.quantity = '无上限'
                         }
-                        console.log('this.info.cardIntro')
-                        console.log(this.info.cardIntro)
                         this.cardIntroAry = this.info.cardIntro.split('#')
                    } else {
                         this.$Notice.error({

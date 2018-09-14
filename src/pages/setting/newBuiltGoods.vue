@@ -218,8 +218,7 @@ import UploadFile from '../../components/UploadFile'
                         { type:'string',pattern:/(?!^0*(\.0{1,2})?$)^\d{1,7}(\.\d{1,2})?$/, message:'销售价为七位非负数且最多保留2位小数', trigger:'blur'},
                     ],
                     quantity: [
-                        { validator: ChecksaleQuantity, trigger: 'change' },
-                        //{ type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'库存为整数', trigger:'blur'},
+                        { validator: ChecksaleQuantity, trigger: 'change' }
                     ],
                     goodsUrl:[
                          {required: true, message: '请上传图片', trigger: 'change'}
@@ -231,13 +230,12 @@ import UploadFile from '../../components/UploadFile'
             }
         },
         watch:{
+            //  监听 库存状态切换
                 quantityFlag:function(){
                      if(this.quantityFlag){
                             this.formValidate.quantityType = 'INF'
-                            //this.formValidate.quantity = '9999'  
                         }else{
                             this.formValidate.quantityType = 'LIMIT'  
-                            //this.formValidate.quantity = ''  
                         }
                 },
                 'formValidate.cardType':function(){
@@ -262,6 +260,7 @@ import UploadFile from '../../components/UploadFile'
             coverRemove(){
 
             },
+            // 新建提交
             handleSubmit(name){
                 this.$refs[name].validate((valid) => {
                     if(valid){
@@ -283,9 +282,9 @@ import UploadFile from '../../components/UploadFile'
                     }else{}
                 })
             },
+            // 关闭
             goBackConfig(){
                 this.$refs['formValidate'].resetFields(); 
-                //this.$router.push({path:'/setting'});
                 window.close();
                 window.opener.location.reload();
             }

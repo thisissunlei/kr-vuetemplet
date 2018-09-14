@@ -135,7 +135,6 @@ import UploadFile from '../../components/UploadFile'
                            callback(new Error('卡的面值不能为空'));      
                         }else{
                             let reg = /(?!^0*(\.0{1,2})?$)^\d{1,7}(\.\d{1,2})?$/
-                            // let reg = /^([1-9]\d{0,6}|[0]{0,1})$/;     
                             if(reg.test(value)){
                                     callback();
                                }else{
@@ -223,15 +222,12 @@ import UploadFile from '../../components/UploadFile'
                     ],
                     face: [
                         { required: true, validator: CheckfaceValue, trigger: 'blur'}
-                        // { pattern:/^([1-9]\d*|[0]{1,1})$/, message:'卡得面值为非负数字', trigger:'change'},
                     ],
                     activeDuration: [
                         { required: true, validator: CheckactiveDuration, trigger:'blur'}
-                        // { pattern:/^([1-9]\d*|[0]{1,1})$/, message:'有效时长为整数天', trigger:'blur'},
                     ],
                     limitCount: [
                         { required: true, validator: ChecklimitCount, trigger:'blur'}
-                        // { type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'用卡人上限为整数', trigger:'blur'},
                     ],
                     cardIntro: [
                         { required: true, message: '使用须知', trigger: 'blur' },
@@ -239,22 +235,18 @@ import UploadFile from '../../components/UploadFile'
                     ],
                     sale: [
                         { required: true, validator: ChecksalePrice,trigger: 'blur'}
-                        // { type:'string',pattern:/^[0-9]+([.]{1}[0-9]{1,2})?$/, message:'销售价不能为负数且最多2位小数', trigger:'blur'},
                     ],
                     quantity: [
                         { required: true, validator: ChecksaleQuantity, trigger: 'change' },
-                        //{ type:'string',pattern:/^([1-9]\d*|[0]{1,1})$/, message:'库存为整数', trigger:'blur'},
                     ],
                     goodsUrl:[
                          {required: true, message: '请上传图片', trigger: 'change' }
-                    ],
-                    // verifyCode: [
-                    //     { validator: CheckverifyCode, trigger: 'blur' }
-                    // ]
+                    ]
                 }
             }
         },
-        watch:{
+
+        watch:{  // 监听 库存类型 切换
                 'quantityFlag':function(){
                      if(this.quantityFlag){
                             this.formValidate.quantityType = 'INF'
@@ -264,6 +256,7 @@ import UploadFile from '../../components/UploadFile'
                 }
         },
         created(){
+            //  获取 商品 回显 数据
                  this.$http.get("getKmTeamUppLowerDetail",{kmCardId:this.$route.query.id}).then((res)=>{
                     if( res.code === 1 ){
                             this.formValidate = Object.assign({},res.data) 
@@ -295,6 +288,7 @@ import UploadFile from '../../components/UploadFile'
             coverRemove(){
 
             },
+            // 条件编辑修改
             handleSubmit(name){
                 this.$refs[name].validate((valid) => {
                     if(valid){
@@ -316,9 +310,9 @@ import UploadFile from '../../components/UploadFile'
                     }else{}
                 })
             },
+            // 关闭
             goBackConfig(){
                 this.$refs['formValidate'].resetFields(); 
-                //this.$router.push({path:'/setting'});
                 window.close();
                 window.opener.location.reload();
             }

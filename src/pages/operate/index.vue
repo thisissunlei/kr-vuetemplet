@@ -38,12 +38,12 @@
           </Row>
           <Row style="margin-top:25px;">
             <Col span="24">
-               <Table :columns="columns1" :data="data1"
+               <Table :columns="columns" :data="data"
                border stripe></Table>
             </Col>
           </Row>
           <Row style="margin-top:25px;">
-               <Page  :total="totalCount" :current="page" show-total :page-size="15" @on-change="pageChange"></Page>
+               <Page  :total="totalCount" :current="params.page" show-total :page-size="15" @on-change="pageChange"></Page>
           </Row>
         </div>
     </template>
@@ -65,7 +65,7 @@
                     page:1,
                     pageSize:15
                 },
-                columns1: [
+                columns: [
                     {
                         title: '卡号',
                         key: 'cardNo',
@@ -78,7 +78,7 @@
                                             this.detail(params.index)
                                         }
                                     }
-                                }, this.data1[params.index].cardNo)
+                                }, this.data[params.index].cardNo)
                             ]);
                         }
                     },{
@@ -89,10 +89,10 @@
                         key: 'cardType',
                         render:(h,params)=>{
                             let curText = ''
-                            if(this.data1[params.index].cardType==1){
+                            if(this.data[params.index].cardType==1){
                                 curText = '普通卡'
                             }
-                            if(this.data1[params.index].cardType==2){
+                            if(this.data[params.index].cardType==2){
                                 curText = '定制卡'
                             }
                             return h('div',
@@ -130,7 +130,7 @@
                                             this.memberDetails(params.index)
                                         }
                                    }
-                                }, this.data1[params.index].thirdNick)
+                                }, this.data[params.index].thirdNick)
                             ]);
                         }
                     },{
@@ -145,7 +145,7 @@
                                             this.orderDetail(params.index)
                                         }
                                    }
-                                }, this.data1[params.index].orderNo)
+                                }, this.data[params.index].orderNo)
                             ]);
                         }
                     },{
@@ -153,13 +153,13 @@
                         key: 'status',
                         render:(h,params)=>{
                             let curText = ''
-                            if(this.data1[params.index].status=='ACTIVATION'){
+                            if(this.data[params.index].status=='ACTIVATION'){
                                 curText = '已激活'
                             }
-                            if(this.data1[params.index].status=='USED'){
+                            if(this.data[params.index].status=='USED'){
                                 curText = '已用完'
                             }
-                            if(this.data1[params.index].status=='EXPIRED'){
+                            if(this.data[params.index].status=='EXPIRED'){
                                 curText = '已过期'
                             }
                             return h('div',
@@ -169,13 +169,14 @@
                         }
                     }
                 ],
-                data1: []
+                data: []
             }
         },
         created(){
+            // 请求团队卡分页
            this.$http.get("getKmTeamCardList",this.params).then((res)=>{
                 if(res.code === 1){
-                    this.data1 = res.data.items
+                    this.data = res.data.items
                     this.totalCount = res.data.totalCount
                     this.page = res.data.page
                    }else{
@@ -193,14 +194,16 @@
             document.title = '团队卡运营-氪空间后台管理系统'
         },
         methods:{
+            // 跳转 会员详情
             memberDetails(index){
-                window.open("/new/#/member/memberManage/list/"+this.data1[index].owner); 
+                window.open("/new/#/member/memberManage/list/"+this.data[index].owner); 
              },
+             //  页码切换
             pageChange(pageNo){
                 this.params.page = pageNo
                 this.$http.get("getKmTeamCardList",this.params).then((res)=>{
                 if( res.code === 1 ){
-                    this.data1 = res.data.items
+                    this.data = res.data.items
                     this.totalCount = res.data.totalCount
                     this.params.page = res.data.page
                    } else {
@@ -213,11 +216,13 @@
                         });
                     })
             },
+            //  跳转  订单详情
             orderDetail(index){
-                 window.open("/admin-applet/#/orderDetail?id="+this.data1[index].orderId); 
+                 window.open("/admin-applet/#/orderDetail?id="+this.data[index].orderId); 
             },
+            //  跳转 团队卡详情
             detail(index){
-                 window.open("/admin-applet/#/operateDetail?id="+this.data1[index].id); 
+                 window.open("/admin-applet/#/operateDetail?id="+this.data[index].id); 
             },
             changeBeginTime(formatVal){
                 this.params.startTime = formatVal
@@ -225,12 +230,15 @@
             changeEndTime(formatVal){
                 this.params.endTime = formatVal
             },
+            //  条件查询
             search(){
+                this.params.page = 1;
                 this.$http.get("getKmTeamCardList",this.params).then((res)=>{
                 if( res.code === 1 ){
-                    this.data1 = res.data.items
+                    this.data = res.data.items
                     this.totalCount = res.data.totalCount
                     this.params.page = res.data.page
+
                    } else {
                         this.$Notice.error({
                         title:res.message
