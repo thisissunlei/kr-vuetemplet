@@ -23,9 +23,9 @@
           <Row style="margin-top:25px;">
             <Col span="14">
                <span style="margin-right:10px">支付时间</span>
-               <DatePicker v-model="params.beginTime" type="date" @on-change="changeBeginTime" show-week-numbers placeholder="开始日期" style="width: 200px"></DatePicker>
+               <DatePicker type="date"  format="yyyy-MM-dd" @on-change="changeBeginTime" show-week-numbers placeholder="开始日期" style="width: 200px"></DatePicker>
                <span style="padding: 0 10px;">至</span>
-               <DatePicker v-model="params.endTime" type="date" @on-change="changeEndTime" show-week-numbers placeholder="结束日期" style="width: 200px"></DatePicker>
+               <DatePicker  type="date"  format="yyyy-MM-dd"  @on-change="changeEndTime" show-week-numbers placeholder="结束日期" style="width: 200px"></DatePicker>
             </Col>
             <Col span="7">
                 <span style="margin-right:10px">卡&#12288;&#12288;号</span>
@@ -55,6 +55,19 @@
                 cardTypeList:[{key:'普通卡',value:'NORMAL'},{key:'定制卡',value:'CUSTOM'}],
                 totalCount:0,
                 page:1,
+                beginTimeOpen:false,
+                endTimeOpen:false,
+                saveParams:{
+                  beginTime:'',  // 支付开始时间
+                  cardNum:'',    // 卡号
+                  cardType:'',   // 类型
+                  endAmount:'',  // 结束订单金额
+                  endTime:'',    // 支付结束时间
+                  orderNo:'',    // 订单编号
+                  page:1,       // 
+                  pageSize:15,   //
+                  preAmount:''   //开始订单金额  
+                },
                 params:{
                   beginTime:'',  // 支付开始时间
                   cardNum:'',    // 卡号
@@ -160,8 +173,8 @@
              },
              // 页码切换
             changePage(pageNum){
-                        this.params.page = pageNum
-                        this.$http.get("getKmTeamOrderList",this.params).then((res)=>{
+                        this.saveParams.page = pageNo
+                        this.$http.get("getKmTeamOrderList",this.saveParams).then((res)=>{
                         if( res.code === 1 ){
                             this.data = res.data.items
                             this.totalCount = res.data.totalCount
@@ -207,12 +220,17 @@
             },
             clearParams(){
                 Object.keys(this.params).forEach((key)=>{
-                    if(key == 'page'){
-
+                    if(key == 'page'|| key =='beginTime'||key == 'endTime'){
                     }else{
                       this.params[key] = ''
                     }
-                    
+                }),
+                Object.keys(this.saveParams).forEach((key)=>{
+                    if(key == 'page'|| key =='beginTime'||key == 'endTime'){
+
+                    }else{
+                      this.saveParams[key] = ''
+                    }
                 })
             }
         }
