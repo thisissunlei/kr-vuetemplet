@@ -100,6 +100,11 @@
                         width: 200,
                         align: 'center',
                         render: (h, params) => {
+                            let curColor = '#009DD6'
+                            if(this.data[params.index].published){
+                                curColor = '#A0A0A0';  
+                            }
+                            '#f1f1f1';
                             return h('div',{
                                 style:{display:'flex',alignItems:'center',justifyContent:'space-around',color:'#009DD6'},
                                 },
@@ -119,6 +124,7 @@
                                     }
                                 },  this.data[params.index].published ?'下架':'上架'),
                                 h('a', {
+                                    style:'color:'+curColor,
                                     on: {
                                         click: () => {
                                             this.edit(params.index)
@@ -241,7 +247,12 @@
             },
             //  编辑详情
             edit(index){
-                 window.open("/admin-applet/#/editGoods?id="+this.data[index].id); 
+                 if(this.data[index].published){ 
+                         return 
+                   }else{
+                     window.open("/admin-applet/#/editGoods?id="+this.data[index].id);          
+                   }
+                 
             },
             //  新建
             newBuiltGoods(){
