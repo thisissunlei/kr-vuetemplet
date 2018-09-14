@@ -262,6 +262,7 @@ export default {
     //  var dom=document.getElementById('layout-content-main');
     // dom.addEventListener("scroll",this.onScrollListener);
     // window.addEventListener('resize',this.onResize);
+    document.title = '小程序活动-氪空间后台管理系统'
     this.tabelParams = Object.assign(this.tabelParams, this.$route.query);
     this.getTableData();
   },
