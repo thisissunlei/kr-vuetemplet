@@ -173,7 +173,7 @@
              },
              // 页码切换
             changePage(pageNum){
-                        this.saveParams.page = pageNo
+                        this.saveParams.page = pageNum
                         this.$http.get("getKmTeamOrderList",this.saveParams).then((res)=>{
                         if( res.code === 1 ){
                             this.data = res.data.items
