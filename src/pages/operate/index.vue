@@ -22,9 +22,9 @@
           <Row style="margin-top:25px;">
             <Col span="14">
                <span style="margin-right:10px">购买时间</span>
-                  <DatePicker v-model="params.startTime" type="date" @on-change="changeBeginTime" show-week-numbers placeholder="开始日期" style="width: 200px"></DatePicker>
+                  <DatePicker  type="date" @on-change="changeBeginTime" show-week-numbers placeholder="开始日期" style="width: 200px"></DatePicker>
                <span style="padding: 0 10px;">至</span>    
-                  <DatePicker v-model="params.endTime" type="date" @on-change="changeEndTime" show-week-numbers placeholder="结束日期" style="width: 200px"></DatePicker>
+                  <DatePicker  type="date" @on-change="changeEndTime" show-week-numbers placeholder="结束日期" style="width: 200px"></DatePicker>
             </Col>
             <Col span="7">
                 <span style="margin-right:10px">状&#12288;&#12288;态</span>
@@ -55,6 +55,16 @@
                 page:1,
                 cardTypeList:[{key:'普通卡',value:'1'},{key:'定制卡',value:'2'}],
                 statusTypeList:[{key:'已激活',value:'ACTIVATION'},{key:'用完',value:'USED'},{key:'已过期',value:'EXPIRED'}],
+                saveParams:{
+                    cardName:'',   // 团队卡名称
+                    cardNo:'',     // 卡号
+                    cardType:'',   // 卡类型 1.普通卡2.定制卡
+                    startTime:'',  // 开始时间
+                    endTime:'',    // 结束时间
+                    status:'',      // 状态
+                    page:1,
+                    pageSize:15
+                },
                 params:{
                     cardName:'',   // 团队卡名称
                     cardNo:'',     // 卡号
@@ -200,8 +210,8 @@
              },
              //  页码切换
             pageChange(pageNo){
-                this.params.page = pageNo
-                this.$http.get("getKmTeamCardList",this.params).then((res)=>{
+                this.saveParams.page = pageNo
+                this.$http.get("getKmTeamCardList",this.saveParams).then((res)=>{
                 if( res.code === 1 ){
                     this.data = res.data.items
                     this.totalCount = res.data.totalCount
@@ -233,13 +243,12 @@
             //  条件查询
             search(){
                 this.params.page = 1;
+                this.saveParams = this.params
                 this.$http.get("getKmTeamCardList",this.params).then((res)=>{
                 if( res.code === 1 ){
                     this.data = res.data.items
                     this.totalCount = res.data.totalCount
-                        
                     this.params.page = res.data.page
-                     console.log(this.params.page);
                    } else {
                         this.$Notice.error({
                         title:res.message
@@ -252,12 +261,22 @@
             },
             clearParams(){
                 Object.keys(this.params).forEach((key)=>{
-                    if(key == 'page'){
+                    if(key == 'page'|| key =='startTime'||key == 'endTime'){
 
-                    }else{
-                       this.params[key] = ''
-                    }
-                   
+                        }else{
+
+                        this.params[key] = ''
+                        
+                        }
+                })
+                Object.keys(this.saveParams).forEach((key)=>{
+                    if(key == 'page'|| key =='startTime'||key == 'endTime'){
+
+                        }else{
+
+                        this.saveParams[key] = ''
+                        
+                        }
                 })
             }
         }
