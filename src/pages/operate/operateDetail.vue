@@ -76,7 +76,7 @@
                 </Row>
                 <Row style="margin-top:25px;">
                     <Col span="24">
-                       <Table :columns="columns1" :data="info.holderList" border stripe></Table>
+                       <Table :columns="columnsHolderList" :data="info.holderList" border stripe></Table>
                     </Col>
                 </Row>
                 <div style="border-bottom:1px solid #f2f2f2;padding: 10px 0;">
@@ -92,7 +92,7 @@
                 </Row>
                 <Row style="margin-top:25px;">
                     <Col span="24">
-                       <Table :columns="columns2" :data="info.usedList" border stripe></Table>
+                       <Table :columns="columnsUsedList" :data="info.usedList" border stripe></Table>
                     </Col>
                 </Row>
         </div>
@@ -103,9 +103,8 @@
             return {
                 info: {},
                 headPhoto:'',
-                data1: [],
                 leader:'',
-                 columns1: [
+                 columnsHolderList: [
                     {
                         title: '微信ID',
                         key: 'thirdUid'
@@ -131,7 +130,7 @@
                         }
                     }
                 ],
-                columns2: [
+                columnsUsedList: [
                     {
                         title: '订单编号',
                         key: 'orderNo'
@@ -182,8 +181,7 @@
                             ]);
                         }
                     }
-                ],
-                data2: []
+                ]
             }
         },
         mounted(){
@@ -191,6 +189,7 @@
             GLOBALSIDESWITCH("false");
         },
         created(){
+            //   获取团队卡详情
             this.$http.get("getKmTeamCardDetails",{saleId:this.$route.query.id}).then((res)=>{
                 if(res.code === 1){
                         this.info = res.data
@@ -230,12 +229,15 @@
             }
         },
         methods: {  
+            // 跳转订单详情
             orderDetail(){
                 window.open("/admin-applet/#/orderDetail?id="+this.info.orderId); 
             },
+            //  跳转会员详情
              memberDetails(){
                  window.open("/new/#/member/memberManage/list/"+this.uid); 
              },
+             // 日期格式化
             formatDateTime(inputTime) {  
                 let date = new Date(inputTime);
                 let y = date.getFullYear();  

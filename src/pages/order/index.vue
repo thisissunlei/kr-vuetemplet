@@ -37,13 +37,13 @@
           </Row>
           <Row style="margin-top:25px;">
             <Col span="24">
-               <Table :columns="columns1" :data="data1"
+               <Table :columns="columns" :data="data"
                border stripe></Table>
             </Col>
           </Row>
           <Row style="margin-top:25px;">
               <Col span="24">
-                <Page  @on-change="changePage"  :page-size="15" :current="page" :total="totalCount" show-total></Page>
+                <Page  @on-change="changePage"  :page-size="15" :current="params.page" :total="totalCount" show-total></Page>
               </Col>
           </Row>
         </div>
@@ -66,7 +66,7 @@
                   pageSize:15,   //
                   preAmount:''   //开始订单金额
                 },
-                columns1: [
+                columns: [
                     {
                         title: '订单编号',
                         key: 'orderNo',
@@ -79,7 +79,7 @@
                                             this.detail(params.index)
                                         }
                                     }
-                                }, this.data1[params.index].orderNo)
+                                }, this.data[params.index].orderNo)
                             ]);
                         }
                     },
@@ -91,10 +91,10 @@
                         key: 'cardType',
                         render:(h,params)=>{
                             let curText = ''
-                            if(this.data1[params.index].cardType=='NORMAL'){
+                            if(this.data[params.index].cardType=='NORMAL'){
                                 curText = '普通卡'
                             }
-                            if(this.data1[params.index].cardType=='CUSTOM'){
+                            if(this.data[params.index].cardType=='CUSTOM'){
                                 curText = '定制卡'
                             }
                             return h('div',
@@ -122,7 +122,7 @@
                                             this.memberDetails(params.index)
                                         }
                                     }
-                                }, this.data1[params.index].thirdNick)
+                                }, this.data[params.index].thirdNick)
                             ]);
                         }
                     },{
@@ -130,15 +130,16 @@
                         key: 'payTime'
                     }
                 ],
-                data1: []
+                data: []
             }
         },
         created(){
+            //  获取订单列表
             this.$http.get("getKmTeamOrderList",this.params).then((res)=>{
                 if( res.code === 1 ){
-                    this.data1 = res.data.items
+                    this.data = res.data.items
                     this.totalCount = res.data.totalCount
-                    this.page = res.data.page
+                    this.params.page = res.data.page
                    } else {
                         this.$Notice.error({
                         title:res.message
@@ -153,15 +154,16 @@
             document.title = '团队卡订单-氪空间后台管理系统'
         },
         methods:{
+            //  会员详情
             memberDetails(index){
-                // window.open("http://optest02.krspace.cn/new/#/member/memberManage/list/"+this.data1[index].uid); 
-                window.open("/new/#/member/memberManage/list/"+this.data1[index].uid); 
+                window.open("/new/#/member/memberManage/list/"+this.data[index].uid); 
              },
+             // 页码切换
             changePage(pageNum){
                         this.params.page = pageNum
                         this.$http.get("getKmTeamOrderList",this.params).then((res)=>{
                         if( res.code === 1 ){
-                            this.data1 = res.data.items
+                            this.data = res.data.items
                             this.totalCount = res.data.totalCount
                             this.params.page = res.data.page
                         } else {
@@ -175,8 +177,9 @@
                         });
                     })
             },
+            // 跳转订单详情
             detail(index){
-                 window.open("/admin-applet/#/orderDetail?id="+this.data1[index].id); 
+                 window.open("/admin-applet/#/orderDetail?id="+this.data[index].id); 
             },
             changeBeginTime(formatVal){
                 this.params.beginTime = formatVal
@@ -184,10 +187,12 @@
             changeEndTime(formatVal){
                 this.params.endTime = formatVal
             },
+            //  条件查询
             search(){
+                this.params.page = 1
                 this.$http.get("getKmTeamOrderList",this.params).then((res)=>{
                 if( res.code === 1 ){
-                    this.data1 = res.data.items
+                    this.data = res.data.items
                     this.totalCount = res.data.totalCount
                     this.params.page = res.data.page
                    } else {
