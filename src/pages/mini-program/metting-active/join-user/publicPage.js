@@ -69,7 +69,13 @@ function initListData(type){
             align:'center',
             type:'apply,entrance',
             render:(h,params)=>{
-                let str = params.row.arriving ? '是':'否'
+                let str = '';
+                if(type=='apply'){
+                     str = params.row.arriving ? '是':'否'
+                }else{
+                    str=params.row.joinTime?dateUtils.dateToStr("YYYY-MM-DD  HH:mm:SS",new Date(params.row.arrivingTime)):'';
+                }
+                
                 return  h('span',{},str);
             }
         }

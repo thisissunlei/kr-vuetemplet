@@ -594,8 +594,10 @@ export default {
   },
   mounted() {
     GLOBALSIDESWITCH("false");
+      document.title = '小程序活动新建-氪空间后台管理系统'
     if(this.$route.query.type !='add'){
       this.title = '编辑小程序活动'
+      document.title = '小程序活动编辑-氪空间后台管理系统'
     }
     this.getDetail();
   },
