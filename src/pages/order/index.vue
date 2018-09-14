@@ -23,9 +23,9 @@
           <Row style="margin-top:25px;">
             <Col span="14">
                <span style="margin-right:10px">支付时间</span>
-               <DatePicker type="date" @on-change="changeBeginTime" show-week-numbers placeholder="开始日期" style="width: 200px"></DatePicker>
+               <DatePicker v-model="params.beginTime" type="date" @on-change="changeBeginTime" show-week-numbers placeholder="开始日期" style="width: 200px"></DatePicker>
                <span style="padding: 0 10px;">至</span>
-               <DatePicker type="date" @on-change="changeEndTime" show-week-numbers placeholder="结束日期" style="width: 200px"></DatePicker>
+               <DatePicker v-model="params.endTime" type="date" @on-change="changeEndTime" show-week-numbers placeholder="结束日期" style="width: 200px"></DatePicker>
             </Col>
             <Col span="7">
                 <span style="margin-right:10px">卡&#12288;&#12288;号</span>
@@ -43,7 +43,7 @@
           </Row>
           <Row style="margin-top:25px;">
               <Col span="24">
-                <Page  @on-change="changePage"  :page-size="15" :current="page" :total="totalCount" show-total></Page>
+                <Page  @on-change="changePage"  :page-size="15" :current="params.page" :total="totalCount" show-total></Page>
               </Col>
           </Row>
         </div>
@@ -139,7 +139,7 @@
                 if( res.code === 1 ){
                     this.data = res.data.items
                     this.totalCount = res.data.totalCount
-                    this.page = res.data.page
+                    this.params.page = res.data.page
                    } else {
                         this.$Notice.error({
                         title:res.message
@@ -207,7 +207,12 @@
             },
             clearParams(){
                 Object.keys(this.params).forEach((key)=>{
-                    this.params[key] = ''
+                    if(key == 'page'){
+
+                    }else{
+                      this.params[key] = ''
+                    }
+                    
                 })
             }
         }

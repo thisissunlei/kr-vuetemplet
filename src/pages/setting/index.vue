@@ -12,7 +12,7 @@
           </Row>
           <Row style="margin-top:25px;">
               <Col span="24">
-                <Page  @on-change="changePage"  :page-size="15" :current="page" :total="totalCount" show-total></Page>
+                <Page  @on-change="changePage"  :page-size="15" :current="params.page" :total="totalCount" show-total></Page>
               </Col>
           </Row>
         </div>

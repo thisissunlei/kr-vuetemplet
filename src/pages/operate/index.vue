@@ -22,9 +22,9 @@
           <Row style="margin-top:25px;">
             <Col span="14">
                <span style="margin-right:10px">购买时间</span>
-                  <DatePicker type="date" @on-change="changeBeginTime" show-week-numbers placeholder="开始日期" style="width: 200px"></DatePicker>
+                  <DatePicker v-model="params.startTime" type="date" @on-change="changeBeginTime" show-week-numbers placeholder="开始日期" style="width: 200px"></DatePicker>
                <span style="padding: 0 10px;">至</span>    
-                  <DatePicker type="date" @on-change="changeEndTime" show-week-numbers placeholder="结束日期" style="width: 200px"></DatePicker>
+                  <DatePicker v-model="params.endTime" type="date" @on-change="changeEndTime" show-week-numbers placeholder="结束日期" style="width: 200px"></DatePicker>
             </Col>
             <Col span="7">
                 <span style="margin-right:10px">状&#12288;&#12288;态</span>
@@ -43,7 +43,7 @@
             </Col>
           </Row>
           <Row style="margin-top:25px;">
-               <Page  :total="totalCount" :current="page" show-total :page-size="15" @on-change="pageChange"></Page>
+               <Page  :total="totalCount" :current="params.page" show-total :page-size="15" @on-change="pageChange"></Page>
           </Row>
         </div>
     </template>
@@ -237,8 +237,9 @@
                 if( res.code === 1 ){
                     this.data = res.data.items
                     this.totalCount = res.data.totalCount
-                    this.page = res.data.page
-
+                        
+                    this.params.page = res.data.page
+                     console.log(this.params.page);
                    } else {
                         this.$Notice.error({
                         title:res.message
@@ -251,7 +252,12 @@
             },
             clearParams(){
                 Object.keys(this.params).forEach((key)=>{
-                    this.params[key] = ''
+                    if(key == 'page'){
+
+                    }else{
+                       this.params[key] = ''
+                    }
+                   
                 })
             }
         }
