@@ -247,7 +247,7 @@
                 this.$http.get("getKmTeamCardList",this.params).then((res)=>{
                 if( res.code === 1 ){
                     this.data = res.data.items
-                    this.totalCount = res.data.totalCount
+                    this.totalCount = res.data.totalCount       
                     this.params.page = res.data.page
                    } else {
                         this.$Notice.error({
@@ -271,11 +271,8 @@
                 })
                 Object.keys(this.saveParams).forEach((key)=>{
                     if(key == 'page'|| key =='startTime'||key == 'endTime'){
-
                         }else{
-
-                        this.saveParams[key] = ''
-                        
+                        this.saveParams[key] = ''        
                         }
                 })
             }

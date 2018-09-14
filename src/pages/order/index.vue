@@ -221,7 +221,6 @@
             clearParams(){
                 Object.keys(this.params).forEach((key)=>{
                     if(key == 'page'|| key =='beginTime'||key == 'endTime'){
-
                     }else{
                       this.params[key] = ''
                     }
