@@ -22,4 +22,16 @@ export default {routes:[{
     path:'/mini-program/metting-active/join-user',
     name:'mini-program-metting-active-join-user-index',
     component:()=>import('pages/mini-program/metting-active/join-user/index') 
+},{
+    path:'/operate',
+    name:'operate-index',
+    component:()=>import('pages/operate/index') 
+},{
+    path:'/order',
+    name:'order-index',
+    component:()=>import('pages/order/index') 
+},{
+    path:'/setting',
+    name:'setting-index',
+    component:()=>import('pages/setting/index') 
 }]}
