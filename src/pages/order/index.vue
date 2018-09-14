@@ -43,7 +43,7 @@
           </Row>
           <Row style="margin-top:25px;">
               <Col span="24">
-                <Page  @on-change="changePage"  :page-size="15" :current="params.page" :total="totalCount" show-total></Page>
+                <Page  @on-change="changePage"  :page-size="15" :current="page" :total="totalCount" show-total></Page>
               </Col>
           </Row>
         </div>
@@ -139,7 +139,7 @@
                 if( res.code === 1 ){
                     this.data = res.data.items
                     this.totalCount = res.data.totalCount
-                    this.params.page = res.data.page
+                    this.page = res.data.page
                    } else {
                         this.$Notice.error({
                         title:res.message
