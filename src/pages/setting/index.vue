@@ -102,7 +102,7 @@
                         render: (h, params) => {
                             let curColor = '#009DD6'
                             if(this.data[params.index].published){
-                                curColor = '#f1f1f1';  
+                                curColor = '#A0A0A0';  
                             }
                             '#f1f1f1';
                             return h('div',{
