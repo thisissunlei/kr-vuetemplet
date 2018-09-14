@@ -203,6 +203,7 @@
             //  条件查询
             search(){
                 this.params.page = 1
+                this.saveParams =  JSON.parse(JSON.stringify(this.params)) 
                 this.$http.get("getKmTeamOrderList",this.params).then((res)=>{
                 if( res.code === 1 ){
                     this.data = res.data.items
