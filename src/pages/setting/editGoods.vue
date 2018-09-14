@@ -245,6 +245,7 @@ import UploadFile from '../../components/UploadFile'
                 }
             }
         },
+
         watch:{  // 监听 库存类型 切换
                 'quantityFlag':function(){
                      if(this.quantityFlag){
