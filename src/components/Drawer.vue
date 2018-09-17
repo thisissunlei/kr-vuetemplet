@@ -17,6 +17,7 @@
 
 <script>
     export default {
+        /*@api*/
        props:{
            title:{
                type:[Number,String]
@@ -31,13 +32,14 @@
                type:[Number,String],
                default:750
            },
-        //    haveIcon:{
-
-        //    },
            iconType:{
                type:String,
+               default:()=>{
+                   return {}
+               }
            }
-        },
+        }/*api@*/,
+         
        data(){
            return{
                isOpen:this.openDrawer

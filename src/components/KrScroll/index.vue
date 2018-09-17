@@ -17,9 +17,7 @@
 <script>
 import utils from "utils";
 export default {
-  // components:{
-
-  // },
+  /*@api*/
   props: {
     onReachBottom: {
       type: Function,
@@ -38,6 +36,8 @@ export default {
       default: 130
     }
   },
+  /*api@*/
+ 
   data() {
     return {
       loadding: false,
