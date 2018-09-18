@@ -15,6 +15,7 @@
 <script>
 export default {
   name: "KrImg",
+  /*@api*/
   props: {
     height: {
       type: [Number, String]
@@ -26,14 +27,15 @@ export default {
       type: String
     },
     type: {
-      type: String, //auto,center,cover
-      default: "auto"
+      type: String,
+      default: "auto" //dssdf
     },
     backgroundColor: {
       default: "#ccc",
       type: String
     }
   },
+  /*api@*/
   watch: {
     src() {
       let imgDom = document.getElementById(this.imgId);
