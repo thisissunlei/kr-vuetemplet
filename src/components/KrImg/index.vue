@@ -28,10 +28,11 @@ export default {
     },
     type: {
       type: String,
-      default: "auto" //dssdf
+      default: "auto"
     },
     backgroundColor: {
       default: "#ccc",
+      
       type: String
     }
   },

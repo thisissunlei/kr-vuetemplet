@@ -49,32 +49,84 @@ function render() {
         name = name.replace('.vue', '');
       }
       name = name.split('/');
-      components.push('{name:"' + name[name.length - 1] + '",' + datafarmat(value) + '}');
+      components.push('{name:"' + name[name.length - 1] + '",' + curlyBraces(value) + '}');
 
     })
   })
   var strs = 'module.exports=[' + components + ']';
   writeFile(path.join(__dirname, './js.js'), strs);
 }
-function datafarmat(value) {
-  var reg = /(type:)((?!,).)+(,)/g;
-  var arrReg = /(\[)((?!\]).)+(\])/g;
-  value = value.replace(arrReg, function (val) {
-    return "'" + val + "'"
-  })
+function curlyBraces(value) {
+  var reg = /\{[^{}]+\}/g;
+  var reg2 = /(type:)((?!,).)+(,)/g;
+  var reg3 = /(type:)((?!\}).)+(,\})/g;
   value = value.replace(reg, function (val) {
-
-    if (val.indexOf('[') != -1) {
+    // console.log(val, "kkkkk")
+    return datafarmat(val)
+  })
+  value = value.replace(reg2, function (val) {
+    if(val.indexOf("'")!=-1){
       return val;
     }
     val = val.replace('type:', "");
     val = val.replace(',', "");
-    if (val.indexOf('}') != -1) {
-      val = val.replace('}', "");
-      return "type:'" + val + "'},"
-    }
-
     return "type:'" + val + "',"
+  
+  })
+
+  value = value.replace(reg3, function (val) {
+    console.log(val, "kkkkk")
+    if(val.indexOf("'")!=-1){
+      return val;
+    }
+    val = val.replace('type:', "");
+    val = val.replace('}', "");
+    return "type:'" + val + "'}"
+  
+  })
+  return value;
+  
+}
+function datafarmat(value) {
+  var reg = /(type:)((?!,).)+(,)/g;
+  var regCurlyBraces = /(type:)((?!\}).)+(\})/g;
+  var regBrackets = /(type:)((?!\]).)+(\])/g;
+  // var regBrackets = /(default:())((?!\]).)+(\])/g;
+
+
+
+
+  value = value.replace(reg, function (val) {
+    if(val.indexOf('[')!=-1){
+      return val;
+    }
+    val = val.replace('type:', "");
+    val = val.replace(',', "");
+    return "type:'" + val + "',"
+  })
+
+  value = value.replace(regCurlyBraces,function(val){
+   
+    if(val.indexOf('default')!=-1||
+    val.indexOf('[')!=-1||
+    val.indexOf("'")!=-1
+    ){
+      return val;
+    }
+    val = val.replace('type:', "");
+    val = val.replace(',', "");
+    val = val.replace('}', "");
+
+    return "type:'" + val + "'}"
+  })
+  value = value.replace(regBrackets,function(val){
+
+    // if(val.indexOf('default')!=-1){
+    //   return val;
+    // }
+    // val = val.replace('type:', "");
+    val = val.replace('type:', "");
+    return "type:'"+val+"'"
   })
   return value
 }

@@ -4,4 +4,4 @@
 |openDrawer|Boolean|-| 
 |close|Function|-| 
 |width|[Number,String]|750| 
-|iconType|String|()=>{return{}}| 
+|iconType|String|{}| 

@@ -23,6 +23,7 @@ export default {
     prop: "value",
     event: "input"
   },
+  /*@api*/
   props: {
     disabled: {
       type: Boolean,
@@ -59,6 +60,8 @@ export default {
       default: ""
     }
   },
+  /*api@*/
+
 
   data() {
     return {
